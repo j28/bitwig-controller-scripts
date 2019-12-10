@@ -28,6 +28,9 @@ function TrackHandler (trackbank, cursorTrack)
 
 TrackHandler.prototype.handleMidi = function (status, data1, data2)
 {
+	println ("data1 is " + data1);
+	this.currentData1 = data1;
+
 	// if (isNoteOn(status))
 	// {
 		switch (data1)
@@ -79,6 +82,37 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 			// case MOXF_BUTTON_MUTE:
 			// 	this.cursorTrack.mute ().toggle ();
 			// 	return true;
+			case NK2_SLIDER1:
+				this.trackbank.getItemAt (0).volume ().set (data2, 128);
+				return true;
+
+			case NK2_SLIDER2:
+				this.trackbank.getItemAt (1).volume ().set (data2, 128);
+				return true;
+
+			case NK2_SLIDER3:
+				this.trackbank.getItemAt (2).volume ().set (data2, 128);
+				return true;
+
+			case NK2_SLIDER4:
+				this.trackbank.getItemAt (3).volume ().set (data2, 128);
+				return true;
+
+			case NK2_SLIDER5:
+				this.trackbank.getItemAt (4).volume ().set (data2, 128);
+				return true;
+
+			case NK2_SLIDER6:
+				this.trackbank.getItemAt (5).volume ().set (data2, 128);
+				return true;
+
+			case NK2_SLIDER7:
+				this.trackbank.getItemAt (6).volume ().set (data2, 128);
+				return true;
+
+			case NK2_SLIDER8:
+				this.trackbank.getItemAt (7).volume ().set (data2, 128);
+				return true;
 
 			default:
 				return false;
@@ -87,49 +121,50 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 
 	// if (isChannelController(status))
 	// {
-	// 	switch (data1)
-	// 	{
-	// 		// Absolute values
-	// 		case MOXF_KNOB_1:
-	// 			this.trackbank.getItemAt (0).pan ().set (data2, 128);
-	// 			return true;
 
-	// 		case MOXF_KNOB_2:
-	// 			this.trackbank.getItemAt (1).pan ().set (data2, 128);
-	// 			return true;
+		switch (data1)
+		{
+			// Absolute values
+			case NK2_SLIDER1:
+				this.trackbank.getItemAt (0).volume ().inc (data2, 128);
+				return true;
 
-	// 		case MOXF_KNOB_3:
-	// 			this.trackbank.getItemAt (2).pan ().set (data2, 128);
-	// 			return true;
+			// case MOXF_KNOB_2:
+			// 	this.trackbank.getItemAt (1).pan ().set (data2, 128);
+			// 	return true;
 
-	// 		case MOXF_KNOB_4:
-	// 			this.trackbank.getItemAt (3).pan ().set (data2, 128);
-	// 			return true;
+			// case MOXF_KNOB_3:
+			// 	this.trackbank.getItemAt (2).pan ().set (data2, 128);
+			// 	return true;
 
-	// 		// Relative values
-	// 		case MOXF_KNOB_5:
-	// 			var value = data2 > 64 ? 64 - data2 : data2;
-	// 			this.trackbank.getItemAt (0).volume ().inc (value, 128);
-	// 			return true;
+			// case MOXF_KNOB_4:
+			// 	this.trackbank.getItemAt (3).pan ().set (data2, 128);
+			// 	return true;
 
-	// 		case MOXF_KNOB_6:
-	// 			var value = data2 > 64 ? 64 - data2 : data2;
-	// 			this.trackbank.getItemAt (1).volume ().inc (value, 128);
-	// 			return true;
+			// // Relative values
+			// case MOXF_KNOB_5:
+			// 	var value = data2 > 64 ? 64 - data2 : data2;
+			// 	this.trackbank.getItemAt (0).volume ().inc (value, 128);
+			// 	return true;
 
-	// 		case MOXF_KNOB_7:
-	// 			var value = data2 > 64 ? 64 - data2 : data2;
-	// 			this.trackbank.getItemAt (2).volume ().inc (value, 128);
-	// 			return true;
+			// case MOXF_KNOB_6:
+			// 	var value = data2 > 64 ? 64 - data2 : data2;
+			// 	this.trackbank.getItemAt (1).volume ().inc (value, 128);
+			// 	return true;
 
-	// 		case MOXF_KNOB_8:
-	// 			var value = data2 > 64 ? 64 - data2 : data2;
-	// 			this.trackbank.getItemAt (3).volume ().inc (value, 128);
-	// 			return true;
+			// case MOXF_KNOB_7:
+			// 	var value = data2 > 64 ? 64 - data2 : data2;
+			// 	this.trackbank.getItemAt (2).volume ().inc (value, 128);
+			// 	return true;
 
-	// 		default:
-	// 			return false;
-	// 	}
+			// case MOXF_KNOB_8:
+			// 	var value = data2 > 64 ? 64 - data2 : data2;
+			// 	this.trackbank.getItemAt (3).volume ().inc (value, 128);
+			// 	return true;
+
+			default:
+				return false;
+		}
 	// }
 
 	// return false;    
@@ -138,16 +173,21 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 TrackHandler.prototype.updateLEDs = function ()
 {
 
-	println ("cursor track is: " + this.cursorTrack.position().get());
+
+	println ("currentData1 is: "+ this.currentData1);
+
+	// println ("cursor track is: " + this.cursorTrack.position().get());
 	// println (this.trackbank.getItemAt (0).position().get());
 	// println (this.trackbank.getChannel (0));
 
-	// for track 1 this returns 0
-	this.trackNumber = this.cursorTrack.position().get();
-	this.ledOn = this.trackNumber + 32;
 
-	hardware.updateLEDtrack (this.ledOn)
+	if (this.currentData1 > 7) {
+		// for track 1 this returns 0
+		this.trackNumber = this.cursorTrack.position().get();
+		this.ledOn = this.trackNumber + 32;
 
+		hardware.updateLEDtrack (this.ledOn)
+	}
 	// hardware.updateLED (NK2_BUTTON_S1, this.shouldBeOff);
 
 	// hardware.updateLED (NK2_BUTTON_REC, this.transport.isArrangerRecordEnabled ().get ());
