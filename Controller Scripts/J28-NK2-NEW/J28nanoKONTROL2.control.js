@@ -2,6 +2,7 @@ loadAPI(9);
 load ("j28nanoKONTROL2Hardware.js");
 load ("TransportHandler.js");
 load ("TrackHandler.js");
+load ("RemoteControlHandler.js");
 
 host.setShouldFailOnDeprecatedUse(true);
 host.defineController("Korg", "J28 nanoKONTROL 2 New", "0.1", "80793a77-7ce6-4cbe-bc35-233762466a62");
@@ -16,6 +17,9 @@ else if (host.platformIsLinux())
 	host.addDeviceNameBasedDiscoveryPair(["nanoKONTROL2 MIDI 1"], ["nanoKONTROL2 MIDI 1"]);
 
 var SYSEX_HEADER = "F0 42 40 00 01 13 00";
+
+
+var deviceBank = null;
 
 var hardware = null;
 var transport = null;
@@ -34,7 +38,15 @@ function init()
 {
 	hardware = new NK2Hardware (host.getMidiOutPort (0), host.getMidiInPort (0), handleMidi);
 	transportHandler = new TransportHandler (host.createTransport ());
-	trackHandler = new TrackHandler (host.createMainTrackBank (8, 0, 0), host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true));
+
+	var cursorTrack = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
+	trackHandler = new TrackHandler (host.createMainTrackBank (8, 0, 0), cursorTrack);
+
+
+	var cursorDevice = cursorTrack.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
+	remoteControlHandler = new RemoteControlHandler (cursorDevice, cursorDevice.createCursorRemoteControlsPage (8));
+
+
 
 	sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
 	println("nanoKONTROL2 initialized!");
@@ -61,6 +73,9 @@ function handleMidi (status, data1, data2)
 		return;
 
 	if (trackHandler.handleMidi (status, data1, data2))
+		return;
+
+	if (remoteControlHandler.handleMidi (status, data1, data2))
 		return;
 
 	host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);

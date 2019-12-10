@@ -1,7 +1,10 @@
 function TrackHandler (trackbank, cursorTrack)
 {
+
 	this.trackbank = trackbank;
 	this.cursorTrack = cursorTrack;
+
+	this.devicesAmount = [];
 
 	for (i = 0; i < this.trackbank.getSizeOfBank (); i++)
 	{
@@ -24,14 +27,39 @@ function TrackHandler (trackbank, cursorTrack)
 
 
 	this.cursorTrack.position().markInterested();
+
+	deviceBank = cursorTrack.createDeviceBank (8);
+	deviceBank.getDevice (0).name ().markInterested ();
+	deviceBank.getDevice (1).name ().markInterested ();
+	deviceBank.getDevice (2).name ().markInterested ();
+	deviceBank.getDevice (3).name ().markInterested ();
+	deviceBank.getDevice (4).name ().markInterested ();
+	deviceBank.getDevice (5).name ().markInterested ();
+	deviceBank.getDevice (6).name ().markInterested ();
+	deviceBank.getDevice (7).name ().markInterested ();
+
+	// var deviceBank = cursorTrack.createDeviceBank (1);
+	// deviceBank.getDevice (0).position ().markInterested ();
+	// println ("device name is" + deviceBank.getDevice (0).position (). get());
+
 }
 
 TrackHandler.prototype.handleMidi = function (status, data1, data2)
 {
-	println ("data1 is " + data1);
+	// println ("track handled, data1 is " + data1);
+
 	this.currentData1 = data1;
 
-	// if (isNoteOn(status))
+// DeviceView.prototype.calcDeviceBanks = function ()
+// {
+//     var pages = [];
+//     var cd = this.model.getDevice ();
+//     for (var i = 0; i < 16; i++)
+//         pages.push (cd.getSiblingDeviceName (i));
+//     return { pages: pages, page: cd.getPositionInBank (), offset: 0 };
+// };
+
+	// if (isChannelController(status))
 	// {
 		switch (data1)
 		{
@@ -67,21 +95,6 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 				this.trackbank.getItemAt (7).select ();
 				return true;
 
-			// case MOXF_BUTTON_SF5:
-			// 	this.trackbank.scrollPageBackwards ();
-			// 	return true;
-
-			// case MOXF_BUTTON_SF6:
-			// 	this.trackbank.scrollPageForwards ();
-			// 	return true;
-
-			// case MOXF_BUTTON_SOLO:
-			// 	this.cursorTrack.solo ().toggle ();
-			// 	return true;
-
-			// case MOXF_BUTTON_MUTE:
-			// 	this.cursorTrack.mute ().toggle ();
-			// 	return true;
 			case NK2_SLIDER1:
 				this.trackbank.getItemAt (0).volume ().set (data2, 128);
 				return true;
@@ -119,55 +132,6 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 		}
 	// }
 
-	// if (isChannelController(status))
-	// {
-
-		switch (data1)
-		{
-			// Absolute values
-			case NK2_SLIDER1:
-				this.trackbank.getItemAt (0).volume ().inc (data2, 128);
-				return true;
-
-			// case MOXF_KNOB_2:
-			// 	this.trackbank.getItemAt (1).pan ().set (data2, 128);
-			// 	return true;
-
-			// case MOXF_KNOB_3:
-			// 	this.trackbank.getItemAt (2).pan ().set (data2, 128);
-			// 	return true;
-
-			// case MOXF_KNOB_4:
-			// 	this.trackbank.getItemAt (3).pan ().set (data2, 128);
-			// 	return true;
-
-			// // Relative values
-			// case MOXF_KNOB_5:
-			// 	var value = data2 > 64 ? 64 - data2 : data2;
-			// 	this.trackbank.getItemAt (0).volume ().inc (value, 128);
-			// 	return true;
-
-			// case MOXF_KNOB_6:
-			// 	var value = data2 > 64 ? 64 - data2 : data2;
-			// 	this.trackbank.getItemAt (1).volume ().inc (value, 128);
-			// 	return true;
-
-			// case MOXF_KNOB_7:
-			// 	var value = data2 > 64 ? 64 - data2 : data2;
-			// 	this.trackbank.getItemAt (2).volume ().inc (value, 128);
-			// 	return true;
-
-			// case MOXF_KNOB_8:
-			// 	var value = data2 > 64 ? 64 - data2 : data2;
-			// 	this.trackbank.getItemAt (3).volume ().inc (value, 128);
-			// 	return true;
-
-			default:
-				return false;
-		}
-	// }
-
-	// return false;    
 }
 
 TrackHandler.prototype.updateLEDs = function ()
@@ -187,8 +151,31 @@ TrackHandler.prototype.updateLEDs = function ()
 		this.ledOn = this.trackNumber + 32;
 
 		hardware.updateLEDtrack (this.ledOn)
+
 	}
+
+	this.devicesAmount = [];
+	for (var da = 0; da < 7; da++) {
+		// println ("device bank device name is: z" + deviceBank.getDevice (da).name (). get() + "z");		
+		var deviceName = deviceBank.getDevice (da).name (). get();
+		if (deviceName)
+		{
+			this.devicesAmount.push (deviceBank.getDevice (da).name (). get());			
+		}
+	}
+
+	hardware.updateLEDdevices (this.devicesAmount.length);
+	println ("devices amount length is: " + this.devicesAmount.length);
+
+	// hardware.updateLEDdevices (this.devicesAmount.length);
+
 	// hardware.updateLED (NK2_BUTTON_S1, this.shouldBeOff);
 
 	// hardware.updateLED (NK2_BUTTON_REC, this.transport.isArrangerRecordEnabled ().get ());
+}
+
+
+TrackHandler.prototype.updateLEDdevices = function ()
+{
+
 }
