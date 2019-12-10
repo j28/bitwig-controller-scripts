@@ -14,7 +14,13 @@ const NK2_BUTTON_SLIDER8 = 0x07;
 const NK2_BUTTON_KNOB1 = 0x10;
 const NK2_BUTTON_KNOB8 = 0x17;
 const NK2_BUTTON_S1 = 32;
-const NK2_BUTTON_S8 = 0x27;
+const NK2_BUTTON_S2 = 33;
+const NK2_BUTTON_S3 = 34;
+const NK2_BUTTON_S4 = 35;
+const NK2_BUTTON_S5 = 36;
+const NK2_BUTTON_S6 = 37;
+const NK2_BUTTON_S7 = 38;
+const NK2_BUTTON_S8 = 39;
 const NK2_BUTTON_M1 = 48;
 const NK2_BUTTON_M8 = 0x37;
 const NK2_BUTTON_R1 = 64;
@@ -39,4 +45,19 @@ NK2Hardware.prototype.updateLED = function (note, isOn)
 	}
 	else
 		println ("Not updated.");
+}
+
+
+NK2Hardware.prototype.updateLEDtrack = function (ledOn)
+{
+	this.portOut.sendMidi (191, 32, 0);
+	this.portOut.sendMidi (191, 33, 0);
+	this.portOut.sendMidi (191, 34, 0);
+	this.portOut.sendMidi (191, 35, 0);
+	this.portOut.sendMidi (191, 36, 0);
+	this.portOut.sendMidi (191, 37, 0);
+	this.portOut.sendMidi (191, 38, 0);
+	this.portOut.sendMidi (191, 39, 0);
+
+	this.portOut.sendMidi (191, ledOn, 127);
 }
