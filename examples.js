@@ -14,3 +14,8 @@ DeviceView.prototype.calcDeviceBanks = function ()
 		pages.push (cd.getSiblingDeviceName (i));
 	return { pages: pages, page: cd.getPositionInBank (), offset: 0 };
 };
+
+
+println ("cursor track is: " + this.cursorTrack.position().get());
+println (this.trackbank.getItemAt (0).position().get());
+println (this.trackbank.getChannel (0));

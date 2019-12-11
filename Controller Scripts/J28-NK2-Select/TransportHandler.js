@@ -8,8 +8,6 @@ function TransportHandler (transport)
 
 TransportHandler.prototype.handleMidi = function (status, data1, data2)
 {
-	// println (status + " " + data1 + " " + data2);
-
 	// check if it should be processed by the cases below
 	if (data1 == 191)
 		return false;
@@ -34,19 +32,6 @@ TransportHandler.prototype.handleMidi = function (status, data1, data2)
 		// banana replace
 		case NK2_BUTTON_REC:
 			if (!isPlayPressed && !isStopPressed) this.transport.record();
-			return true;
-
-		case NK2_BUTTON_CYCLE:
-			switchPage();
-			return true;
-
-		case NK2_BUTTON_REW:
-			this.transport.rewind();
-			return true;
-
-		// banana replace
-		case NK2_BUTTON_FF:
-			this.transport.fastForward();
 			return true;
 
 		default:

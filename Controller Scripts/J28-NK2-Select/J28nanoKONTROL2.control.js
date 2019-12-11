@@ -53,7 +53,9 @@ function flush()
 {
 	println ("\nFlush called.");
 	transportHandler.updateLEDs ();
-	trackHandler.updateLEDs ();
+	trackHandler.updateLEDtracks ();
+	trackHandler.updateLEDdevices ();
+	remoteControlHandler.updateLEDs ();
 }
 
 function exit()

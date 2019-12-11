@@ -19,6 +19,13 @@ function RemoteControlHandler (cursorDevice, remoteControlsBank)
 
 }
 
+RemoteControlHandler.prototype.selectParameter = function (parameterNum)
+{
+	this.remoteControlsBank.selectFirst ();
+	var i;
+	for (i = 0; i < parameterNum; i++)
+		this.remoteControlsBank.selectNext ();
+}
 RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 {
 	// if (isChannelController(status))
@@ -60,63 +67,35 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 				return true;
 
 			case NK2_BUTTON_R1:
-				this.remoteControlsBank.selectFirst ();
+				this.selectParameter(0);
 				return true;
 
 			case NK2_BUTTON_R2:
-				this.remoteControlsBank.selectFirst ();
-				this.remoteControlsBank.selectNext ();
+				this.selectParameter(1);
 				return true;
 
 			case NK2_BUTTON_R3:
-				this.remoteControlsBank.selectFirst ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
+				this.selectParameter(2);
 				return true;
 
 			case NK2_BUTTON_R4:
-				this.remoteControlsBank.selectFirst ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
+				this.selectParameter(3);
 				return true;
 
 			case NK2_BUTTON_R5:
-				this.remoteControlsBank.selectFirst ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
+				this.selectParameter(4);
 				return true;
 
 			case NK2_BUTTON_R6:
-				this.remoteControlsBank.selectFirst ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
+				this.selectParameter(5);
 				return true;
 
 			case NK2_BUTTON_R7:
-				this.remoteControlsBank.selectFirst ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
+				this.selectParameter(6);
 				return true;
 
 			case NK2_BUTTON_R8:
-				this.remoteControlsBank.selectFirst ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
-				this.remoteControlsBank.selectNext ();
+				this.selectParameter(7);
 				return true;
 
 			case NK2_KNOB1:
@@ -157,7 +136,14 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 
 			case NK2_BUTTON_NEXT_TRACK:
 				this.cursorDevice.isWindowOpen ().toggle ();
+				return true;
 
+			case NK2_BUTTON_REW:
+				this.cursorDevice.isEnabled ().toggle ();
+				return true;
+
+			case NK2_BUTTON_FF:
+				this.cursorDevice.isWindowOpen ().toggle ();
 				return true;
 
 			default:
@@ -166,4 +152,10 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 	// }
 
 	return false;    
+}
+
+RemoteControlHandler.prototype.updateLEDs = function ()
+{
+	println ("remote controls page count: " + this.remoteControlsBank.pageCount ().get ());
+	hardware.updateLEDcontrols (this.remoteControlsBank.pageCount ().get ());
 }
