@@ -18,7 +18,6 @@ else if (host.platformIsLinux())
 
 var SYSEX_HEADER = "F0 42 40 00 01 13 00";
 
-
 var deviceBank = null;
 
 var hardware = null;
@@ -62,7 +61,6 @@ function exit()
 	sendSysex(SYSEX_HEADER + "00 00 00 F7"); // Leave native mode
 	println("Exited!");
 }
-
 
 function handleMidi (status, data1, data2)
 {

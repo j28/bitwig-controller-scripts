@@ -55,8 +55,6 @@ const NK2_BUTTON_R6 = 69;
 const NK2_BUTTON_R7 = 70;
 const NK2_BUTTON_R8 = 71;
 
-
-
 function NK2Hardware (outputPort, inputPort, inputCallback)
 {
 	this.portOut = outputPort;
@@ -78,7 +76,6 @@ NK2Hardware.prototype.updateLED = function (note, isOn)
 		println ("Not updated.");
 }
 
-
 NK2Hardware.prototype.updateLEDtrack = function (ledOn)
 {
 	this.portOut.sendMidi (191, 32, 0);
@@ -89,10 +86,8 @@ NK2Hardware.prototype.updateLEDtrack = function (ledOn)
 	this.portOut.sendMidi (191, 37, 0);
 	this.portOut.sendMidi (191, 38, 0);
 	this.portOut.sendMidi (191, 39, 0);
-
 	this.portOut.sendMidi (191, ledOn, 127);
 }
-
 
 NK2Hardware.prototype.updateLEDdevices = function (deviceLength)
 {
@@ -105,20 +100,16 @@ NK2Hardware.prototype.updateLEDdevices = function (deviceLength)
 	this.portOut.sendMidi (191, 53, 0);
 	this.portOut.sendMidi (191, 54, 0);
 	this.portOut.sendMidi (191, 55, 0);
-
-
 	// println ("length is: " + deviceLength);
 	for (d = 0; d < deviceLength; d++)
 	{
 		var deviceCC = d + 48;
-
-		println ("deviceLength is: " + deviceLength);
-		println ("d is: " + d);
-		println ("device CC is: " + deviceCC);
+		// println ("deviceLength is: " + deviceLength);
+		// println ("d is: " + d);
+		// println ("device CC is: " + deviceCC);
 		this.portOut.sendMidi (191, deviceCC, 127);
 	}
 }
-
 
 NK2Hardware.prototype.updateLEDcontrols = function (controlsLength)
 {
@@ -131,16 +122,13 @@ NK2Hardware.prototype.updateLEDcontrols = function (controlsLength)
 	this.portOut.sendMidi (191, 69, 0);
 	this.portOut.sendMidi (191, 70, 0);
 	this.portOut.sendMidi (191, 71, 0);
-
-
 	// println ("length is: " + deviceLength);
 	for (c = 0; c < controlsLength; c++)
 	{
 		var buttonCC = c + 64;
-
-		println ("controlsLength is: " + controlsLength);
-		println ("c is: " + c);
-		println ("button CC is: " + buttonCC);
+		// println ("controlsLength is: " + controlsLength);
+		// println ("c is: " + c);
+		// println ("button CC is: " + buttonCC);
 		this.portOut.sendMidi (191, buttonCC, 127);
 	}
 }

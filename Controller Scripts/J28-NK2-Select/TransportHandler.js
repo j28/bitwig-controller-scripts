@@ -2,12 +2,6 @@ function TransportHandler (transport)
 {
 	this.transport = transport;
 
-	// --- Examplefor using value observers
-	// transport.isPlaying ().addValueObserver (function (value)
-	// {
-	//    println (value ? "Playing..." : "Stopped.");
-	// });
-
 	this.transport.isPlaying ().markInterested ();
 	this.transport.isArrangerRecordEnabled ().markInterested ();
 }

@@ -19,31 +19,6 @@ function RemoteControlHandler (cursorDevice, remoteControlsBank)
 
 }
 
-// RemoteControlHandler.prototype.getName = function ()
-// {
-// 	return "Device Mode";
-// }
-
-// RemoteControlHandler.prototype.setIndication = function (enable)
-// {
-// 	var i;
-// 	for (i = 0; i < this.remoteControlsBank.getParameterCount (); i++)
-// 		this.remoteControlsBank.getParameter (i).setIndication (enable);
-// }
-
-// RemoteControlHandler.prototype.selectPage = function (pageNum)
-// {
-// 		switch (pageNum)
-// 		{
-// 			case NK2_BUTTON_R2:
-// 				this.remoteControlsBank.selectNext ();
-// 				return true;
-
-
-// 			default:
-// 				return false;
-// 		}
-// }
 RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 {
 	// if (isChannelController(status))
@@ -177,11 +152,12 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 				return true;
 
 			case NK2_BUTTON_PREV_TRACK:
-				this.cursorDevice.isWindowOpen ().toggle ();
+				this.cursorDevice.isEnabled ().toggle ();
 				return true;
 
 			case NK2_BUTTON_NEXT_TRACK:
-				this.cursorDevice.isEnabled ().toggle ();
+				this.cursorDevice.isWindowOpen ().toggle ();
+
 				return true;
 
 			default:

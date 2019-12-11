@@ -25,7 +25,6 @@ function TrackHandler (trackbank, cursorTrack)
 	this.cursorTrack.solo ().markInterested ();
 	this.cursorTrack.mute ().markInterested ();
 
-
 	this.cursorTrack.position().markInterested();
 
 	deviceBank = cursorTrack.createDeviceBank (8);
@@ -38,10 +37,6 @@ function TrackHandler (trackbank, cursorTrack)
 	deviceBank.getDevice (6).name ().markInterested ();
 	deviceBank.getDevice (7).name ().markInterested ();
 
-	// var deviceBank = cursorTrack.createDeviceBank (1);
-	// deviceBank.getDevice (0).position ().markInterested ();
-	// println ("device name is" + deviceBank.getDevice (0).position (). get());
-
 }
 
 TrackHandler.prototype.handleMidi = function (status, data1, data2)
@@ -49,16 +44,6 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 	// println ("track handled, data1 is " + data1);
 
 	this.currentData1 = data1;
-
-// DeviceView.prototype.calcDeviceBanks = function ()
-// {
-//     var pages = [];
-//     var cd = this.model.getDevice ();
-//     for (var i = 0; i < 16; i++)
-//         pages.push (cd.getSiblingDeviceName (i));
-//     return { pages: pages, page: cd.getPositionInBank (), offset: 0 };
-// };
-
 
 	// if (isChannelController(status))
 	// {
@@ -132,13 +117,10 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 				return false;
 		}
 	// }
-
 }
 
 TrackHandler.prototype.updateLEDs = function ()
 {
-
-
 	println ("currentData1 is: "+ this.currentData1);
 
 	// println ("cursor track is: " + this.cursorTrack.position().get());
