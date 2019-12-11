@@ -1,41 +1,41 @@
 function TransportHandler (transport)
 {
 	this.transport = transport;
-
 	this.transport.isPlaying ().markInterested ();
 	this.transport.isArrangerRecordEnabled ().markInterested ();
 }
 
 TransportHandler.prototype.handleMidi = function (status, data1, data2)
 {
-	// check if it should be processed by the cases below
-	if (data1 == 191)
-		return false;
-
-	if (data2 == 0)
-		return true;
-
-	switch (data1)
+	if (isChannelController(status))
 	{
-		case NK2_BUTTON_PLAY:
-			if (isEngineOn)
-			{
-				if (!isStopPressed && !isRecPressed) isPlaying ? this.transport.restart() : this.transport.play();
-			}
-			else this.transport.restart();
+
+		if (data2 == 0)
 			return true;
 
-		case NK2_BUTTON_STOP:
-			if (!isPlayPressed && !isRecPressed) this.transport.stop();
-			return true;
+		switch (data1)
+		{
+			case NK2_BUTTON_PLAY:
+				if (isEngineOn)
+				{
+					if (!isStopPressed && !isRecPressed) isPlaying ? this.transport.restart() : this.transport.play();
+				}
+				else this.transport.restart();
+				return true;
 
-		// banana replace
-		case NK2_BUTTON_REC:
-			if (!isPlayPressed && !isStopPressed) this.transport.record();
-			return true;
+			case NK2_BUTTON_STOP:
+				if (!isPlayPressed && !isRecPressed) this.transport.stop();
+				return true;
 
-		default:
-			return false;
+			// banana replace
+			case NK2_BUTTON_REC:
+				if (!isPlayPressed && !isStopPressed) this.transport.record();
+				return true;
+
+			default:
+				return false;
+		}
+
 	}
 }
 

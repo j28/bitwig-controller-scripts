@@ -9,11 +9,6 @@ function TrackHandler (trackbank, cursorTrack)
 	for (i = 0; i < this.trackbank.getSizeOfBank (); i++)
 	{
 		var track = this.trackbank.getItemAt (i);
-
-		// var p = track.pan ();
-		// p.markInterested ();
-		// p.setIndication (true);
-
 		p = track.volume ();
 		p.markInterested ();
 		p.setIndication (true);
@@ -41,12 +36,11 @@ function TrackHandler (trackbank, cursorTrack)
 
 TrackHandler.prototype.handleMidi = function (status, data1, data2)
 {
-	// println ("track handled, data1 is " + data1);
-
 	this.currentData1 = data1;
 
-	// if (isChannelController(status))
-	// {
+	if (isChannelController(status))
+	{
+
 		switch (data1)
 		{
 			case NK2_BUTTON_S1:
@@ -116,7 +110,7 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 			default:
 				return false;
 		}
-	// }
+	}
 }
 
 TrackHandler.prototype.updateLEDtracks = function ()

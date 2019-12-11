@@ -91,7 +91,6 @@ NK2Hardware.prototype.updateLEDtrack = function (ledOn)
 
 NK2Hardware.prototype.updateLEDdevices = function (deviceLength)
 {
-
 	this.portOut.sendMidi (191, 48, 0);
 	this.portOut.sendMidi (191, 49, 0);
 	this.portOut.sendMidi (191, 50, 0);
@@ -113,7 +112,6 @@ NK2Hardware.prototype.updateLEDdevices = function (deviceLength)
 
 NK2Hardware.prototype.updateLEDcontrols = function (controlsLength)
 {
-
 	this.portOut.sendMidi (191, 64, 0);
 	this.portOut.sendMidi (191, 65, 0);
 	this.portOut.sendMidi (191, 66, 0);

@@ -28,8 +28,8 @@ RemoteControlHandler.prototype.selectParameter = function (parameterNum)
 }
 RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 {
-	// if (isChannelController(status))
-	// {
+	if (isChannelController(status))
+	{
 
 		switch (data1)
 		{
@@ -149,8 +149,7 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 			default:
 				return false;
 		}
-	// }
-
+	}
 	return false;    
 }
 
