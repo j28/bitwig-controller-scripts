@@ -1,6 +1,6 @@
 loadAPI(1);
 
-host.defineController("Korg", "J28 nanoKONTROL 2", "1.0", "85310dc4-0e00-11ea-9a9f-362b9e155667");
+host.defineController("Korg", "J28 nanoKONTROL 2 Factory", "1.0", "85310dc4-0e00-11ea-9a9f-362b9e155667");
 host.defineMidiPorts(1, 1);
 host.defineSysexIdentityReply("f0 7e ?? 06 02 42 13 01 00 00 03 00 01 00 f7");
 
@@ -85,6 +85,7 @@ function init()
 	{
       isLooping = on;
 	});
+
    primaryDevice.addSelectedPageObserver(0, function(page)
 	{
 		paramPage = page;
@@ -270,7 +271,7 @@ function onMidi(status, data1, data2)
 					break;
 
 				case CC.FF:
-					isSetPressed ? arranger.togglePlaybackFollow() : transport.fastForward();
+					transport.fastForward();
 					break;
 
 				case CC.PREV_TRACK:
@@ -388,11 +389,15 @@ devicePage.nextTrackButton = function()
 
 devicePage.prevMarkerButton = function()
 {
+	application.toggleDevices ();
+	// isSetPressed ? 	application.toggleExpanded (); : application.toggleDevices ();;
+	// primaryDevice.toggleWindowOpen ()
 	// isSetPressed ? primaryDevice.switchToPreviousPresetCategory() : primaryDevice.switchToPreviousPreset();
 };
 
 devicePage.nextMarkerButton = function()
 {
+	application.toggleNoteEditor ();
 	// isSetPressed ? primaryDevice.switchToNextPresetCategory() : primaryDevice.switchToNextPreset();
 };
 

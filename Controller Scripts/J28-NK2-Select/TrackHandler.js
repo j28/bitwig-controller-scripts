@@ -10,9 +10,9 @@ function TrackHandler (trackbank, cursorTrack)
 	{
 		var track = this.trackbank.getItemAt (i);
 
-		var p = track.pan ();
-		p.markInterested ();
-		p.setIndication (true);
+		// var p = track.pan ();
+		// p.markInterested ();
+		// p.setIndication (true);
 
 		p = track.volume ();
 		p.markInterested ();
@@ -58,6 +58,7 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 //         pages.push (cd.getSiblingDeviceName (i));
 //     return { pages: pages, page: cd.getPositionInBank (), offset: 0 };
 // };
+
 
 	// if (isChannelController(status))
 	// {
@@ -163,6 +164,10 @@ TrackHandler.prototype.updateLEDs = function ()
 			this.devicesAmount.push (deviceBank.getDevice (da).name (). get());			
 		}
 	}
+
+	println ("remote controls page count: " + remoteControlHandler.remoteControlsBank.pageCount ().get ());
+
+	hardware.updateLEDcontrols (remoteControlHandler.remoteControlsBank.pageCount ().get ());
 
 	hardware.updateLEDdevices (this.devicesAmount.length);
 	println ("devices amount length is: " + this.devicesAmount.length);

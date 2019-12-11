@@ -6,9 +6,12 @@ function RemoteControlHandler (cursorDevice, remoteControlsBank)
 	this.remoteControlsBank = remoteControlsBank;
 
 	var i;
-	for (i = 0; i < this.remoteControlsBank.getParameterCount (); i++)
+	for (i = 0; i < this.remoteControlsBank.getParameterCount (); i++){
 		this.remoteControlsBank.getParameter (i).markInterested ();
+		this.remoteControlsBank.getParameter (i).setIndication (true);
+	}
 
+	this.remoteControlsBank.pageCount ().markInterested ();
 	this.cursorDevice.position ().markInterested ();
 
 	this.cursorDevice.isEnabled ().markInterested ();
@@ -21,13 +24,26 @@ function RemoteControlHandler (cursorDevice, remoteControlsBank)
 // 	return "Device Mode";
 // }
 
-RemoteControlHandler.prototype.setIndication = function (enable)
-{
-	var i;
-	for (i = 0; i < this.remoteControlsBank.getParameterCount (); i++)
-		this.remoteControlsBank.getParameter (i).setIndication (enable);
-}
+// RemoteControlHandler.prototype.setIndication = function (enable)
+// {
+// 	var i;
+// 	for (i = 0; i < this.remoteControlsBank.getParameterCount (); i++)
+// 		this.remoteControlsBank.getParameter (i).setIndication (enable);
+// }
 
+// RemoteControlHandler.prototype.selectPage = function (pageNum)
+// {
+// 		switch (pageNum)
+// 		{
+// 			case NK2_BUTTON_R2:
+// 				this.remoteControlsBank.selectNext ();
+// 				return true;
+
+
+// 			default:
+// 				return false;
+// 		}
+// }
 RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 {
 	// if (isChannelController(status))
@@ -73,6 +89,58 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 				return true;
 
 			case NK2_BUTTON_R2:
+				this.remoteControlsBank.selectFirst ();
+				this.remoteControlsBank.selectNext ();
+				return true;
+
+			case NK2_BUTTON_R3:
+				this.remoteControlsBank.selectFirst ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				return true;
+
+			case NK2_BUTTON_R4:
+				this.remoteControlsBank.selectFirst ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				return true;
+
+			case NK2_BUTTON_R5:
+				this.remoteControlsBank.selectFirst ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				return true;
+
+			case NK2_BUTTON_R6:
+				this.remoteControlsBank.selectFirst ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				return true;
+
+			case NK2_BUTTON_R7:
+				this.remoteControlsBank.selectFirst ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				return true;
+
+			case NK2_BUTTON_R8:
+				this.remoteControlsBank.selectFirst ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
+				this.remoteControlsBank.selectNext ();
 				this.remoteControlsBank.selectNext ();
 				return true;
 

@@ -5,7 +5,7 @@ load ("TrackHandler.js");
 load ("RemoteControlHandler.js");
 
 host.setShouldFailOnDeprecatedUse(true);
-host.defineController("Korg", "J28 nanoKONTROL 2 New", "0.1", "80793a77-7ce6-4cbe-bc35-233762466a62");
+host.defineController("Korg", "J28 nanoKONTROL 2 Select", "0.1", "80793a77-7ce6-4cbe-bc35-233762466a62");
 host.defineMidiPorts(1, 1);
 host.defineSysexIdentityReply("f0 7e ?? 06 02 42 13 01 00 00 03 00 01 00 f7");
 
@@ -42,11 +42,8 @@ function init()
 	var cursorTrack = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
 	trackHandler = new TrackHandler (host.createMainTrackBank (8, 0, 0), cursorTrack);
 
-
 	var cursorDevice = cursorTrack.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 	remoteControlHandler = new RemoteControlHandler (cursorDevice, cursorDevice.createCursorRemoteControlsPage (8));
-
-
 
 	sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
 	println("nanoKONTROL2 initialized!");

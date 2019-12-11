@@ -118,3 +118,29 @@ NK2Hardware.prototype.updateLEDdevices = function (deviceLength)
 		this.portOut.sendMidi (191, deviceCC, 127);
 	}
 }
+
+
+NK2Hardware.prototype.updateLEDcontrols = function (controlsLength)
+{
+
+	this.portOut.sendMidi (191, 64, 0);
+	this.portOut.sendMidi (191, 65, 0);
+	this.portOut.sendMidi (191, 66, 0);
+	this.portOut.sendMidi (191, 67, 0);
+	this.portOut.sendMidi (191, 68, 0);
+	this.portOut.sendMidi (191, 69, 0);
+	this.portOut.sendMidi (191, 70, 0);
+	this.portOut.sendMidi (191, 71, 0);
+
+
+	// println ("length is: " + deviceLength);
+	for (c = 0; c < controlsLength; c++)
+	{
+		var buttonCC = c + 64;
+
+		println ("controlsLength is: " + controlsLength);
+		println ("c is: " + c);
+		println ("button CC is: " + buttonCC);
+		this.portOut.sendMidi (191, buttonCC, 127);
+	}
+}
