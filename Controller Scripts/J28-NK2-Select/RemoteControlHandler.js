@@ -14,6 +14,7 @@ function RemoteControlHandler (cursorDevice, remoteControlsBank)
 	this.remoteControlsBank.pageCount ().markInterested ();
 	this.cursorDevice.position ().markInterested ();
 
+	this.cursorDevice.isExpanded ().markInterested ();
 	this.cursorDevice.isEnabled ().markInterested ();
 	this.cursorDevice.isWindowOpen ().markInterested ();
 
@@ -144,6 +145,10 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 
 			case NK2_BUTTON_FF:
 				this.cursorDevice.isWindowOpen ().toggle ();
+				return true;
+
+			case NK2_BUTTON_CYCLE:
+				this.cursorDevice.isExpanded ().toggle ();
 				return true;
 
 			default:
