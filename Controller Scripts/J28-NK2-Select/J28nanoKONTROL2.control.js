@@ -21,7 +21,7 @@ var SYSEX_HEADER = "F0 42 40 00 01 13 00";
 var deviceBank = null;
 
 var hardware = null;
-var transport = null;
+var globalTransport = null;
 
 var isSetPressed = false;
 var isPlaying = false;
@@ -68,6 +68,16 @@ function exit()
 
 function handleMidi (status, data1, data2)
 {
+
+	if(data1 == 0x3C){
+		if (data2 > 0) {
+			isSetPressed = true;
+		} else {
+			isSetPressed = false;
+		}
+	}
+	println ("is setPressed: " + isSetPressed);		
+
 	if (transportHandler.handleMidi (status, data1, data2))
 		return;
 

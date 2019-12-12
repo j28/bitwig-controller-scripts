@@ -4,6 +4,10 @@ function TrackHandler (trackbank, cursorTrack)
 	this.trackbank = trackbank;
 	this.cursorTrack = cursorTrack;
 
+	this.masterTrack = host.createMasterTrack (0);
+	this.masterTrack.volume ().markInterested ();
+
+
 	this.devicesAmount = [];
 
 	for (i = 0; i < this.trackbank.getSizeOfBank (); i++)
@@ -36,6 +40,7 @@ function TrackHandler (trackbank, cursorTrack)
 
 TrackHandler.prototype.handleMidi = function (status, data1, data2)
 {
+	println ("data1 is: "+ data1);
 	this.currentData1 = data1;
 
 	if (isChannelController(status))
@@ -104,7 +109,8 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 				return true;
 
 			case NK2_SLIDER8:
-				this.trackbank.getItemAt (7).volume ().set (data2, 128);
+				// if set is pressed the 8th fader controls the master track volume
+				isSetPressed ? this.masterTrack.volume ().set (data2, 128) : this.trackbank.getItemAt (7).volume ().set (data2, 128);
 				return true;
 
 			default:
@@ -115,7 +121,7 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 
 TrackHandler.prototype.updateLEDtracks = function ()
 {
-	println ("currentData1 is: "+ this.currentData1);
+	// println ("currentData1 is: "+ this.currentData1);
 	// update tracks leds
 	if (this.currentData1 > 7) {
 		// for track 1 this returns 0

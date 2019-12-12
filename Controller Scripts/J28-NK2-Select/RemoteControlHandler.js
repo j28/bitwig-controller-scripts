@@ -128,7 +128,11 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 				return true;
 
 			case NK2_KNOB8:
-				this.remoteControlsBank.getParameter (7).set (data2, 128);
+				// if set is pressed the 8th knobs controls the tempo
+				// println ("tempo is: " + globalTransport.tempo ().get());
+				// isSetPressed ? 	globalTransport.tempo ().set(data2, 128) : this.remoteControlsBank.getParameter (7).set (data2, 128);
+				isSetPressed ? 	globalTransport.tempo ().setRaw(data2 + 34) : this.remoteControlsBank.getParameter (7).set (data2, 128);
+				// this.remoteControlsBank.getParameter (7).set (data2, 128);
 				return true;
 
 			case NK2_BUTTON_PREV_TRACK:

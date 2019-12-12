@@ -1,15 +1,17 @@
 function TransportHandler (transport)
 {
+	globalTransport = transport;
 	this.transport = transport;
 	this.transport.isPlaying ().markInterested ();
 	this.transport.isArrangerRecordEnabled ().markInterested ();
+	this.transport.tempo ().markInterested();
 }
 
 TransportHandler.prototype.handleMidi = function (status, data1, data2)
 {
 	if (isChannelController(status))
 	{
-
+		// println ("tempo is: " + this.transport.tempo ().get());
 		if (data2 == 0)
 			return true;
 
