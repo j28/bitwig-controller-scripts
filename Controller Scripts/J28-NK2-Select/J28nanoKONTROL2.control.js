@@ -35,6 +35,8 @@ var isRecPressed = false;
 
 function init()
 {
+	application = host.createApplication();
+
 	hardware = new NK2Hardware (host.getMidiOutPort (0), host.getMidiInPort (0), handleMidi);
 	transportHandler = new TransportHandler (host.createTransport ());
 

@@ -32,6 +32,14 @@ TransportHandler.prototype.handleMidi = function (status, data1, data2)
 				if (!isPlayPressed && !isStopPressed) this.transport.record();
 				return true;
 
+			case NK2_BUTTON_PREV_MARKER:
+				application.toggleDevices ();
+				return true;
+
+			case NK2_BUTTON_NEXT_MARKER:
+				application.toggleNoteEditor ();
+				return true;
+
 			default:
 				return false;
 		}
