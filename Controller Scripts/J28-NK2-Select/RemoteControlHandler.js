@@ -31,6 +31,34 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 {
 	if (isChannelController(status))
 	{
+		// if one of the buttons below is released we return true
+		var ourButtons = [
+			NK2_BUTTON_M1,
+			NK2_BUTTON_M2,
+			NK2_BUTTON_M3,
+			NK2_BUTTON_M4,
+			NK2_BUTTON_M5,
+			NK2_BUTTON_M6,
+			NK2_BUTTON_M7,
+			NK2_BUTTON_M8,
+			NK2_BUTTON_R1,
+			NK2_BUTTON_R2,
+			NK2_BUTTON_R3,
+			NK2_BUTTON_R4,
+			NK2_BUTTON_R5,
+			NK2_BUTTON_R6,
+			NK2_BUTTON_R7,
+			NK2_BUTTON_R8,
+			NK2_BUTTON_PREV_TRACK,
+			NK2_BUTTON_NEXT_TRACK,
+			NK2_BUTTON_REW,
+			NK2_BUTTON_FF,
+			NK2_BUTTON_CYCLE
+		];
+		if(ourButtons.indexOf(data1) > -1) {
+			if (data2 == 0)
+				return true;
+		}
 
 		switch (data1)
 		{
@@ -100,37 +128,37 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 				return true;
 
 			case NK2_KNOB1:
-				if(data2 == 1){ data2 = 0 }
+				// if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (0).set (data2, 128);
 				return true;
 
 			case NK2_KNOB2:
-				if(data2 == 1){ data2 = 0 }
+				// if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (1).set (data2, 128);
 				return true;
 
 			case NK2_KNOB3:
-				if(data2 == 1){ data2 = 0 }
+				// if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (2).set (data2, 128);
 				return true;
 
 			case NK2_KNOB4:
-				if(data2 == 1){ data2 = 0 }
+				// if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (3).set (data2, 128);
 				return true;
 
 			case NK2_KNOB5:
-				if(data2 == 1){ data2 = 0 }
+				// if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (4).set (data2, 128);
 				return true;
 
 			case NK2_KNOB6:
-				if(data2 == 1){ data2 = 0 }
+				// if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (5).set (data2, 128);
 				return true;
 
 			case NK2_KNOB7:
-				if(data2 == 1){ data2 = 0 }
+				// if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (6).set (data2, 128);
 				return true;
 
@@ -141,7 +169,7 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 				if (isSetPressed){
 					globalTransport.tempo ().setRaw(data2 + 34)
 				}else{
-					if(data2 == 1){ data2 = 0 }
+					// if(data2 == 1){ data2 = 0 }
 					this.remoteControlsBank.getParameter (7).set (data2, 128);
 				}
 				// isSetPressed ? globalTransport.tempo ().setRaw(data2 + 34) : this.remoteControlsBank.getParameter (7).set (data2, 128);

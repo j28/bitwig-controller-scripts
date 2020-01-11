@@ -45,6 +45,21 @@ TrackHandler.prototype.handleMidi = function (status, data1, data2)
 
 	if (isChannelController(status))
 	{
+		// if one of the buttons below is released we return true
+		var ourButtons = [
+			NK2_BUTTON_S1,
+			NK2_BUTTON_S2,
+			NK2_BUTTON_S3,
+			NK2_BUTTON_S4,
+			NK2_BUTTON_S5,
+			NK2_BUTTON_S6,
+			NK2_BUTTON_S7,
+			NK2_BUTTON_S8
+		];
+		if(ourButtons.indexOf(data1) > -1) {
+			if (data2 == 0)
+				return true;
+		}
 
 		switch (data1)
 		{

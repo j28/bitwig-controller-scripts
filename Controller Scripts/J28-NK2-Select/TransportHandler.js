@@ -11,9 +11,18 @@ TransportHandler.prototype.handleMidi = function (status, data1, data2)
 {
 	if (isChannelController(status))
 	{
-		// println ("tempo is: " + this.transport.tempo ().get());
-		if (data2 == 0)
-			return true;
+		// if one of the buttons below is released we return true
+		var ourButtons = [
+			NK2_BUTTON_PLAY,
+			NK2_BUTTON_STOP,
+			NK2_BUTTON_REC,
+			NK2_BUTTON_PREV_MARKER,
+			NK2_BUTTON_NEXT_MARKER
+		];
+		if(ourButtons.indexOf(data1) > -1) {
+			if (data2 == 0)
+				return true;
+		}
 
 		switch (data1)
 		{
