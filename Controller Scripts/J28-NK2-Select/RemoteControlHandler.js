@@ -100,30 +100,37 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 				return true;
 
 			case NK2_KNOB1:
+				if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (0).set (data2, 128);
 				return true;
 
 			case NK2_KNOB2:
+				if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (1).set (data2, 128);
 				return true;
 
 			case NK2_KNOB3:
+				if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (2).set (data2, 128);
 				return true;
 
 			case NK2_KNOB4:
+				if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (3).set (data2, 128);
 				return true;
 
 			case NK2_KNOB5:
+				if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (4).set (data2, 128);
 				return true;
 
 			case NK2_KNOB6:
+				if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (5).set (data2, 128);
 				return true;
 
 			case NK2_KNOB7:
+				if(data2 == 1){ data2 = 0 }
 				this.remoteControlsBank.getParameter (6).set (data2, 128);
 				return true;
 
@@ -131,7 +138,13 @@ RemoteControlHandler.prototype.handleMidi = function (status, data1, data2)
 				// if set is pressed the 8th knobs controls the tempo
 				// println ("tempo is: " + globalTransport.tempo ().get());
 				// isSetPressed ? 	globalTransport.tempo ().set(data2, 128) : this.remoteControlsBank.getParameter (7).set (data2, 128);
-				isSetPressed ? 	globalTransport.tempo ().setRaw(data2 + 34) : this.remoteControlsBank.getParameter (7).set (data2, 128);
+				if (isSetPressed){
+					globalTransport.tempo ().setRaw(data2 + 34)
+				}else{
+					if(data2 == 1){ data2 = 0 }
+					this.remoteControlsBank.getParameter (7).set (data2, 128);
+				}
+				// isSetPressed ? globalTransport.tempo ().setRaw(data2 + 34) : this.remoteControlsBank.getParameter (7).set (data2, 128);
 				// this.remoteControlsBank.getParameter (7).set (data2, 128);
 				return true;
 
