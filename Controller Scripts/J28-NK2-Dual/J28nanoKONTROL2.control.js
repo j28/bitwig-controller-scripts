@@ -7,7 +7,8 @@ load ("RemoteControlHandler.js");
 host.setShouldFailOnDeprecatedUse(true);
 host.defineController("Korg", "J28 nanoKONTROL 2 Dual", "0.1", "429f329d-525f-46db-a987-abbb4c5c46e0");
 host.defineMidiPorts(2, 2);
-host.defineSysexIdentityReply("f0 7e ?? 06 02 42 13 01 00 00 03 00 01 00 f7");
+// this only works with one midi in and one midi out port
+// host.defineSysexIdentityReply("f0 7e ?? 06 02 42 13 01 00 00 03 00 01 00 f7");
 
 if (host.platformIsWindows())
 	host.addDeviceNameBasedDiscoveryPair(["nanoKONTROL2"], ["nanoKONTROL2"]);
@@ -42,8 +43,8 @@ function init()
 {
 	application = host.createApplication();
 
-	hardware1 = new NK2Hardware (host.getMidiOutPort (0), host.getMidiInPort (0), handleMidi);
-	hardware2 = new NK2Hardware (host.getMidiOutPort (1), host.getMidiInPort (1), handleMidi);
+	hardware1 = new NK2Hardware (host.getMidiOutPort (0), host.getMidiInPort (0), handleMidi1);
+	hardware2 = new NK2Hardware (host.getMidiOutPort (1), host.getMidiInPort (1), handleMidi2);
 	transportHandler = new TransportHandler (host.createTransport ());
 
 	var cursorTrack = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
@@ -51,8 +52,11 @@ function init()
 
 	var cursorDevice = cursorTrack.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 	remoteControlHandler = new RemoteControlHandler (cursorDevice, cursorDevice.createCursorRemoteControlsPage (8));
+	// the bitwig helper function only sends to port 0 :(
+	// sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
+	host.getMidiOutPort(0).sendSysex(SYSEX_HEADER + "00 00 01 F7");
+	host.getMidiOutPort(1).sendSysex(SYSEX_HEADER + "00 00 01 F7");
 
-	sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
 	println("nanoKONTROL2 initialized!");
 }
 
@@ -60,10 +64,10 @@ function init()
 function flush()
 {
 	println ("\nFlush called.");
-	transportHandler.updateLEDs ();
-	host.getMidiOutPort(1).sendMidi(191, 34, 127);
+	// transportHandler.updateLEDs ();
+	// host.getMidiOutPort(0).sendMidi(191, 34, 127);
 	// hardware1.portOut.sendMidi (191, 34, 127);
-	// trackHandler.updateLEDtracks ();
+	trackHandler.updateLEDtracks ();
 	// trackHandler.updateLEDdevices ();
 	// remoteControlHandler.updateLEDs ();
 }
@@ -74,7 +78,7 @@ function exit()
 	println("Exited!");
 }
 
-function handleMidi (status, data1, data2)
+function handleMidi1 (status, data1, data2)
 {
 
 	if(data1 == 0x3C){
@@ -86,14 +90,41 @@ function handleMidi (status, data1, data2)
 	}
 	println ("is setPressed: " + isSetPressed);		
 
-	if (transportHandler.handleMidi (status, data1, data2))
+	// if (transportHandler.handleMidi (status, data1, data2))
+	// 	return;
+
+	if (trackHandler.handleMidi1 (status, data1, data2))
 		return;
 
-	if (trackHandler.handleMidi (status, data1, data2))
-		return;
-
-	if (remoteControlHandler.handleMidi (status, data1, data2))
-		return;
+	// if (remoteControlHandler.handleMidi (status, data1, data2))
+	// 	return;
 
 	host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);
 }
+
+
+function handleMidi2 (status, data1, data2)
+{
+
+	// if(data1 == 0x3C){
+	// 	if (data2 > 0) {
+	// 		isSetPressed = true;
+	// 	} else {
+	// 		isSetPressed = false;
+	// 	}
+	// }
+	// println ("is setPressed: " + isSetPressed);		
+
+	// if (transportHandler.handleMidi (status, data1, data2))
+	// 	return;
+
+	if (trackHandler.handleMidi2 (status, data1, data2))
+		return;
+
+	// if (remoteControlHandler.handleMidi (status, data1, data2))
+	// 	return;
+
+	// host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);
+}
+
+
