@@ -63,13 +63,12 @@ function init()
 // is called on hardware changes and on ui changes
 function flush()
 {
-	println ("\nFlush called.");
-	// transportHandler.updateLEDs ();
-	// host.getMidiOutPort(0).sendMidi(191, 34, 127);
-	// hardware1.portOut.sendMidi (191, 34, 127);
+	//	println ("\nFlush called.");
+
+	transportHandler.updateLEDs ();
 	trackHandler.updateLEDtracks ();
-	// trackHandler.updateLEDdevices ();
-	// remoteControlHandler.updateLEDs ();
+	trackHandler.updateLEDdevices ();
+	remoteControlHandler.updateLEDs ();
 }
 
 function exit()
@@ -90,14 +89,14 @@ function handleMidi1 (status, data1, data2)
 	}
 	println ("is setPressed: " + isSetPressed);		
 
-	// if (transportHandler.handleMidi (status, data1, data2))
-	// 	return;
+	if (transportHandler.handleMidi (status, data1, data2))
+		return;
 
 	if (trackHandler.handleMidi1 (status, data1, data2))
 		return;
 
-	// if (remoteControlHandler.handleMidi (status, data1, data2))
-	// 	return;
+	if (remoteControlHandler.handleMidi1 (status, data1, data2))
+		return;
 
 	host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);
 }
@@ -115,12 +114,14 @@ function handleMidi2 (status, data1, data2)
 	// }
 	// println ("is setPressed: " + isSetPressed);		
 
+	// transport is currently only configured to work with controller one
 	// if (transportHandler.handleMidi (status, data1, data2))
 	// 	return;
 
 	if (trackHandler.handleMidi2 (status, data1, data2))
 		return;
 
+	// device selection and remote controls page selection are currently only configured to work with controller one
 	// if (remoteControlHandler.handleMidi (status, data1, data2))
 	// 	return;
 

@@ -78,7 +78,7 @@ NK2Hardware.prototype.updateLED = function (note, isOn)
 
 NK2Hardware.prototype.updateLEDtrack = function (ledOn)
 {
-	// turn off all track lights first
+	// turn off the track lights for both controllers first
 
 	host.getMidiOutPort (0).sendMidi (191, 32, 0);
 	host.getMidiOutPort (0).sendMidi (191, 33, 0);
@@ -98,14 +98,6 @@ NK2Hardware.prototype.updateLEDtrack = function (ledOn)
 	host.getMidiOutPort (1).sendMidi (191, 38, 0);
 	host.getMidiOutPort (1).sendMidi (191, 39, 0);
 
-
-	// this.portOut.sendMidi (191, 33, 0);
-	// this.portOut.sendMidi (191, 34, 0);
-	// this.portOut.sendMidi (191, 35, 0);
-	// this.portOut.sendMidi (191, 36, 0);
-	// this.portOut.sendMidi (191, 37, 0);
-	// this.portOut.sendMidi (191, 38, 0);
-	// this.portOut.sendMidi (191, 39, 0);
 	// turn on the led for the track that is pressed
 	// println ("led on is: "+ ledOn);
 	this.portOut.sendMidi (191, ledOn, 127);
