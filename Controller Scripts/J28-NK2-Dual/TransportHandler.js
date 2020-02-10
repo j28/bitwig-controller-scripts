@@ -60,7 +60,7 @@ TransportHandler.prototype.handleMidi = function (status, data1, data2)
 
 TransportHandler.prototype.updateLEDs = function ()
 {
-	hardware.updateLED (NK2_BUTTON_PLAY, this.transport.isPlaying ().get ());
-	hardware.updateLED (NK2_BUTTON_REC, this.transport.isArrangerRecordEnabled ().get ());
+	hardware1.updateLED (NK2_BUTTON_PLAY, this.transport.isPlaying ().get ());
+	hardware1.updateLED (NK2_BUTTON_REC, this.transport.isArrangerRecordEnabled ().get ());
 }
 

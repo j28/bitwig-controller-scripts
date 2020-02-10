@@ -59,7 +59,7 @@ function NK2Hardware (outputPort, inputPort, inputCallback)
 {
 	this.portOut = outputPort;
 	this.portIn  = inputPort;
-	// this.ledCache = initArray (-1, 128);
+	this.ledCache = initArray (-1, 128);
 	this.portIn.setMidiCallback (inputCallback);
 }
 

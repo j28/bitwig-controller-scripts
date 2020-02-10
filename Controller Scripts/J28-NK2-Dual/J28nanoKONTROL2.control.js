@@ -60,7 +60,7 @@ function init()
 function flush()
 {
 	println ("\nFlush called.");
-	// transportHandler.updateLEDs ();
+	transportHandler.updateLEDs ();
 	host.getMidiOutPort(1).sendMidi(191, 34, 127);
 	// hardware1.portOut.sendMidi (191, 34, 127);
 	// trackHandler.updateLEDtracks ();
