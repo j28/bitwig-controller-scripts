@@ -50,8 +50,17 @@ function init()
 	var cursorTrack = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
 	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack);
 
+	var cursorTrack2 = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
+	trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack2);
+
+
 	var cursorDevice = cursorTrack.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 	remoteControlHandler = new RemoteControlHandler (cursorDevice, cursorDevice.createCursorRemoteControlsPage (8));
+
+
+	var cursorDevice2 = cursorTrack2.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FIRST_DEVICE);
+	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2, cursorDevice2.createCursorRemoteControlsPage (8));
+
 	// the bitwig helper function only sends to port 0 :(
 	// sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
 	host.getMidiOutPort(0).sendSysex(SYSEX_HEADER + "00 00 01 F7");
