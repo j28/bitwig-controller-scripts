@@ -1,8 +1,9 @@
-function TrackHandler (trackbank, cursorTrack)
+function TrackHandler (trackbank, cursorTrack, cursorTrack2)
 {
 
 	this.trackbank = trackbank;
 	this.cursorTrack = cursorTrack;
+	this.cursorTrack2 = cursorTrack2;
 
 	this.masterTrack = host.createMasterTrack (0);
 	this.masterTrack.volume ().markInterested ();
@@ -167,7 +168,9 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 			NK2_BUTTON_S5,
 			NK2_BUTTON_S6,
 			NK2_BUTTON_S7,
-			NK2_BUTTON_S8
+			NK2_BUTTON_S8,
+			NK2_BUTTON_PREV_MARKER,
+			NK2_BUTTON_NEXT_MARKER
 		];
 		if(ourButtons.indexOf(data1) > -1) {
 			if (data2 == 0)
@@ -176,6 +179,14 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 		switch (data1)
 		{
+			case NK2_BUTTON_PREV_MARKER:
+				this.cursorTrack2.selectPrevious ();
+				return true;
+
+			case NK2_BUTTON_NEXT_MARKER:
+				this.cursorTrack2.selectNext ();
+				return true;
+
 			case NK2_BUTTON_S1:
 				this.trackbank.getItemAt (8).select ();
 				return true;

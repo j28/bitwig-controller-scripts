@@ -48,18 +48,16 @@ function init()
 	transportHandler = new TransportHandler (host.createTransport ());
 
 	var cursorTrack = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
-	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack);
+	var cursorTrack2 = host.createCursorTrack ("NK2_CURSOR_TRACK_2", "Cursor Track 2", 0, 0, true);
 
-	var cursorTrack2 = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
-	trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack2);
-
+	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack, cursorTrack2);
+	trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack, cursorTrack2);
 
 	var cursorDevice = cursorTrack.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 	remoteControlHandler = new RemoteControlHandler (cursorDevice, cursorDevice.createCursorRemoteControlsPage (8));
 
-
-	var cursorDevice2 = cursorTrack2.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FIRST_DEVICE);
-	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2, cursorDevice2.createCursorRemoteControlsPage (8));
+	var cursorDevice2 = cursorTrack2.createCursorDevice ("NK2_CURSOR_DEVICE_2", "Cursor Device 2", 0, CursorDeviceFollowMode.FIRST_DEVICE);
+	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2, cursorDevice2.createCursorRemoteControlsPage (8), cursorTrack2);
 
 	// the bitwig helper function only sends to port 0 :(
 	// sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
@@ -130,9 +128,8 @@ function handleMidi2 (status, data1, data2)
 	if (trackHandler.handleMidi2 (status, data1, data2))
 		return;
 
-	// device selection and remote controls page selection are currently only configured to work with controller one
-	// if (remoteControlHandler.handleMidi (status, data1, data2))
-	// 	return;
+	if (remoteControlHandler2.handleMidi2 (status, data1, data2))
+		return;
 
 	// host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);
 }
