@@ -42,6 +42,7 @@ var isRecPressed = false;
 function init()
 {
 	application = host.createApplication();
+	mixer = host.createMixer();
 
 	hardware1 = new NK2Hardware (host.getMidiOutPort (0), host.getMidiInPort (0), handleMidi1);
 	hardware2 = new NK2Hardware (host.getMidiOutPort (1), host.getMidiInPort (1), handleMidi2);
@@ -96,7 +97,7 @@ function handleMidi1 (status, data1, data2)
 	}
 	println ("is setPressed: " + isSetPressed);		
 
-	if (transportHandler.handleMidi (status, data1, data2))
+	if (transportHandler.handleMidi1 (status, data1, data2))
 		return;
 
 	if (trackHandler.handleMidi1 (status, data1, data2))
@@ -121,9 +122,8 @@ function handleMidi2 (status, data1, data2)
 	// }
 	// println ("is setPressed: " + isSetPressed);		
 
-	// transport is currently only configured to work with controller one
-	// if (transportHandler.handleMidi (status, data1, data2))
-	// 	return;
+	if (transportHandler.handleMidi2 (status, data1, data2))
+		return;
 
 	if (trackHandler.handleMidi2 (status, data1, data2))
 		return;
