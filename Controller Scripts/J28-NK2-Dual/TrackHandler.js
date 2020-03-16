@@ -26,6 +26,7 @@ function TrackHandler (trackbank, cursorTrack, cursorTrack2)
 	this.cursorTrack.mute ().markInterested ();
 
 	this.cursorTrack.position().markInterested();
+	this.cursorTrack.trackType().markInterested();
 
 	deviceBank = cursorTrack.createDeviceBank (16);
 	deviceBank.getDevice (0).name ().markInterested ();
@@ -77,34 +78,42 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 		{
 			case NK2_BUTTON_S1:
 				this.trackbank.getItemAt (0).select ();
+				this.trackPosition = 0;
 				return true;
 
 			case NK2_BUTTON_S2:
 				this.trackbank.getItemAt (1).select ();
+				this.trackPosition = 1;
 				return true;
 
 			case NK2_BUTTON_S3:
 				this.trackbank.getItemAt (2).select ();
+				this.trackPosition = 2;
 				return true;
 
 			case NK2_BUTTON_S4:
 				this.trackbank.getItemAt (3).select ();
+				this.trackPosition = 3;
 				return true;
 
 			case NK2_BUTTON_S5:
 				this.trackbank.getItemAt (4).select ();
+				this.trackPosition = 4;
 				return true;
 
 			case NK2_BUTTON_S6:
 				this.trackbank.getItemAt (5).select ();
+				this.trackPosition = 5;
 				return true;
 
 			case NK2_BUTTON_S7:
 				this.trackbank.getItemAt (6).select ();
+				this.trackPosition = 6;
 				return true;
 
 			case NK2_BUTTON_S8:
 				this.trackbank.getItemAt (7).select ();
+				this.trackPosition = 7;
 				return true;
 
 			case NK2_SLIDER1:
@@ -189,34 +198,42 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 			case NK2_BUTTON_S1:
 				this.trackbank.getItemAt (8).select ();
+				this.trackPosition = 8;
 				return true;
 
 			case NK2_BUTTON_S2:
 				this.trackbank.getItemAt (9).select ();
+				this.trackPosition = 9;
 				return true;
 
 			case NK2_BUTTON_S3:
 				this.trackbank.getItemAt (10).select ();
+				this.trackPosition = 10;
 				return true;
 
 			case NK2_BUTTON_S4:
 				this.trackbank.getItemAt (11).select ();
+				this.trackPosition = 11;
 				return true;
 
 			case NK2_BUTTON_S5:
 				this.trackbank.getItemAt (12).select ();
+				this.trackPosition = 12;
 				return true;
 
 			case NK2_BUTTON_S6:
 				this.trackbank.getItemAt (13).select ();
+				this.trackPosition = 13;
 				return true;
 
 			case NK2_BUTTON_S7:
 				this.trackbank.getItemAt (14).select ();
+				this.trackPosition = 14;
 				return true;
 
 			case NK2_BUTTON_S8:
 				this.trackbank.getItemAt (15).select ();
+				this.trackPosition = 15;
 				return true;
 
 			case NK2_SLIDER1:
@@ -268,12 +285,15 @@ TrackHandler.prototype.updateLEDtracks = function ()
 	// println ("update currentData2 is: "+ this.currentData2);
 
 	this.trackNumber = this.cursorTrack.position().get();
-	this.ledOn1 = this.trackNumber + 32;		
-	this.ledOn2 = this.trackNumber + 24;		
+	this.trackType = this.cursorTrack.trackType().get();
+	this.ledOn1 = this.trackPosition + 32;		
+	this.ledOn2 = this.trackPosition + 24;		
 
-	// println ("update trackNumber is: "+ this.trackNumber);
+	println ("update trackNumber is: "+ this.trackNumber);
+	println ("update trackType is: "+ this.trackType);
+	println ("update trackPosition is: "+ this.trackPosition);
 
-	if (this.trackNumber < 8) {
+	if (this.trackPosition < 8) {
 		hardware1.updateLEDtrack (this.ledOn1);
 	} else {
 		hardware2.updateLEDtrack (this.ledOn2);		
