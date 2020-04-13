@@ -198,4 +198,11 @@ DeviceHandler.prototype.updateLEDdevices = function ()
 	hardware1.updateLED(NK2_BUTTON_REW, this.cursorDevice.isEnabled ().get ());
 	hardware1.updateLED(NK2_BUTTON_FF, this.cursorDevice.isWindowOpen ().get ());
 
+	println ("cursor track is pinned: " + this.cursorTrack.isPinned ().get ());
+
+
+	hardware1.updateLED (NK2_BUTTON_CYCLE, this.cursorTrack.isPinned ().get ());
+
+	hardware2.updateLED (NK2_BUTTON_CYCLE, this.cursorTrack2.isPinned ().get ());
+
 }
