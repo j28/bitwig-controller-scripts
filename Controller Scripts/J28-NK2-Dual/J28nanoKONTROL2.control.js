@@ -2,6 +2,7 @@ loadAPI(9);
 load ("j28nanoKONTROL2Hardware.js");
 load ("TransportHandler.js");
 load ("TrackHandler.js");
+load ("DeviceHandler.js");
 load ("RemoteControlHandler.js");
 
 host.setShouldFailOnDeprecatedUse(true);
@@ -55,10 +56,14 @@ function init()
 	trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack, cursorTrack2);
 
 	var cursorDevice = cursorTrack.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
-	remoteControlHandler = new RemoteControlHandler (cursorDevice, cursorDevice.createCursorRemoteControlsPage (8));
-
 	var cursorDevice2 = cursorTrack2.createCursorDevice ("NK2_CURSOR_DEVICE_2", "Cursor Device 2", 0, CursorDeviceFollowMode.FIRST_DEVICE);
-	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2, cursorDevice2.createCursorRemoteControlsPage (8), cursorTrack2);
+
+	deviceHandler = new DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2);
+	deviceHandler2 = new DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2);
+
+	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2.createCursorRemoteControlsPage (8));
+	remoteControlHandler = new RemoteControlHandler (cursorDevice.createCursorRemoteControlsPage (8));
+
 
 	// the bitwig helper function only sends to port 0 :(
 	// sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
@@ -75,7 +80,7 @@ function flush()
 
 	transportHandler.updateLEDs ();
 	trackHandler.updateLEDtracks ();
-	trackHandler.updateLEDdevices ();
+	deviceHandler.updateLEDdevices ();
 	remoteControlHandler.updateLEDs ();
 }
 
@@ -103,6 +108,9 @@ function handleMidi1 (status, data1, data2)
 	if (trackHandler.handleMidi1 (status, data1, data2))
 		return;
 
+	if (deviceHandler.handleMidi1 (status, data1, data2))
+		return;
+
 	if (remoteControlHandler.handleMidi1 (status, data1, data2))
 		return;
 
@@ -126,6 +134,9 @@ function handleMidi2 (status, data1, data2)
 		return;
 
 	if (trackHandler.handleMidi2 (status, data1, data2))
+		return;
+
+	if (deviceHandler.handleMidi2 (status, data1, data2))
 		return;
 
 	if (remoteControlHandler2.handleMidi2 (status, data1, data2))

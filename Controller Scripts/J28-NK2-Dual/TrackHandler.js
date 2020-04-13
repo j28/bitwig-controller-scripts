@@ -31,24 +31,6 @@ function TrackHandler (trackbank, cursorTrack, cursorTrack2)
 	this.cursorTrack.isPinned ().markInterested ();
 	this.cursorTrack2.isPinned ().markInterested ();
 
-	deviceBank = cursorTrack.createDeviceBank (16);
-	deviceBank.getDevice (0).name ().markInterested ();
-	deviceBank.getDevice (1).name ().markInterested ();
-	deviceBank.getDevice (2).name ().markInterested ();
-	deviceBank.getDevice (3).name ().markInterested ();
-	deviceBank.getDevice (4).name ().markInterested ();
-	deviceBank.getDevice (5).name ().markInterested ();
-	deviceBank.getDevice (6).name ().markInterested ();
-	deviceBank.getDevice (7).name ().markInterested ();
-	deviceBank.getDevice (8).name ().markInterested ();
-	deviceBank.getDevice (9).name ().markInterested ();
-	deviceBank.getDevice (10).name ().markInterested ();
-	deviceBank.getDevice (11).name ().markInterested ();
-	deviceBank.getDevice (12).name ().markInterested ();
-	deviceBank.getDevice (13).name ().markInterested ();
-	deviceBank.getDevice (14).name ().markInterested ();
-	deviceBank.getDevice (15).name ().markInterested ();
-
 }
 
 TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
@@ -353,23 +335,5 @@ TrackHandler.prototype.updateLEDtracks = function ()
 
 TrackHandler.prototype.updateLEDdevices = function ()
 {
-	// updated devices leds
-	this.devicesAmount = [];
-	for (var da = 0; da < 7; da++) {
-		// println ("device bank device name is: z" + deviceBank.getDevice (da).name (). get() + "z");		
-		var deviceName = deviceBank.getDevice (da).name (). get();
-		if (deviceName)
-		{
-			this.devicesAmount.push (deviceBank.getDevice (da).name (). get());			
-		}
-	}
-	hardware1.updateLEDdevices (this.devicesAmount.length);
-	println ("devices amount length is: " + this.devicesAmount.length);
 
-	// var cdIsOn = remoteControlHandler.cursorDevice.isEnabled ().get ();
-	// cdIsOn ? 0 : 127;
-	// remoteControlHandler.cursorDevice.isEnabled ().get ()
-	println ("cursor device is: " + remoteControlHandler.cursorDevice.isEnabled ().get ());
-	hardware1.updateLED(NK2_BUTTON_REW, remoteControlHandler.cursorDevice.isEnabled ().get ());
-	hardware1.updateLED(NK2_BUTTON_FF, remoteControlHandler.cursorDevice.isWindowOpen ().get ());
 }
