@@ -14,6 +14,7 @@ function DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2)
 	this.cursorDevice.isExpanded ().markInterested ();
 	this.cursorDevice.isEnabled ().markInterested ();
 	this.cursorDevice.isWindowOpen ().markInterested ();
+	this.cursorDevice.slotNames ().markInterested ();
 
 	deviceBank = cursorTrack.createDeviceBank (16);
 	deviceBank.getDevice (0).name ().markInterested ();
@@ -37,6 +38,16 @@ function DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2)
 
 DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 {
+
+	// var slotNames = this.cursorDevice.slotNames ().get ();
+
+	//  if (slotNames.length > 0 ) {
+	// 	for (r = 0; r < slotNames.length; r++)
+	// 	{
+	// 		println ("slotName is: "+ slotNames[r]);
+	// 		var daFirst = this.cursorDevice.selectFirstInSlot(slotNames[r]);
+	// 	}	 	
+	//  }
 
 	var midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ midiChan);
