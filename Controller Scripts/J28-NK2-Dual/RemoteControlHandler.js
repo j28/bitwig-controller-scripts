@@ -213,7 +213,7 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 	return false;    
 }
 
-RemoteControlHandler.prototype.updateLEDs = function ()
+RemoteControlHandler.prototype.updateLEDcontrols = function ()
 {
 	println ("remote controls page count: " + this.remoteControlsBank.pageCount ().get ());
 	hardware1.updateLEDcontrols (this.remoteControlsBank.pageCount ().get ());

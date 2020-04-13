@@ -81,7 +81,7 @@ function flush()
 	transportHandler.updateLEDs ();
 	trackHandler.updateLEDtracks ();
 	deviceHandler.updateLEDdevices ();
-	remoteControlHandler.updateLEDs ();
+	remoteControlHandler.updateLEDcontrols ();
 }
 
 function exit()
