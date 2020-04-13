@@ -117,7 +117,6 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 				return true;
 
 			case NK2_BUTTON_CYCLE:
-				// this.cursorDevice.isExpanded ().toggle ();
 				isSetPressed ? this.cursorDevice.isPinned ().toggle () : this.cursorTrack.isPinned ().toggle ();
 				return true;
 
@@ -139,6 +138,7 @@ DeviceHandler.prototype.handleMidi2 = function (status, data1, data2)
 	{
 		// if one of the buttons below is released we return true
 		var ourButtons = [
+			NK2_BUTTON_REW,
 			NK2_BUTTON_PREV_TRACK,
 			NK2_BUTTON_NEXT_TRACK,
 			NK2_BUTTON_CYCLE
@@ -150,6 +150,10 @@ DeviceHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 		switch (data1)
 		{
+
+			case NK2_BUTTON_REW:
+				this.cursorDevice.isExpanded ().toggle ();
+				return true;
 
 			case NK2_BUTTON_PREV_TRACK:
 				isSet2Pressed ? this.cursorDevice2.selectPrevious () : this.cursorTrack2.selectPrevious ();
