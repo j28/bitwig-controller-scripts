@@ -15,7 +15,6 @@ function DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2)
 	this.cursorDevice.isEnabled ().markInterested ();
 	this.cursorDevice.isWindowOpen ().markInterested ();
 
-
 	deviceBank = cursorTrack.createDeviceBank (16);
 	deviceBank.getDevice (0).name ().markInterested ();
 	deviceBank.getDevice (1).name ().markInterested ();
@@ -127,7 +126,6 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 	return false;    
 }
 
-
 DeviceHandler.prototype.handleMidi2 = function (status, data1, data2)
 {
 
@@ -188,21 +186,22 @@ DeviceHandler.prototype.updateLEDdevices = function ()
 			this.devicesAmount.push (deviceBank.getDevice (da).name (). get());			
 		}
 	}
+	// println ("devices amount length is: " + this.devicesAmount.length);
 	hardware1.updateLEDdevices (this.devicesAmount.length);
-	println ("devices amount length is: " + this.devicesAmount.length);
 
-	// var cdIsOn = remoteControlHandler.cursorDevice.isEnabled ().get ();
-	// cdIsOn ? 0 : 127;
-	// remoteControlHandler.cursorDevice.isEnabled ().get ()
-	println ("cursor device is: " + this.cursorDevice.isEnabled ().get ());
+	// println ("cursor device is: " + this.cursorDevice.isEnabled ().get ());
 	hardware1.updateLED(NK2_BUTTON_REW, this.cursorDevice.isEnabled ().get ());
 	hardware1.updateLED(NK2_BUTTON_FF, this.cursorDevice.isWindowOpen ().get ());
 
-	println ("cursor track is pinned: " + this.cursorTrack.isPinned ().get ());
-
-
+	// println ("cursor track is pinned: " + this.cursorTrack.isPinned ().get ());
 	hardware1.updateLED (NK2_BUTTON_CYCLE, this.cursorTrack.isPinned ().get ());
-
 	hardware2.updateLED (NK2_BUTTON_CYCLE, this.cursorTrack2.isPinned ().get ());
+
+	// none of the below work :( 
+	// hardware2.updateTest (NK2_BUTTON_PREV_MARKER);
+	// hardware2.updateTest (NK2_BUTTON_PREV_TRACK);
+	// hardware2.updateTest (NK2_BUTTON_SET);
+	// but this does
+	// hardware2.updateTest (NK2_BUTTON_M1);
 
 }

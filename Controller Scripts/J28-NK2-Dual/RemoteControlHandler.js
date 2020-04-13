@@ -20,6 +20,7 @@ RemoteControlHandler.prototype.selectParameter = function (parameterNum)
 	for (i = 0; i < parameterNum; i++)
 		this.remoteControlsBank.selectNext ();
 }
+
 RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 {
 
@@ -130,7 +131,6 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 	return false;    
 }
 
-
 RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 {
 
@@ -202,7 +202,6 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 				// this.remoteControlsBank.getParameter (7).set (data2, 128);
 				return true;
 
-
 			default:
 				return false;
 		}
@@ -213,9 +212,8 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 RemoteControlHandler.prototype.updateLEDcontrols = function ()
 {
-	println ("remote controls page count: " + this.remoteControlsBank.pageCount ().get ());
+
+	// println ("remote controls page count: " + this.remoteControlsBank.pageCount ().get ());
 	hardware1.updateLEDcontrols (this.remoteControlsBank.pageCount ().get ());
-
-
 
 }

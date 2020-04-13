@@ -58,7 +58,6 @@ TransportHandler.prototype.handleMidi1 = function (status, data1, data2)
 	}
 }
 
-
 TransportHandler.prototype.handleMidi2 = function (status, data1, data2)
 {
 	if (isChannelController(status))
@@ -91,10 +90,10 @@ TransportHandler.prototype.handleMidi2 = function (status, data1, data2)
 	}
 }
 
-
 TransportHandler.prototype.updateLEDs = function ()
 {
+
 	hardware1.updateLED (NK2_BUTTON_PLAY, this.transport.isPlaying ().get ());
 	hardware1.updateLED (NK2_BUTTON_REC, this.transport.isArrangerRecordEnabled ().get ());
-}
 
+}

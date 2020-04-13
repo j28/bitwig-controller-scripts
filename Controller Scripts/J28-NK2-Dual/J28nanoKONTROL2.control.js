@@ -19,7 +19,6 @@ else if (host.platformIsMac())
 		["nanoKONTROL2 SLIDERS/KNOBS 2", "nanoKONTROL2 CTRL 2"]
 	);
 
-
 else if (host.platformIsLinux())
 	host.addDeviceNameBasedDiscoveryPair(["nanoKONTROL2 MIDI 1"], ["nanoKONTROL2 MIDI 1"]);
 
@@ -145,5 +144,3 @@ function handleMidi2 (status, data1, data2)
 
 	// host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);
 }
-
-
