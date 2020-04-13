@@ -38,8 +38,6 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 			NK2_BUTTON_R6,
 			NK2_BUTTON_R7,
 			NK2_BUTTON_R8,
-			NK2_BUTTON_PREV_TRACK,
-			NK2_BUTTON_NEXT_TRACK,
 			NK2_BUTTON_REW,
 			NK2_BUTTON_FF,
 		];

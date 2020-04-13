@@ -58,10 +58,7 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 			NK2_BUTTON_S5,
 			NK2_BUTTON_S6,
 			NK2_BUTTON_S7,
-			NK2_BUTTON_S8,
-			NK2_BUTTON_PREV_TRACK,
-			NK2_BUTTON_NEXT_TRACK,
-			NK2_BUTTON_CYCLE
+			NK2_BUTTON_S8
 		];
 		if(ourButtons.indexOf(data1) > -1) {
 			if (data2 == 0)
@@ -143,21 +140,6 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 				isSetPressed ? this.masterTrack.volume ().set (data2, 128) : this.trackbank.getItemAt (7).volume ().set (data2, 128);
 				return true;
 
-			case NK2_BUTTON_PREV_TRACK:
-				// this.cursorDevice.isEnabled ().toggle ();
-				this.cursorTrack.selectPrevious ();
-				return true;
-
-			case NK2_BUTTON_NEXT_TRACK:
-				// this.cursorDevice.isWindowOpen ().toggle ();
-				this.cursorTrack.selectNext ();
-				return true;
-
-			case NK2_BUTTON_CYCLE:
-				// this.cursorDevice.isExpanded ().toggle ();
-				this.cursorTrack.isPinned ().toggle ();
-				return true;
-
 			default:
 				return false;
 
@@ -192,10 +174,7 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 			NK2_BUTTON_S5,
 			NK2_BUTTON_S6,
 			NK2_BUTTON_S7,
-			NK2_BUTTON_S8,
-			NK2_BUTTON_PREV_TRACK,
-			NK2_BUTTON_NEXT_TRACK,
-			NK2_BUTTON_CYCLE
+			NK2_BUTTON_S8
 		];
 		if(ourButtons.indexOf(data1) > -1) {
 			if (data2 == 0)
@@ -283,21 +262,6 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 			case NK2_SLIDER8:
 				// if set is pressed the 8th fader controls the master track volume
 				isSetPressed ? this.masterTrack.volume ().set (data2, 128) : this.trackbank.getItemAt (15).volume ().set (data2, 128);
-				return true;
-
-			case NK2_BUTTON_PREV_TRACK:
-				// this.cursorDevice.isEnabled ().toggle ();
-				this.cursorTrack2.selectPrevious ();
-				return true;
-
-			case NK2_BUTTON_NEXT_TRACK:
-				// this.cursorDevice.isWindowOpen ().toggle ();
-				this.cursorTrack2.selectNext ();
-				return true;
-
-			case NK2_BUTTON_CYCLE:
-				// this.cursorDevice.isExpanded ().toggle ();
-				this.cursorTrack2.isPinned ().toggle ();
 				return true;
 
 			default:

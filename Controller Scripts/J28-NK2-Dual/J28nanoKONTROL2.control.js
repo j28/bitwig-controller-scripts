@@ -31,6 +31,7 @@ var hardware = null;
 var globalTransport = null;
 
 var isSetPressed = false;
+var isSet2Pressed = false;
 var isPlaying = false;
 var isPlayingCache = false;
 var isRecording = false;
@@ -121,14 +122,14 @@ function handleMidi1 (status, data1, data2)
 function handleMidi2 (status, data1, data2)
 {
 
-	// if(data1 == 0x3C){
-	// 	if (data2 > 0) {
-	// 		isSetPressed = true;
-	// 	} else {
-	// 		isSetPressed = false;
-	// 	}
-	// }
-	// println ("is setPressed: " + isSetPressed);		
+	if(data1 == 0x3C){
+		if (data2 > 0) {
+			isSet2Pressed = true;
+		} else {
+			isSet2Pressed = false;
+		}
+	}
+	println ("is set2Pressed: " + isSet2Pressed);		
 
 	if (transportHandler.handleMidi2 (status, data1, data2))
 		return;

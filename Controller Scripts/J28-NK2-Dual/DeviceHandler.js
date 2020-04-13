@@ -109,18 +109,16 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 				return true;
 
 			case NK2_BUTTON_PREV_TRACK:
-				// this.cursorDevice.isEnabled ().toggle ();
-				// this.cursorTrack.selectPrevious ();
+				isSetPressed ? this.cursorDevice.selectPrevious () : this.cursorTrack.selectPrevious ();
 				return true;
 
 			case NK2_BUTTON_NEXT_TRACK:
-				// this.cursorDevice.isWindowOpen ().toggle ();
-				// this.cursorTrack.selectNext ();
+				isSetPressed ? this.cursorDevice.selectNext () : this.cursorTrack.selectNext ();
 				return true;
 
 			case NK2_BUTTON_CYCLE:
 				// this.cursorDevice.isExpanded ().toggle ();
-				// this.cursorTrack.isPinned ().toggle ();
+				isSetPressed ? this.cursorDevice.isPinned ().toggle () : this.cursorTrack.isPinned ().toggle ();
 				return true;
 
 			default:
@@ -154,18 +152,15 @@ DeviceHandler.prototype.handleMidi2 = function (status, data1, data2)
 		{
 
 			case NK2_BUTTON_PREV_TRACK:
-				// this.cursorDevice.isEnabled ().toggle ();
-				// this.cursorTrack.selectPrevious ();
+				isSet2Pressed ? this.cursorDevice2.selectPrevious () : this.cursorTrack2.selectPrevious ();
 				return true;
 
 			case NK2_BUTTON_NEXT_TRACK:
-				// this.cursorDevice.isWindowOpen ().toggle ();
-				// this.cursorTrack.selectNext ();
+				isSet2Pressed ? this.cursorDevice2.selectNext () : this.cursorTrack2.selectNext ();
 				return true;
 
 			case NK2_BUTTON_CYCLE:
-				// this.cursorDevice.isExpanded ().toggle ();
-				// this.cursorTrack.isPinned ().toggle ();
+				isSet2Pressed ? this.cursorDevice2.isPinned ().toggle () : this.cursorTrack2.isPinned ().toggle ();
 				return true;
 
 			default:
