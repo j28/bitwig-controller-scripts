@@ -95,7 +95,7 @@ function handleMidi1 (status, data1, data2)
 			isSetPressed = false;
 		}
 	}
-	println ("is setPressed: " + isSetPressed);		
+	println ("\nis setPressed: " + isSetPressed);		
 
 	if (transportHandler.handleMidi1 (status, data1, data2))
 		return;

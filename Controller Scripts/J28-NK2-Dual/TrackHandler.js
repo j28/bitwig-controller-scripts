@@ -28,6 +28,9 @@ function TrackHandler (trackbank, cursorTrack, cursorTrack2)
 	this.cursorTrack.position().markInterested();
 	this.cursorTrack.trackType().markInterested();
 
+	this.cursorTrack.isPinned ().markInterested ();
+	this.cursorTrack2.isPinned ().markInterested ();
+
 	deviceBank = cursorTrack.createDeviceBank (16);
 	deviceBank.getDevice (0).name ().markInterested ();
 	deviceBank.getDevice (1).name ().markInterested ();
@@ -56,6 +59,12 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 	this.midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ this.midiChan);
 
+	var localCursorTrack1 = this.cursorTrack.isPinned ().get ();
+	println ("cursor track1 is pinned: "+ localCursorTrack1);
+
+	var localCursorTrack2 = this.cursorTrack2.isPinned ().get ();
+	println ("cursor track2 is pinned: "+ localCursorTrack2);
+
 	if (isChannelController(status))
 	{
 		// if one of the buttons below is released we return true
@@ -67,7 +76,10 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 			NK2_BUTTON_S5,
 			NK2_BUTTON_S6,
 			NK2_BUTTON_S7,
-			NK2_BUTTON_S8
+			NK2_BUTTON_S8,
+			NK2_BUTTON_PREV_TRACK,
+			NK2_BUTTON_NEXT_TRACK,
+			NK2_BUTTON_CYCLE
 		];
 		if(ourButtons.indexOf(data1) > -1) {
 			if (data2 == 0)
@@ -149,6 +161,21 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 				isSetPressed ? this.masterTrack.volume ().set (data2, 128) : this.trackbank.getItemAt (7).volume ().set (data2, 128);
 				return true;
 
+			case NK2_BUTTON_PREV_TRACK:
+				// this.cursorDevice.isEnabled ().toggle ();
+				this.cursorTrack.selectPrevious ();
+				return true;
+
+			case NK2_BUTTON_NEXT_TRACK:
+				// this.cursorDevice.isWindowOpen ().toggle ();
+				this.cursorTrack.selectNext ();
+				return true;
+
+			case NK2_BUTTON_CYCLE:
+				// this.cursorDevice.isExpanded ().toggle ();
+				this.cursorTrack.isPinned ().toggle ();
+				return true;
+
 			default:
 				return false;
 
@@ -166,6 +193,12 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 	this.midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ this.midiChan);
 
+	var localCursorTrack1 = this.cursorTrack.isPinned ().get ();
+	println ("cursor track1 is pinned: "+ localCursorTrack1);
+
+	var localCursorTrack2 = this.cursorTrack2.isPinned ().get ();
+	println ("cursor track2 is pinned: "+ localCursorTrack2);
+
 	if (isChannelController(status))
 	{
 		// if one of the buttons below is released we return true
@@ -178,8 +211,9 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 			NK2_BUTTON_S6,
 			NK2_BUTTON_S7,
 			NK2_BUTTON_S8,
-			NK2_BUTTON_PREV_MARKER,
-			NK2_BUTTON_NEXT_MARKER
+			NK2_BUTTON_PREV_TRACK,
+			NK2_BUTTON_NEXT_TRACK,
+			NK2_BUTTON_CYCLE
 		];
 		if(ourButtons.indexOf(data1) > -1) {
 			if (data2 == 0)
@@ -267,6 +301,21 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 			case NK2_SLIDER8:
 				// if set is pressed the 8th fader controls the master track volume
 				isSetPressed ? this.masterTrack.volume ().set (data2, 128) : this.trackbank.getItemAt (15).volume ().set (data2, 128);
+				return true;
+
+			case NK2_BUTTON_PREV_TRACK:
+				// this.cursorDevice.isEnabled ().toggle ();
+				this.cursorTrack2.selectPrevious ();
+				return true;
+
+			case NK2_BUTTON_NEXT_TRACK:
+				// this.cursorDevice.isWindowOpen ().toggle ();
+				this.cursorTrack2.selectNext ();
+				return true;
+
+			case NK2_BUTTON_CYCLE:
+				// this.cursorDevice.isExpanded ().toggle ();
+				this.cursorTrack2.isPinned ().toggle ();
 				return true;
 
 			default:

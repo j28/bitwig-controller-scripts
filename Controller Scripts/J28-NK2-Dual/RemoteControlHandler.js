@@ -59,7 +59,6 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 			NK2_BUTTON_NEXT_TRACK,
 			NK2_BUTTON_REW,
 			NK2_BUTTON_FF,
-			NK2_BUTTON_CYCLE
 		];
 		if(ourButtons.indexOf(data1) > -1) {
 			if (data2 == 0)
@@ -175,13 +174,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 				// this.remoteControlsBank.getParameter (7).set (data2, 128);
 				return true;
 
-			case NK2_BUTTON_PREV_TRACK:
-				this.cursorDevice.isEnabled ().toggle ();
-				return true;
 
-			case NK2_BUTTON_NEXT_TRACK:
-				this.cursorDevice.isWindowOpen ().toggle ();
-				return true;
 
 			case NK2_BUTTON_REW:
 				this.cursorDevice.isEnabled ().toggle ();
@@ -191,9 +184,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 				this.cursorDevice.isWindowOpen ().toggle ();
 				return true;
 
-			case NK2_BUTTON_CYCLE:
-				this.cursorDevice.isExpanded ().toggle ();
-				return true;
+
 
 			default:
 				return false;
@@ -229,11 +220,8 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 			NK2_BUTTON_R6,
 			NK2_BUTTON_R7,
 			NK2_BUTTON_R8,
-			NK2_BUTTON_PREV_TRACK,
-			NK2_BUTTON_NEXT_TRACK,
 			NK2_BUTTON_REW,
 			NK2_BUTTON_FF,
-			NK2_BUTTON_CYCLE
 		];
 		if(ourButtons.indexOf(data1) > -1) {
 			if (data2 == 0)
@@ -360,24 +348,12 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 				// this.remoteControlsBank.getParameter (7).set (data2, 128);
 				return true;
 
-			// case NK2_BUTTON_PREV_TRACK:
-			// 	this.cursorDevice.isEnabled ().toggle ();
-			// 	return true;
-
-			// case NK2_BUTTON_NEXT_TRACK:
-			// 	this.cursorDevice.isWindowOpen ().toggle ();
-			// 	return true;
-
 			// case NK2_BUTTON_REW:
 			// 	this.cursorDevice.isEnabled ().toggle ();
 			// 	return true;
 
 			// case NK2_BUTTON_FF:
 			// 	this.cursorDevice.isWindowOpen ().toggle ();
-			// 	return true;
-
-			// case NK2_BUTTON_CYCLE:
-			// 	this.cursorDevice.isExpanded ().toggle ();
 			// 	return true;
 
 			default:
