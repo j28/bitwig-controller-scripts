@@ -64,6 +64,7 @@ TransportHandler.prototype.handleMidi2 = function (status, data1, data2)
 	{
 		// if one of the buttons below is released we return true
 		var ourButtons = [
+			NK2_BUTTON_REW,
 			NK2_BUTTON_PREV_MARKER,
 			NK2_BUTTON_NEXT_MARKER
 		];
@@ -74,6 +75,10 @@ TransportHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 		switch (data1)
 		{
+
+			case NK2_BUTTON_REW:
+				application.toggleInspector	();
+				return true;
 
 			case NK2_BUTTON_PREV_MARKER:
 				mixer.isMeterSectionVisible().toggle();

@@ -15,6 +15,7 @@ function DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2)
 	this.cursorDevice.isEnabled ().markInterested ();
 	this.cursorDevice.isWindowOpen ().markInterested ();
 	this.cursorDevice.slotNames ().markInterested ();
+	// this.cursorDevice.getCursorSlot ().name ().markInterested ();
 
 	deviceBank = cursorTrack.createDeviceBank (16);
 	deviceBank.getDevice (0).name ().markInterested ();
@@ -45,7 +46,10 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 	// 	for (r = 0; r < slotNames.length; r++)
 	// 	{
 	// 		println ("slotName is: "+ slotNames[r]);
-	// 		var daFirst = this.cursorDevice.selectFirstInSlot(slotNames[r]);
+	// 		this.cursorDevice.selectFirstInSlot(slotNames[r]);
+
+	// 		println ("dev chain name is: "+ this.cursorDevice.getCursorSlot ().name ().get ());
+
 	// 	}	 	
 	//  }
 
@@ -147,7 +151,7 @@ DeviceHandler.prototype.handleMidi2 = function (status, data1, data2)
 	{
 		// if one of the buttons below is released we return true
 		var ourButtons = [
-			NK2_BUTTON_REW,
+			NK2_BUTTON_FF,
 			NK2_BUTTON_PREV_TRACK,
 			NK2_BUTTON_NEXT_TRACK,
 			NK2_BUTTON_CYCLE
@@ -160,7 +164,8 @@ DeviceHandler.prototype.handleMidi2 = function (status, data1, data2)
 		switch (data1)
 		{
 
-			case NK2_BUTTON_REW:
+
+			case NK2_BUTTON_FF:
 				this.cursorDevice.isExpanded ().toggle ();
 				return true;
 
@@ -207,7 +212,7 @@ DeviceHandler.prototype.updateLEDdevices = function ()
 	// println ("cursor track is pinned: " + this.cursorTrack.isPinned ().get ());
 	hardware1.updateLED (NK2_BUTTON_CYCLE, this.cursorTrack.isPinned ().get ());
 	hardware2.updateLED (NK2_BUTTON_CYCLE, this.cursorTrack2.isPinned ().get ());
-	hardware2.updateLED (NK2_BUTTON_REW, this.cursorDevice.isExpanded ().get ());
+	hardware2.updateLED (NK2_BUTTON_FF, this.cursorDevice.isExpanded ().get ());
 
 	// none of the below work :( 
 	// hardware2.updateTest (NK2_BUTTON_PREV_MARKER);
