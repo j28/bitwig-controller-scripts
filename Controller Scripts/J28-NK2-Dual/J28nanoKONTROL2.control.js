@@ -62,7 +62,7 @@ function init()
 	deviceHandler2 = new DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2);
 
 	remoteControlHandler = new RemoteControlHandler (cursorDevice.createCursorRemoteControlsPage (8));
-	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2.createCursorRemoteControlsPage (8));
+	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2.createCursorRemoteControlsPage (8), cursorTrack);
 
 	// the bitwig helper function only sends to port 0 :(
 	// sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
