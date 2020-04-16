@@ -1,7 +1,8 @@
-loadAPI(9);
+loadAPI(10);
 load ("j28nanoKONTROL2Hardware.js");
 load ("TransportHandler.js");
 load ("TrackHandler.js");
+load ("DeviceHandler.js");
 load ("RemoteControlHandler.js");
 
 host.setShouldFailOnDeprecatedUse(true);
@@ -18,7 +19,6 @@ else if (host.platformIsMac())
 		["nanoKONTROL2 SLIDERS/KNOBS 2", "nanoKONTROL2 CTRL 2"]
 	);
 
-
 else if (host.platformIsLinux())
 	host.addDeviceNameBasedDiscoveryPair(["nanoKONTROL2 MIDI 1"], ["nanoKONTROL2 MIDI 1"]);
 
@@ -30,6 +30,7 @@ var hardware = null;
 var globalTransport = null;
 
 var isSetPressed = false;
+var isSet2Pressed = false;
 var isPlaying = false;
 var isPlayingCache = false;
 var isRecording = false;
@@ -42,16 +43,27 @@ var isRecPressed = false;
 function init()
 {
 	application = host.createApplication();
+	mixer = host.createMixer();
 
 	hardware1 = new NK2Hardware (host.getMidiOutPort (0), host.getMidiInPort (0), handleMidi1);
 	hardware2 = new NK2Hardware (host.getMidiOutPort (1), host.getMidiInPort (1), handleMidi2);
 	transportHandler = new TransportHandler (host.createTransport ());
 
 	var cursorTrack = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
-	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack);
+	var cursorTrack2 = host.createCursorTrack ("NK2_CURSOR_TRACK_2", "Cursor Track 2", 0, 0, true);
+
+	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack, cursorTrack2);
+	trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack, cursorTrack2);
 
 	var cursorDevice = cursorTrack.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
-	remoteControlHandler = new RemoteControlHandler (cursorDevice, cursorDevice.createCursorRemoteControlsPage (8));
+	var cursorDevice2 = cursorTrack2.createCursorDevice ("NK2_CURSOR_DEVICE_2", "Cursor Device 2", 0, CursorDeviceFollowMode.FIRST_DEVICE);
+
+	deviceHandler = new DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2);
+	deviceHandler2 = new DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2);
+
+	remoteControlHandler = new RemoteControlHandler (cursorDevice.createCursorRemoteControlsPage (8));
+	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2.createCursorRemoteControlsPage (8));
+
 	// the bitwig helper function only sends to port 0 :(
 	// sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
 	host.getMidiOutPort(0).sendSysex(SYSEX_HEADER + "00 00 01 F7");
@@ -67,8 +79,8 @@ function flush()
 
 	transportHandler.updateLEDs ();
 	trackHandler.updateLEDtracks ();
-	trackHandler.updateLEDdevices ();
-	remoteControlHandler.updateLEDs ();
+	deviceHandler.updateLEDdevices ();
+	remoteControlHandler.updateLEDcontrols ();
 }
 
 function exit()
@@ -87,12 +99,15 @@ function handleMidi1 (status, data1, data2)
 			isSetPressed = false;
 		}
 	}
-	println ("is setPressed: " + isSetPressed);		
+	println ("\nis setPressed: " + isSetPressed);		
 
-	if (transportHandler.handleMidi (status, data1, data2))
+	if (transportHandler.handleMidi1 (status, data1, data2))
 		return;
 
 	if (trackHandler.handleMidi1 (status, data1, data2))
+		return;
+
+	if (deviceHandler.handleMidi1 (status, data1, data2))
 		return;
 
 	if (remoteControlHandler.handleMidi1 (status, data1, data2))
@@ -105,27 +120,26 @@ function handleMidi1 (status, data1, data2)
 function handleMidi2 (status, data1, data2)
 {
 
-	// if(data1 == 0x3C){
-	// 	if (data2 > 0) {
-	// 		isSetPressed = true;
-	// 	} else {
-	// 		isSetPressed = false;
-	// 	}
-	// }
-	// println ("is setPressed: " + isSetPressed);		
+	if(data1 == 0x3C){
+		if (data2 > 0) {
+			isSet2Pressed = true;
+		} else {
+			isSet2Pressed = false;
+		}
+	}
+	println ("is set2Pressed: " + isSet2Pressed);		
 
-	// transport is currently only configured to work with controller one
-	// if (transportHandler.handleMidi (status, data1, data2))
-	// 	return;
+	if (transportHandler.handleMidi2 (status, data1, data2))
+		return;
 
 	if (trackHandler.handleMidi2 (status, data1, data2))
 		return;
 
-	// device selection and remote controls page selection are currently only configured to work with controller one
-	// if (remoteControlHandler.handleMidi (status, data1, data2))
-	// 	return;
+	if (deviceHandler.handleMidi2 (status, data1, data2))
+		return;
+
+	if (remoteControlHandler2.handleMidi2 (status, data1, data2))
+		return;
 
 	// host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);
 }
-
-

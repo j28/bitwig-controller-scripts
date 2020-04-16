@@ -1,0 +1,188 @@
+<html>
+
+<head>
+
+<style type="text/css">
+body, ul, li {
+	margin:0;
+	padding:0;
+}
+body {
+	font-family: Helvetica;
+	color: #fff;
+	line-height: 1.2em;
+	background-color: #414141;
+}
+.controller {
+	min-height:350px;
+}
+.selector {
+	margin:10px auto;
+	width:98%;	
+	list-style: none;
+	clear: both;
+}
+.selector li {
+	height:100px;
+	font-size: 14px;
+}
+.channelSelector {
+	list-style: none;
+}
+.channelSelector li {
+	float:left;
+	height:100px;
+	width:6%;
+	background-color: #ccc;
+	font-size: 14px;
+	margin-right:0.2%;
+}
+.deviceSelector {
+
+}
+.deviceSelector li {
+	float:left;
+	background-color: #f9852a;
+	margin-right:0.2%;
+	min-width:15%;
+}
+.subdeviceSelector li {
+	float:left;
+	background-color: #426a7f;
+	margin-right:0.2%;
+	min-width:10%;
+}
+.trackActive {
+	border-bottom: 10px solid #f9852a;
+	background: repeating-linear-gradient( 
+		90deg,
+		#f9852a,
+		#f9852a 10px,
+		#666 10px,
+		#666 20px);
+}
+.deviceActive {
+	border-bottom: 10px solid #f9852a;
+}
+
+.subdeviceChain {
+	float:left;
+	width:50%;
+	background-color: #ccc;
+	min-height:25px;
+}
+.subdeviceChain span {
+	padding:5px 7px;
+}
+
+.subdeviceChainNote {
+	background-color: #426a7f;
+}
+.subdeviceChainFx {
+	background: repeating-linear-gradient( 
+		90deg,
+		#f9852a,
+		#f9852a 10px,
+		#666 10px,
+		#666 20px);
+}
+
+.channelSelector li span:nth-child(1),
+.deviceSelector li span:nth-child(1),
+.subdeviceSelector li span:nth-child(1) {
+	padding:5px 7px;
+	display: block;
+	min-height:40px;
+}
+
+.channelSelector:nth-child(2) { margin-top:200px; }
+
+.channelSelector li:nth-child(1) { background: #169c4b; }
+.channelSelector li:nth-child(2) { background: #d7302c; }
+.channelSelector li:nth-child(3) { background: #944ec8; }
+.channelSelector li:nth-child(4) { background: #5864c3; }
+.channelSelector li:nth-child(5) { background: #d89c29; }
+.channelSelector li:nth-child(6) { background: #4cc9fd; }
+.channelSelector li:nth-child(7) { background: #944ec8; }
+.channelSelector li:nth-child(8) { background: #858cdd; }
+
+.channelSelector li:nth-child(9) { background: #858cdd; }
+/*.channelSelector li:nth-child(10) { background: #d73b72; }*/
+.channelSelector li:nth-child(11) { background: #19a594; }
+
+</style>
+</head>
+
+<body>
+<div class="controller">
+<ul class="selector channelSelector">
+	<li><span>Repeater 1</span></li>
+	<li><span>Springing Kick 1</span></li>
+	<li><span>Electro Ride Cymbal</span></li>
+	<li><span>Acoustic Bass</span></li>
+	<li><span>Sampler</span></li>
+	<li><span>Fall</span></li>
+	<li><span>Electro Shock</span></li>
+	<li><span>Bass Arp</span></li>
+	<li><span>Cid Grid Drone</span></li>
+	<li class="trackActive"><span>Box Plucks</span></li>
+	<li><span>track 11</span></li>
+	<li><span>track 12</span></li>
+	<li><span>track 13</span></li>
+	<li><span>track 14</span></li>
+	<li><span>track 15</span></li>
+	<li><span>track 16</span></li>
+</ul>
+<ul class="selector deviceSelector">
+	<li class="deviceActive">
+		<span>Poly Synth</span>
+		<span class="subdeviceChain subdeviceChainNote"><span>Note FX</span></span>
+		<span class="subdeviceChain subdeviceChainFx"><span>FX</span></span>
+	</li>
+	<li><span>Poly grid</span></li>
+</ul>
+<ul class="selector subdeviceSelector">
+	<li><span>Distortion</span></li>
+	<li class="deviceActive"><span>Delay-2</span></li>
+	<li><span>Reverb</span></li>
+	<li><span>Dynamics</span></li>
+	<li><span>Peak Limiter</span></li>
+</ul>
+</div>
+<div class="controller">
+<ul class="selector channelSelector">
+	<li><span>Repeater 1</span></li>
+	<li><span>Springing Kick 1</span></li>
+	<li><span>Electro Ride Cymbal</span></li>
+	<li><span>Acoustic Bass</span></li>
+	<li><span>Sampler</span></li>
+	<li><span>Fall</span></li>
+	<li><span>Electro Shock</span></li>
+	<li><span>Bass Arp</span></li>
+	<li><span>Cid Grid Drone</span></li>
+	<li class="trackActive"><span>Box Plucks</span></li>
+	<li><span>track 11</span></li>
+	<li><span>track 12</span></li>
+	<li><span>track 13</span></li>
+	<li><span>track 14</span></li>
+	<li><span>track 15</span></li>
+	<li><span>track 16</span></li>
+</ul>
+<ul class="selector deviceSelector">
+	<li class="deviceActive">
+		<span>Poly Synth</span>
+		<span class="subdeviceChain subdeviceChainNote"><span>Note FX</span></span>
+		<span class="subdeviceChain subdeviceChainFx"><span>FX</span></span>
+	</li>
+	<li><span>Poly grid</span></li>
+</ul>
+<ul class="selector subdeviceSelector">
+	<li><span>Distortion</span></li>
+	<li class="deviceActive"><span>Delay-2</span></li>
+	<li><span>Reverb</span></li>
+	<li><span>Dynamics</span></li>
+	<li><span>Peak Limiter</span></li>
+</ul>
+</div>
+</body>
+</html>

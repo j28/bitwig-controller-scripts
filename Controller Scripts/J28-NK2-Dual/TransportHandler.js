@@ -7,7 +7,7 @@ function TransportHandler (transport)
 	this.transport.tempo ().markInterested();
 }
 
-TransportHandler.prototype.handleMidi = function (status, data1, data2)
+TransportHandler.prototype.handleMidi1 = function (status, data1, data2)
 {
 	if (isChannelController(status))
 	{
@@ -58,9 +58,47 @@ TransportHandler.prototype.handleMidi = function (status, data1, data2)
 	}
 }
 
-TransportHandler.prototype.updateLEDs = function ()
+TransportHandler.prototype.handleMidi2 = function (status, data1, data2)
 {
-	hardware1.updateLED (NK2_BUTTON_PLAY, this.transport.isPlaying ().get ());
-	hardware1.updateLED (NK2_BUTTON_REC, this.transport.isArrangerRecordEnabled ().get ());
+	if (isChannelController(status))
+	{
+		// if one of the buttons below is released we return true
+		var ourButtons = [
+			NK2_BUTTON_REW,
+			NK2_BUTTON_PREV_MARKER,
+			NK2_BUTTON_NEXT_MARKER
+		];
+		if(ourButtons.indexOf(data1) > -1) {
+			if (data2 == 0)
+				return true;
+		}
+
+		switch (data1)
+		{
+
+			case NK2_BUTTON_REW:
+				application.toggleInspector	();
+				return true;
+
+			case NK2_BUTTON_PREV_MARKER:
+				mixer.isMeterSectionVisible().toggle();
+				return true;
+
+			case NK2_BUTTON_NEXT_MARKER:
+				mixer.isIoSectionVisible().toggle();
+				return true;
+
+			default:
+				return false;
+		}
+
+	}
 }
 
+TransportHandler.prototype.updateLEDs = function ()
+{
+
+	hardware1.updateLED (NK2_BUTTON_PLAY, this.transport.isPlaying ().get ());
+	hardware1.updateLED (NK2_BUTTON_REC, this.transport.isArrangerRecordEnabled ().get ());
+
+}

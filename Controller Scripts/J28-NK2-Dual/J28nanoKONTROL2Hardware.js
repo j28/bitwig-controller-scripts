@@ -63,6 +63,12 @@ function NK2Hardware (outputPort, inputPort, inputCallback)
 	this.portIn.setMidiCallback (inputCallback);
 }
 
+
+NK2Hardware.prototype.updateTest = function (note)
+{
+		this.portOut.sendMidi (191, note, 127);
+}
+
 NK2Hardware.prototype.updateLED = function (note, isOn)
 {
 	var value = isOn ? 127 : 0;

@@ -1,8 +1,9 @@
-function TrackHandler (trackbank, cursorTrack)
+function TrackHandler (trackbank, cursorTrack, cursorTrack2)
 {
 
 	this.trackbank = trackbank;
 	this.cursorTrack = cursorTrack;
+	this.cursorTrack2 = cursorTrack2;
 
 	this.masterTrack = host.createMasterTrack (0);
 	this.masterTrack.volume ().markInterested ();
@@ -25,24 +26,10 @@ function TrackHandler (trackbank, cursorTrack)
 	this.cursorTrack.mute ().markInterested ();
 
 	this.cursorTrack.position().markInterested();
+	this.cursorTrack.trackType().markInterested();
 
-	deviceBank = cursorTrack.createDeviceBank (16);
-	deviceBank.getDevice (0).name ().markInterested ();
-	deviceBank.getDevice (1).name ().markInterested ();
-	deviceBank.getDevice (2).name ().markInterested ();
-	deviceBank.getDevice (3).name ().markInterested ();
-	deviceBank.getDevice (4).name ().markInterested ();
-	deviceBank.getDevice (5).name ().markInterested ();
-	deviceBank.getDevice (6).name ().markInterested ();
-	deviceBank.getDevice (7).name ().markInterested ();
-	deviceBank.getDevice (8).name ().markInterested ();
-	deviceBank.getDevice (9).name ().markInterested ();
-	deviceBank.getDevice (10).name ().markInterested ();
-	deviceBank.getDevice (11).name ().markInterested ();
-	deviceBank.getDevice (12).name ().markInterested ();
-	deviceBank.getDevice (13).name ().markInterested ();
-	deviceBank.getDevice (14).name ().markInterested ();
-	deviceBank.getDevice (15).name ().markInterested ();
+	this.cursorTrack.isPinned ().markInterested ();
+	this.cursorTrack2.isPinned ().markInterested ();
 
 }
 
@@ -53,6 +40,12 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 	this.currentData2 = data2;
 	this.midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ this.midiChan);
+
+	var localCursorTrack1 = this.cursorTrack.isPinned ().get ();
+	println ("cursor track1 is pinned: "+ localCursorTrack1);
+
+	var localCursorTrack2 = this.cursorTrack2.isPinned ().get ();
+	println ("cursor track2 is pinned: "+ localCursorTrack2);
 
 	if (isChannelController(status))
 	{
@@ -76,34 +69,42 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 		{
 			case NK2_BUTTON_S1:
 				this.trackbank.getItemAt (0).select ();
+				this.trackPosition = 0;
 				return true;
 
 			case NK2_BUTTON_S2:
 				this.trackbank.getItemAt (1).select ();
+				this.trackPosition = 1;
 				return true;
 
 			case NK2_BUTTON_S3:
 				this.trackbank.getItemAt (2).select ();
+				this.trackPosition = 2;
 				return true;
 
 			case NK2_BUTTON_S4:
 				this.trackbank.getItemAt (3).select ();
+				this.trackPosition = 3;
 				return true;
 
 			case NK2_BUTTON_S5:
 				this.trackbank.getItemAt (4).select ();
+				this.trackPosition = 4;
 				return true;
 
 			case NK2_BUTTON_S6:
 				this.trackbank.getItemAt (5).select ();
+				this.trackPosition = 5;
 				return true;
 
 			case NK2_BUTTON_S7:
 				this.trackbank.getItemAt (6).select ();
+				this.trackPosition = 6;
 				return true;
 
 			case NK2_BUTTON_S8:
 				this.trackbank.getItemAt (7).select ();
+				this.trackPosition = 7;
 				return true;
 
 			case NK2_SLIDER1:
@@ -145,8 +146,8 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 		}
 
 	}
+	return false;
 }
-
 
 TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 {
@@ -155,6 +156,12 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 	this.currentData2 = data2;
 	this.midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ this.midiChan);
+
+	var localCursorTrack1 = this.cursorTrack.isPinned ().get ();
+	println ("cursor track1 is pinned: "+ localCursorTrack1);
+
+	var localCursorTrack2 = this.cursorTrack2.isPinned ().get ();
+	println ("cursor track2 is pinned: "+ localCursorTrack2);
 
 	if (isChannelController(status))
 	{
@@ -176,36 +183,52 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 		switch (data1)
 		{
+			case NK2_BUTTON_PREV_MARKER:
+				this.cursorTrack2.selectPrevious ();
+				return true;
+
+			case NK2_BUTTON_NEXT_MARKER:
+				this.cursorTrack2.selectNext ();
+				return true;
+
 			case NK2_BUTTON_S1:
 				this.trackbank.getItemAt (8).select ();
+				this.trackPosition = 8;
 				return true;
 
 			case NK2_BUTTON_S2:
 				this.trackbank.getItemAt (9).select ();
+				this.trackPosition = 9;
 				return true;
 
 			case NK2_BUTTON_S3:
 				this.trackbank.getItemAt (10).select ();
+				this.trackPosition = 10;
 				return true;
 
 			case NK2_BUTTON_S4:
 				this.trackbank.getItemAt (11).select ();
+				this.trackPosition = 11;
 				return true;
 
 			case NK2_BUTTON_S5:
 				this.trackbank.getItemAt (12).select ();
+				this.trackPosition = 12;
 				return true;
 
 			case NK2_BUTTON_S6:
 				this.trackbank.getItemAt (13).select ();
+				this.trackPosition = 13;
 				return true;
 
 			case NK2_BUTTON_S7:
 				this.trackbank.getItemAt (14).select ();
+				this.trackPosition = 14;
 				return true;
 
 			case NK2_BUTTON_S8:
 				this.trackbank.getItemAt (15).select ();
+				this.trackPosition = 15;
 				return true;
 
 			case NK2_SLIDER1:
@@ -246,8 +269,8 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 		}
 	}
+	return false;
 }
-
 
 TrackHandler.prototype.updateLEDtracks = function ()
 {
@@ -257,39 +280,18 @@ TrackHandler.prototype.updateLEDtracks = function ()
 	// println ("update currentData2 is: "+ this.currentData2);
 
 	this.trackNumber = this.cursorTrack.position().get();
-	this.ledOn1 = this.trackNumber + 32;		
-	this.ledOn2 = this.trackNumber + 24;		
+	this.trackType = this.cursorTrack.trackType().get();
+	this.ledOn1 = this.trackPosition + 32;		
+	this.ledOn2 = this.trackPosition + 24;		
 
-	// println ("update trackNumber is: "+ this.trackNumber);
+	println ("update trackNumber is: "+ this.trackNumber);
+	println ("update trackType is: "+ this.trackType);
+	println ("update trackPosition is: "+ this.trackPosition);
 
-	if (this.trackNumber < 8) {
+	if (this.trackPosition < 8) {
 		hardware1.updateLEDtrack (this.ledOn1);
 	} else {
 		hardware2.updateLEDtrack (this.ledOn2);		
 	}
 
-}
-
-
-TrackHandler.prototype.updateLEDdevices = function ()
-{
-	// updated devices leds
-	this.devicesAmount = [];
-	for (var da = 0; da < 7; da++) {
-		// println ("device bank device name is: z" + deviceBank.getDevice (da).name (). get() + "z");		
-		var deviceName = deviceBank.getDevice (da).name (). get();
-		if (deviceName)
-		{
-			this.devicesAmount.push (deviceBank.getDevice (da).name (). get());			
-		}
-	}
-	hardware1.updateLEDdevices (this.devicesAmount.length);
-	println ("devices amount length is: " + this.devicesAmount.length);
-
-	// var cdIsOn = remoteControlHandler.cursorDevice.isEnabled ().get ();
-	// cdIsOn ? 0 : 127;
-	// remoteControlHandler.cursorDevice.isEnabled ().get ()
-	println ("cursor device is: " + remoteControlHandler.cursorDevice.isEnabled ().get ());
-	hardware1.updateLED(NK2_BUTTON_REW, remoteControlHandler.cursorDevice.isEnabled ().get ());
-	hardware1.updateLED(NK2_BUTTON_FF, remoteControlHandler.cursorDevice.isWindowOpen ().get ());
 }
