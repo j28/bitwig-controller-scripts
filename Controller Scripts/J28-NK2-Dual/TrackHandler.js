@@ -146,6 +146,7 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 		}
 
 	}
+	return false;
 }
 
 TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
@@ -268,6 +269,7 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 		}
 	}
+	return false;
 }
 
 TrackHandler.prototype.updateLEDtracks = function ()
