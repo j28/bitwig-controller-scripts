@@ -150,3 +150,13 @@ NK2Hardware.prototype.updateLEDcontrols = function (controlsLength)
 		this.portOut.sendMidi (191, buttonCC, 127);
 	}
 }
+
+NK2Hardware.prototype.updateLEDjam = function ()
+{
+	if(remoteControlHandler2.clipJam){
+
+		this.portOut.sendMidi (191, 71, 127);		
+	} else {
+		this.portOut.sendMidi (191, 71, 0);
+	}
+}
