@@ -6,7 +6,6 @@ function DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice1,
 
 	this.cursorDevice1 = cursorDevice1;
 
-
 	if(cursorTrack2)
 		this.cursorTrack2 = cursorTrack2;
 
@@ -17,43 +16,38 @@ function DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice1,
 
 	this.cursorDevice3 = cursorDevice3;
 
+	this.cursorDevice1.isPinned ().markInterested ();
+	this.cursorDevice2.isPinned ().markInterested ();
+	this.cursorDevice3.isPinned ().markInterested ();
 
-	this.cursorDevice1.position ().markInterested ();
+}
 
-	// this.cursorDevice.isExpanded ().markInterested ();
-	// this.cursorDevice.isEnabled ().markInterested ();
-	// this.cursorDevice.isWindowOpen ().markInterested ();
-	// this.cursorDevice.slotNames ().markInterested ();
 
-	// deviceBank = cursorTrack.createDeviceBank (16);
-	// deviceBank.getDevice (0).name ().markInterested ();
-	// deviceBank.getDevice (1).name ().markInterested ();
-	// deviceBank.getDevice (2).name ().markInterested ();
-	// deviceBank.getDevice (3).name ().markInterested ();
-	// deviceBank.getDevice (4).name ().markInterested ();
-	// deviceBank.getDevice (5).name ().markInterested ();
-	// deviceBank.getDevice (6).name ().markInterested ();
-	// deviceBank.getDevice (7).name ().markInterested ();
-	// deviceBank.getDevice (8).name ().markInterested ();
-	// deviceBank.getDevice (9).name ().markInterested ();
-	// deviceBank.getDevice (10).name ().markInterested ();
-	// deviceBank.getDevice (11).name ().markInterested ();
-	// deviceBank.getDevice (12).name ().markInterested ();
-	// deviceBank.getDevice (13).name ().markInterested ();
-	// deviceBank.getDevice (14).name ().markInterested ();
-	// deviceBank.getDevice (15).name ().markInterested ();
+DeviceHandler.prototype.toggleLED = function (device, button)
+{
+
+	// println ("current device pinnnnnnnnnnn: " + currentDevice.isPinned ().get());
+	var currentDevice = device;
+	var currentButton = button;
+
+	if (currentDevice.isPinned ().get()){
+		host.getMidiOutPort (0).sendMidi (152, currentButton, 0);
+	} else {
+		host.getMidiOutPort (0).sendMidi (152, currentButton, 127);
+
+	}
 
 }
 
 DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 {
 
-	println ("inside device handler");
+	println ("inside device handler AIUSDHIUASDHAKSJDHAKSJDHALKSJHDAKJSHD");
 
 
 	var midiChan = MIDIChannel(status);
-	println ("status is: "+ status);
-	host.getMidiOutPort (0).sendMidi (136, 48, 127);
+	// println ("status is: "+ status);
+
 
 	if (midiChan == 8){
 		// if one of the buttons below is released we return true
@@ -72,20 +66,23 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 
 			case Q_DEV_1_PIN:
 				println ("PRESSED PIN 1");
-				this.cursorDevice1.isPinned ().toggle ();
 				this.cursorTrack1.isPinned ().toggle ();
+				this.cursorDevice1.isPinned ().toggle ();
+				this.toggleLED(this.cursorDevice1, Q_DEV_1_PIN);
 				return true;
 
 			case Q_DEV_2_PIN:
 				println ("PRESSED PIN 2");
-				this.cursorDevice2.isPinned ().toggle ();
 				this.cursorTrack2.isPinned ().toggle ();
+				this.cursorDevice2.isPinned ().toggle ();
+				this.toggleLED(this.cursorDevice2, Q_DEV_2_PIN);
 				return true;
 
 			case Q_DEV_3_PIN:
 				println ("PRESSED PIN 3");
-				this.cursorDevice3.isPinned ().toggle ();
 				this.cursorTrack3.isPinned ().toggle ();
+				this.cursorDevice3.isPinned ().toggle ();
+				this.toggleLED(this.cursorDevice3, Q_DEV_3_PIN);
 				return true;
 
 			default:

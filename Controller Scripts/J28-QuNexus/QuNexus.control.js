@@ -72,6 +72,9 @@ function init()
 	remoteControlHandler = new RemoteControlHandler (remoteControls1, remoteControls2, remoteControls3);
 
 
+
+	// host.getMidiOutPort (0).sendMidi (0x80, 64, 127);
+
 }
 
 //--------------------------- MIDI Callbacks / Port ---------------------------//
