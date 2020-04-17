@@ -1,4 +1,4 @@
-function RemoteControlHandler (remoteControlsBank, cursorTrack)
+function RemoteControlHandler (remoteControlsBank, cursorTrack1)
 {
 
 	this.remoteControlsBank = remoteControlsBank;
@@ -13,9 +13,9 @@ function RemoteControlHandler (remoteControlsBank, cursorTrack)
 
 	this.clipJam = false;
 
-	if(cursorTrack) {
-		this.cursorTrack = cursorTrack;	
-		this.cursorClip = this.cursorTrack.createLauncherCursorClip(1,1);
+	if(cursorTrack1) {
+		this.cursorTrack1 = cursorTrack1;	
+		this.cursorClip = this.cursorTrack1.createLauncherCursorClip(1,1);
 		this.cursorClip.getLoopLength().markInterested();
 		this.cursorClip.getLoopStart().markInterested();
 		// this.cursorClip.getTrack().position().markInterested();

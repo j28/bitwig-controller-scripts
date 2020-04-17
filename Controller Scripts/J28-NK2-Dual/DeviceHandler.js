@@ -1,8 +1,8 @@
-function DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2)
+function DeviceHandler (cursorTrack1, cursorTrack2, cursorDevice, cursorDevice2)
 {
 	// println ("cursor device is yooo ");
-	if(cursorTrack)
-		this.cursorTrack = cursorTrack;
+	if(cursorTrack1)
+		this.cursorTrack1 = cursorTrack1;
 	if(cursorTrack2)
 		this.cursorTrack2 = cursorTrack2;
 
@@ -17,7 +17,7 @@ function DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2)
 	this.cursorDevice.slotNames ().markInterested ();
 	// this.cursorDevice.getCursorSlot ().name ().markInterested ();
 
-	deviceBank = cursorTrack.createDeviceBank (16);
+	deviceBank = cursorTrack1.createDeviceBank (16);
 	deviceBank.getDevice (0).name ().markInterested ();
 	deviceBank.getDevice (1).name ().markInterested ();
 	deviceBank.getDevice (2).name ().markInterested ();
@@ -123,15 +123,15 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 				return true;
 
 			case NK2_BUTTON_PREV_TRACK:
-				isSetPressed ? this.cursorDevice.selectPrevious () : this.cursorTrack.selectPrevious ();
+				isSetPressed ? this.cursorDevice.selectPrevious () : this.cursorTrack1.selectPrevious ();
 				return true;
 
 			case NK2_BUTTON_NEXT_TRACK:
-				isSetPressed ? this.cursorDevice.selectNext () : this.cursorTrack.selectNext ();
+				isSetPressed ? this.cursorDevice.selectNext () : this.cursorTrack1.selectNext ();
 				return true;
 
 			case NK2_BUTTON_CYCLE:
-				isSetPressed ? this.cursorDevice.isPinned ().toggle () : this.cursorTrack.isPinned ().toggle ();
+				isSetPressed ? this.cursorDevice.isPinned ().toggle () : this.cursorTrack1.isPinned ().toggle ();
 				return true;
 
 			default:
@@ -209,8 +209,8 @@ DeviceHandler.prototype.updateLEDdevices = function ()
 	hardware1.updateLED(NK2_BUTTON_REW, this.cursorDevice.isEnabled ().get ());
 	hardware1.updateLED(NK2_BUTTON_FF, this.cursorDevice.isWindowOpen ().get ());
 
-	// println ("cursor track is pinned: " + this.cursorTrack.isPinned ().get ());
-	hardware1.updateLED (NK2_BUTTON_CYCLE, this.cursorTrack.isPinned ().get ());
+	// println ("cursor track is pinned: " + this.cursorTrack1.isPinned ().get ());
+	hardware1.updateLED (NK2_BUTTON_CYCLE, this.cursorTrack1.isPinned ().get ());
 	hardware2.updateLED (NK2_BUTTON_CYCLE, this.cursorTrack2.isPinned ().get ());
 	hardware2.updateLED (NK2_BUTTON_FF, this.cursorDevice.isExpanded ().get ());
 

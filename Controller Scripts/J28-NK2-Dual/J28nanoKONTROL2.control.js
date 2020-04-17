@@ -49,20 +49,20 @@ function init()
 	hardware2 = new NK2Hardware (host.getMidiOutPort (1), host.getMidiInPort (1), handleMidi2);
 	transportHandler = new TransportHandler (host.createTransport ());
 
-	var cursorTrack = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
-	var cursorTrack2 = host.createCursorTrack ("NK2_CURSOR_TRACK_2", "Cursor Track 2", 0, 0, true);
+	var cursorTrack1 = host.createCursorTrack ("NK2_CURSOR_TRACK_01", "Cursor Track 01", 0, 0, true);
+	var cursorTrack2 = host.createCursorTrack ("NK2_CURSOR_TRACK_02", "Cursor Track 02", 0, 0, true);
 
-	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack, cursorTrack2);
-	trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack, cursorTrack2);
+	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2);
+	// trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2);
 
-	var cursorDevice = cursorTrack.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
-	var cursorDevice2 = cursorTrack2.createCursorDevice ("NK2_CURSOR_DEVICE_2", "Cursor Device 2", 0, CursorDeviceFollowMode.FIRST_DEVICE);
+	var cursorDevice1 = cursorTrack1.createCursorDevice ("NK2_CURSOR_DEVICE_01", "Cursor Device 01", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
+	var cursorDevice2 = cursorTrack2.createCursorDevice ("NK2_CURSOR_DEVICE_02", "Cursor Device 02", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 
-	deviceHandler = new DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2);
-	deviceHandler2 = new DeviceHandler (cursorTrack, cursorTrack2, cursorDevice, cursorDevice2);
+	deviceHandler = new DeviceHandler (cursorTrack1, cursorTrack2, cursorDevice1, cursorDevice2);
+	// deviceHandler2 = new DeviceHandler (cursorTrack1, cursorTrack2, cursorDevice1, cursorDevice2);
 
-	remoteControlHandler = new RemoteControlHandler (cursorDevice.createCursorRemoteControlsPage (8));
-	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2.createCursorRemoteControlsPage (8), cursorTrack);
+	remoteControlHandler1 = new RemoteControlHandler (cursorDevice1.createCursorRemoteControlsPage (8));
+	remoteControlHandler2 = new RemoteControlHandler (cursorDevice2.createCursorRemoteControlsPage (8), cursorTrack1);
 
 	// the bitwig helper function only sends to port 0 :(
 	// sendSysex(SYSEX_HEADER + "00 00 01 F7"); // Enter native mode
@@ -80,7 +80,7 @@ function flush()
 	transportHandler.updateLEDs ();
 	trackHandler.updateLEDtracks ();
 	deviceHandler.updateLEDdevices ();
-	remoteControlHandler.updateLEDcontrols ();
+	remoteControlHandler1.updateLEDcontrols ();
 }
 
 function exit()
@@ -110,7 +110,7 @@ function handleMidi1 (status, data1, data2)
 	if (deviceHandler.handleMidi1 (status, data1, data2))
 		return;
 
-	if (remoteControlHandler.handleMidi1 (status, data1, data2))
+	if (remoteControlHandler1.handleMidi1 (status, data1, data2))
 		return;
 
 	host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);

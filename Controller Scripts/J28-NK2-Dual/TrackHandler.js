@@ -1,8 +1,8 @@
-function TrackHandler (trackbank, cursorTrack, cursorTrack2)
+function TrackHandler (trackbank, cursorTrack1, cursorTrack2)
 {
 
 	this.trackbank = trackbank;
-	this.cursorTrack = cursorTrack;
+	this.cursorTrack1 = cursorTrack1;
 	this.cursorTrack2 = cursorTrack2;
 
 	this.masterTrack = host.createMasterTrack (0);
@@ -19,16 +19,16 @@ function TrackHandler (trackbank, cursorTrack, cursorTrack2)
 		p.setIndication (true);
 	}
 
-	this.trackbank.followCursorTrack (this.cursorTrack);
+	this.trackbank.followCursorTrack (this.cursorTrack1);
 
 	// only monitors solo and mute for cursortrack...
-	this.cursorTrack.solo ().markInterested ();
-	this.cursorTrack.mute ().markInterested ();
+	this.cursorTrack1.solo ().markInterested ();
+	this.cursorTrack1.mute ().markInterested ();
 
-	this.cursorTrack.position().markInterested();
-	this.cursorTrack.trackType().markInterested();
+	this.cursorTrack1.position().markInterested();
+	this.cursorTrack1.trackType().markInterested();
 
-	this.cursorTrack.isPinned ().markInterested ();
+	this.cursorTrack1.isPinned ().markInterested ();
 	this.cursorTrack2.isPinned ().markInterested ();
 
 }
@@ -41,7 +41,7 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 	this.midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ this.midiChan);
 
-	var localCursorTrack1 = this.cursorTrack.isPinned ().get ();
+	var localCursorTrack1 = this.cursorTrack1.isPinned ().get ();
 	println ("cursor track1 is pinned: "+ localCursorTrack1);
 
 	var localCursorTrack2 = this.cursorTrack2.isPinned ().get ();
@@ -157,7 +157,7 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 	this.midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ this.midiChan);
 
-	var localCursorTrack1 = this.cursorTrack.isPinned ().get ();
+	var localCursorTrack1 = this.cursorTrack1.isPinned ().get ();
 	println ("cursor track1 is pinned: "+ localCursorTrack1);
 
 	var localCursorTrack2 = this.cursorTrack2.isPinned ().get ();
@@ -279,8 +279,8 @@ TrackHandler.prototype.updateLEDtracks = function ()
 	// println ("update currentData1 is: "+ this.currentData1);
 	// println ("update currentData2 is: "+ this.currentData2);
 
-	this.trackNumber = this.cursorTrack.position().get();
-	this.trackType = this.cursorTrack.trackType().get();
+	this.trackNumber = this.cursorTrack1.position().get();
+	this.trackType = this.cursorTrack1.trackType().get();
 	this.ledOn1 = this.trackPosition + 32;		
 	this.ledOn2 = this.trackPosition + 24;		
 
