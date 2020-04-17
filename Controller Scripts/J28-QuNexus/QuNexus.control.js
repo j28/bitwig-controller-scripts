@@ -53,13 +53,24 @@ function init()
 	println("This is the QuNexus Script... yo")
 
 
-	var cursorTrack = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
-	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack);
+	var cursorTrack1 = host.createCursorTrack ("Q_CURSOR_TRACK_01", "Q Cursor Track 01", 0, 0, true);
+	var cursorTrack2 = host.createCursorTrack ("Q_CURSOR_TRACK_02", "Q Cursor Track 02", 0, 0, true);
+	var cursorTrack3 = host.createCursorTrack ("Q_CURSOR_TRACK_03", "Q Cursor Track 03", 0, 0, true);
 
-	var cursorDevice = cursorTrack.createCursorDevice ("NK2_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
-	deviceHandler = new DeviceHandler (cursorTrack, cursorDevice);
+	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2, cursorTrack3);
 
-	remoteControlHandler = new RemoteControlHandler (cursorDevice.createCursorRemoteControlsPage (8));
+	var cursorDevice1 = cursorTrack1.createCursorDevice ("Q_CURSOR_DEVICE_01", "Q Cursor Device 01", 0, CursorDeviceFollowMode.LAST_DEVICE);
+	var cursorDevice2 = cursorTrack2.createCursorDevice ("Q_CURSOR_DEVICE_02", "Q Cursor Device 02", 0, CursorDeviceFollowMode.LAST_DEVICE);
+	var cursorDevice3 = cursorTrack3.createCursorDevice ("Q_CURSOR_DEVICE_03", "Q Cursor Device 03", 0, CursorDeviceFollowMode.LAST_DEVICE);
+
+	deviceHandler = new DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice1, cursorDevice2, cursorDevice3);
+
+	var remoteControls1 = cursorDevice1.createCursorRemoteControlsPage (8);
+	var remoteControls2 = cursorDevice2.createCursorRemoteControlsPage (8);
+	var remoteControls3 = cursorDevice3.createCursorRemoteControlsPage (8);
+
+	remoteControlHandler = new RemoteControlHandler (remoteControls1, remoteControls2, remoteControls3);
+
 
 }
 
@@ -136,7 +147,7 @@ function onSysexPort3(data)
 function flush()
 {
 	println("flush called");
-	// host.getMidiOutPort (0).sendMidi (153, 48, 127);
+
 }
 
 function exit()

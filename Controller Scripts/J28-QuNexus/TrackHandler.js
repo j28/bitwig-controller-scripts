@@ -1,19 +1,17 @@
-function TrackHandler (trackbank, cursorTrack)
+function TrackHandler (trackbank1, cursorTrack1, cursorTrack2, cursorTrack3)
 {
 
-	this.trackbank = trackbank;
-	this.cursorTrack = cursorTrack;
+	this.trackbank1 = trackbank1;
 
-	this.trackbank.followCursorTrack (this.cursorTrack);
+	this.cursorTrack1 = cursorTrack1;
+	this.cursorTrack2 = cursorTrack2;
+	this.cursorTrack3 = cursorTrack3;
 
-	// only monitors solo and mute for cursortrack...
-	this.cursorTrack.solo ().markInterested ();
-	this.cursorTrack.mute ().markInterested ();
+	this.trackbank1.followCursorTrack (this.cursorTrack1);
 
-	this.cursorTrack.position().markInterested();
-	this.cursorTrack.trackType().markInterested();
-
-	this.cursorTrack.isPinned ().markInterested ();
+	this.cursorTrack1.isPinned ().markInterested ();
+	this.cursorTrack2.isPinned ().markInterested ();
+	this.cursorTrack3.isPinned ().markInterested ();
 
 }
 

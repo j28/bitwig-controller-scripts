@@ -1,15 +1,31 @@
-function RemoteControlHandler (remoteControlsBank)
+function RemoteControlHandler (remoteControlsBank1, remoteControlsBank2, remoteControlsBank3)
 {
 
-	this.remoteControlsBank = remoteControlsBank;
+	this.remoteControlsBank1 = remoteControlsBank1;
+	this.remoteControlsBank2 = remoteControlsBank2;
+	this.remoteControlsBank3 = remoteControlsBank3;
 
 	var i;
-	for (i = 0; i < this.remoteControlsBank.getParameterCount (); i++){
-		this.remoteControlsBank.getParameter (i).markInterested ();
-		this.remoteControlsBank.getParameter (i).setIndication (true);
+	for (i = 0; i < this.remoteControlsBank1.getParameterCount (); i++){
+		this.remoteControlsBank1.getParameter (i).markInterested ();
+		this.remoteControlsBank1.getParameter (i).setIndication (true);
 	}
 
-	this.remoteControlsBank.pageCount ().markInterested ();
+	var j;
+	for (j = 0; j < this.remoteControlsBank2.getParameterCount (); j++){
+		this.remoteControlsBank2.getParameter (j).markInterested ();
+		this.remoteControlsBank2.getParameter (j).setIndication (true);
+	}
+
+	var h;
+	for (h = 0; h < this.remoteControlsBank3.getParameterCount (); h++){
+		this.remoteControlsBank3.getParameter (h).markInterested ();
+		this.remoteControlsBank3.getParameter (h).setIndication (true);
+	}
+
+	this.remoteControlsBank1.pageCount ().markInterested ();
+	this.remoteControlsBank2.pageCount ().markInterested ();
+	this.remoteControlsBank3.pageCount ().markInterested ();
 
 }
 
@@ -19,47 +35,72 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 	println ("inside remote control handler");
 	var midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ midiChan);
-	println ("data1: "+ data1);
+	println ("data VARUM1: "+ data1);
 
 	if (midiChan == 8){
 		switch (data1)
 		{
 
-			case Q_NOTE_1:
-				println ("PRESSED 1");
-				this.remoteControlsBank.getParameter (0).set (data2, 128);
+			case Q_DEV_1_NOTE_1:
+				println ("PRESSED DEV 1 BUT 1");
+				this.remoteControlsBank1.getParameter (0).set (data2, 128);
 				return true;
 
-			case Q_NOTE_2:
-				println ("PRESSED 2");
-				this.remoteControlsBank.getParameter (1).set (data2, 128);
+			case Q_DEV_1_NOTE_2:
+				println ("PRESSED DEV 1 BUT 2");
+				this.remoteControlsBank1.getParameter (1).set (data2, 128);
 				return true;
 
-			case Q_NOTE_3:
-				println ("PRESSED 3");
-				this.remoteControlsBank.getParameter (2).set (data2, 128);
+			case Q_DEV_1_NOTE_3:
+				println ("PRESSED DEV 1 BUT 3");
+				this.remoteControlsBank1.getParameter (2).set (data2, 128);
 				return true;
 
-			case Q_NOTE_4:
-				println ("PRESSED 4");
-				this.remoteControlsBank.getParameter (4).set (data2, 128);
+			case Q_DEV_1_NOTE_4:
+				println ("PRESSED DEV 1 BUT 4");
+				this.remoteControlsBank1.getParameter (4).set (data2, 128);
 				return true;
 
-			// case NK2_KNOB5:
-			// 	this.remoteControlsBank.getParameter (4).set (data2, 128);
-			// 	return true;
+			case Q_DEV_2_NOTE_1:
+				println ("PRESSED DEV 2 BUT 1");
+				this.remoteControlsBank2.getParameter (0).set (data2, 128);
+				return true;
 
-			// case NK2_KNOB6:
-			// 	this.remoteControlsBank.getParameter (5).set (data2, 128);
-			// 	return true;
+			case Q_DEV_2_NOTE_2:
+				println ("PRESSED DEV 2 BUT 2");
+				this.remoteControlsBank2.getParameter (1).set (data2, 128);
+				return true;
 
-			// case NK2_KNOB7:
-			// 	this.remoteControlsBank.getParameter (6).set (data2, 128);
-			// 	return true;
+			case Q_DEV_2_NOTE_3:
+				println ("PRESSED DEV 2 BUT 3");
+				this.remoteControlsBank2.getParameter (2).set (data2, 128);
+				return true;
 
-			// case NK2_KNOB8:
-			// 	this.remoteControlsBank.getParameter (7).set (data2, 128);
-			// 	return true;
+			case Q_DEV_2_NOTE_4:
+				println ("PRESSED DEV 2 BUT 4");
+				this.remoteControlsBank2.getParameter (4).set (data2, 128);
+				return true;
+
+
+			case Q_DEV_3_NOTE_1:
+				println ("PRESSED DEV 3 BUT 1");
+				this.remoteControlsBank3.getParameter (0).set (data2, 128);
+				return true;
+
+			case Q_DEV_3_NOTE_2:
+				println ("PRESSED DEV 3 BUT 2");
+				this.remoteControlsBank3.getParameter (1).set (data2, 128);
+				return true;
+
+			case Q_DEV_3_NOTE_3:
+				println ("PRESSED DEV 3 BUT 3");
+				this.remoteControlsBank3.getParameter (2).set (data2, 128);
+				return true;
+
+			case Q_DEV_3_NOTE_4:
+				println ("PRESSED DEV 3 BUT 4");
+				this.remoteControlsBank3.getParameter (4).set (data2, 128);
+				return true;
 
 			default:
 				return false;
