@@ -96,8 +96,8 @@ function onMidiPort1(status, data1, data2)
 	// if (trackHandler.handleMidi1 (status, data1, data2))
 	// 	return;
 
-	// if (deviceHandler.handleMidi1 (status, data1, data2))
-	// 	return;
+	if (deviceHandler.handleMidi1 (status, data1, data2))
+		return;
 
 	if (remoteControlHandler.handleMidi1 (status, data1, data2))
 		return;
@@ -130,6 +130,13 @@ function onSysexPort2(data)
 function onSysexPort3(data)
 {
 	println("Port 3 [sysex data]: " + data);
+}
+
+
+function flush()
+{
+	println("flush called");
+	// host.getMidiOutPort (0).sendMidi (153, 48, 127);
 }
 
 function exit()
@@ -193,10 +200,5 @@ function exit()
 //---- For sysex, just use the callbacks defined above
 // "F0????" - Sees all ch. aftertouch on channel 1
 // "D?????" - Sees all ch. aftertouch on all channels
-
-
-
-
-
 
 

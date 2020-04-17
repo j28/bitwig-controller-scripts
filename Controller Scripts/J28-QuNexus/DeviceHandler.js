@@ -40,10 +40,11 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 	var midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ midiChan);
 
-	if (isChannelController(status))
-	{
+	if (midiChan == 8){
 		// if one of the buttons below is released we return true
-		var ourButtons = [];
+		var ourButtons = [
+			Q_PIN
+		];
 		if(ourButtons.indexOf(data1) > -1) {
 			if (data2 == 0)
 				return true;
@@ -52,6 +53,11 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 		switch (data1)
 		{
 
+			case Q_PIN:
+				println ("PRESSED PIN");
+				this.cursorDevice.isPinned ().toggle ();
+				this.cursorTrack.isPinned ().toggle ();
+				return true;
 
 			default:
 				return false;
