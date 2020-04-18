@@ -17,3 +17,5 @@ const Q_DEV_3_NOTE_1 = 9;
 const Q_DEV_3_NOTE_2 = 10;
 const Q_DEV_3_NOTE_3 = 11;
 const Q_DEV_3_NOTE_4 = 12;
+
+const Q_RESTORE = 70;

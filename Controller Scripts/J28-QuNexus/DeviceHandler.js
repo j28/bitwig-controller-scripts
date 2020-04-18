@@ -22,6 +22,19 @@ function DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice1,
 
 }
 
+DeviceHandler.prototype.restorePin = function (track, device, button)
+{
+
+	var currentTrack = track;
+	var currentDevice = device;
+	var currentButton = button;
+
+	if (currentTrack.isPinned ().get() && currentDevice.isPinned ()){
+		host.getMidiOutPort (0).sendMidi (152, currentButton, 127);
+	}
+
+}
+
 DeviceHandler.prototype.togglePin = function (track, device, button)
 {
 
@@ -95,6 +108,13 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 			case Q_DEV_3_PIN:
 				println ("PRESSED PIN 3");
 				this.togglePin(this.cursorTrack3, this.cursorDevice3, Q_DEV_3_PIN);
+				return true;
+
+			case Q_RESTORE:
+				println ("PRESSED RESTORE");
+				this.restorePin(this.cursorTrack1, this.cursorDevice1, Q_DEV_1_PIN);
+				this.restorePin(this.cursorTrack2, this.cursorDevice3, Q_DEV_2_PIN);
+				this.restorePin(this.cursorTrack3, this.cursorDevice3, Q_DEV_3_PIN);
 				return true;
 
 			default:
