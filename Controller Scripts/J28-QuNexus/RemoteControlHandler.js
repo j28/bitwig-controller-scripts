@@ -34,9 +34,6 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 
 	// println ("inside remote control handler");
 	var midiChan = MIDIChannel(status);
-	// println ("midichannel is: "+ midiChan);
-	// println ("data VARUM1: "+ data1);
-
 
 	if (midiChan == 8){
 		switch (data1)

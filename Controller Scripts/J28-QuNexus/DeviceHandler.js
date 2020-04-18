@@ -26,15 +26,16 @@ function DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice1,
 DeviceHandler.prototype.toggleLED = function (device, button)
 {
 
-	// println ("current device pinnnnnnnnnnn: " + currentDevice.isPinned ().get());
 	var currentDevice = device;
 	var currentButton = button;
+	// println ("current device pin: " + currentDevice.isPinned ().get());
+	// println ("current device button: " + currentDevice.isPinned ().get());
 
 	if (currentDevice.isPinned ().get()){
 		host.getMidiOutPort (0).sendMidi (152, currentButton, 0);
 	} else {
 		host.getMidiOutPort (0).sendMidi (152, currentButton, 127);
-
+		// host.getMidiOutPort (0).sendMidi (184, currentButton, 127);
 	}
 
 }
@@ -42,12 +43,8 @@ DeviceHandler.prototype.toggleLED = function (device, button)
 DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 {
 
-	println ("inside device handler AIUSDHIUASDHAKSJDHAKSJDHALKSJHDAKJSHD");
-
-
+	// println ("inside device handler");
 	var midiChan = MIDIChannel(status);
-	// println ("status is: "+ status);
-
 
 	if (midiChan == 8){
 		// if one of the buttons below is released we return true
