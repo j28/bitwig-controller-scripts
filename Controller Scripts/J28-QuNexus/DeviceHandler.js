@@ -22,25 +22,6 @@ function DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice1,
 
 }
 
-
-DeviceHandler.prototype.toggleLED = function (device, button)
-{
-
-	var currentDevice = device;
-	var currentButton = button;
-	// println ("current device pin: " + currentDevice.isPinned ().get());
-	// println ("current device button: " + currentDevice.isPinned ().get());
-
-	if (currentDevice.isPinned ().get()){
-		host.getMidiOutPort (0).sendMidi (152, currentButton, 0);
-	} else {
-		host.getMidiOutPort (0).sendMidi (152, currentButton, 127);
-		// host.getMidiOutPort (0).sendMidi (184, currentButton, 127);
-	}
-
-}
-
-
 DeviceHandler.prototype.togglePin = function (track, device, button)
 {
 
