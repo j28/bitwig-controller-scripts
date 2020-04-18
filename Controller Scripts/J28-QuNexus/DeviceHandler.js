@@ -40,6 +40,46 @@ DeviceHandler.prototype.toggleLED = function (device, button)
 
 }
 
+
+DeviceHandler.prototype.togglePin = function (track, device, button)
+{
+
+	var currentTrack = track;
+	var currentDevice = device;
+	var currentButton = button;
+	// println ("current device pin: " + currentDevice.isPinned ().get());
+	// println ("current device button: " + currentDevice.isPinned ().get());
+
+	if (currentTrack.isPinned ().get()){
+
+		if (currentDevice.isPinned ().get()){
+			// remove pin
+			currentTrack.isPinned ().toggle ();
+			currentDevice.isPinned ().toggle ();
+			host.getMidiOutPort (0).sendMidi (152, currentButton, 0);
+		} else {
+			currentDevice.isPinned ().toggle ();	
+			// both are pinned now
+			host.getMidiOutPort (0).sendMidi (152, currentButton, 127);
+		}
+
+	} else {
+
+		if (currentDevice.isPinned ().get()){
+			currentDevice.isPinned ().toggle ();
+			// neither is pinned now
+			host.getMidiOutPort (0).sendMidi (152, currentButton, 0);
+		} else {
+			// add pin
+			currentTrack.isPinned ().toggle ();
+			currentDevice.isPinned ().toggle ();	
+			host.getMidiOutPort (0).sendMidi (152, currentButton, 127);
+		}
+
+	}
+
+}
+
 DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 {
 
@@ -63,23 +103,17 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 
 			case Q_DEV_1_PIN:
 				println ("PRESSED PIN 1");
-				this.cursorTrack1.isPinned ().toggle ();
-				this.cursorDevice1.isPinned ().toggle ();
-				this.toggleLED(this.cursorDevice1, Q_DEV_1_PIN);
+				this.togglePin(this.cursorTrack1, this.cursorDevice1, Q_DEV_1_PIN);
 				return true;
 
 			case Q_DEV_2_PIN:
 				println ("PRESSED PIN 2");
-				this.cursorTrack2.isPinned ().toggle ();
-				this.cursorDevice2.isPinned ().toggle ();
-				this.toggleLED(this.cursorDevice2, Q_DEV_2_PIN);
+				this.togglePin(this.cursorTrack2, this.cursorDevice2, Q_DEV_2_PIN);
 				return true;
 
 			case Q_DEV_3_PIN:
 				println ("PRESSED PIN 3");
-				this.cursorTrack3.isPinned ().toggle ();
-				this.cursorDevice3.isPinned ().toggle ();
-				this.toggleLED(this.cursorDevice3, Q_DEV_3_PIN);
+				this.togglePin(this.cursorTrack3, this.cursorDevice3, Q_DEV_3_PIN);
 				return true;
 
 			default:
