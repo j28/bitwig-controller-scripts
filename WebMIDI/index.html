@@ -8,7 +8,7 @@
 <script type="module">
 
 import { el, mount } from 'https://redom.js.org/redom.es.min.js';
-const hello = el('h1', 'Hello RE:DOM!');
+const hello = el('h1', '0, 127, 1');
 mount(document.body, hello);
 
 WebMidi.enable(function (err) {
@@ -19,7 +19,7 @@ WebMidi.enable(function (err) {
 
 		var output = WebMidi.getOutputByName("IAC Driver Bus 1");
 		// output.playNote("Gb4", 3);
-		output.sendControlChange ( 0, 127, 3);
+		output.sendControlChange (0, 127, 1);
 
 		// console.log(WebMidi.inputs);
 		// console.log(WebMidi.outputs);

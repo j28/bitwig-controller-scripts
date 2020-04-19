@@ -1,3 +1,5 @@
+const CC_CH_01 = 176;
+
 function webmidiHardware (outputPort, inputPort, inputCallback)
 {
 	this.portOut = outputPort;
