@@ -1,4 +1,5 @@
 loadAPI(10);
+load ("TrackHandler.js");
 
 // Remove this if you want to be able to use deprecated methods without causing script to stop.
 // This is useful during development.
@@ -6,9 +7,19 @@ host.setShouldFailOnDeprecatedUse(true);
 
 host.defineController("J28", "OSC", "0.1", "090e6d3a-d7f0-4371-b0c4-59363cedf35d");
 
+var sender = null;
+
 function init() {
+
+
+
+	cursorTrack = host.createCursorTrack ("OSC_CURSOR_TRACK", "Cursor Track", 0, 0, true);
+
+	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack);
+
+
 	var osc = host.getOscModule();
-	var sender = osc.connectToUdpServer('127.0.0.1', 7400, null);
+	sender = osc.connectToUdpServer('127.0.0.1', 7400, null);
 	
 
 	// TODO: Perform further initialization here.
