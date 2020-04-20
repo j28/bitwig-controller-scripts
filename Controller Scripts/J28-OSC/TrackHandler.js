@@ -18,8 +18,11 @@ function TrackHandler (trackbank, cursorTrack)
 
 	this.cursorTrack.name().addValueObserver(this.cursorTrackNameObserver);
 	this.cursorTrack.color().markInterested();
-
 	this.cursorTrack.position().markInterested();
+
+
+	this.trackbank.getItemAt (0).name ().markInterested();
+	this.trackbank.getItemAt (1).name ().markInterested();
 
 }
 
@@ -42,5 +45,9 @@ TrackHandler.prototype.cursorTrackNameObserver = function ()
 
 	sender.sendMessage('/track', oscArgs);
 	host.showPopupNotification( trackName );
+
+
+
+
 
 }
