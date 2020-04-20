@@ -11,7 +11,15 @@ function init() {
 	var sender = osc.connectToUdpServer('127.0.0.1', 7400, null);
 	
 
-	println("osc initialized!");
+	// TODO: Perform further initialization here.
+	println("initialized"
+		+ ' - ' + host.getHostVendor()
+		+ ' - ' + host.getHostProduct()
+		+ ' - ' + host.getHostVersion()
+	);
+
+
+
 	var transport = host.createTransport();
 	var position = transport.getPosition();
 	// position is a SettableBeatTimeValue
@@ -35,6 +43,46 @@ function init() {
 			println("error sending level: " + err);
 		}
 	});
+
+
+
+
+	// Configure osc. AddressSpace is a term from the OSC spec. It means
+	var oscModule = host.getOscModule();
+	var as = oscModule.createAddressSpace();
+
+	// handler (OscConnection source, OscMessage message)
+	as.registerDefaultMethod(function(connection, msg) {
+		println('- unregistered method: con - ' + connection);
+		println('- unregistered method: msg typetag - ' + msg.getTypeTag ());
+		println('- unregistered method: msg adr pat- ' + msg.getAddressPattern ());
+		println('- unregistered method: msg args - ' + msg.getArguments ()[0]);
+
+	});
+
+	as.registerMethod('/track',
+		',f',
+		'Select track',
+		function(c, msg){
+			// println("c coming from browser is: " + c);
+			var trackIndex = msg.getFloat(0);			
+			println("track index coming from browser is: " + trackIndex);
+
+	});
+
+	// as.registerMethod('/test/',
+	//   '#bundle',
+	//   'can i use a bundle?',
+	//   function(c, msg) {
+	//     println('bundle: ' + msg);
+	//   });
+
+	oscModule.createUdpServer(7500, as);
+
+
+
+
+
 }
 
 
