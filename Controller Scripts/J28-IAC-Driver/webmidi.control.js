@@ -30,6 +30,19 @@ var isPlayPressed = false;
 var isRecPressed = false;
 
 
+function encodeToMIDI (val){
+	var localVal = val;
+	var twoValues = [];
+	if (localVal > 127){
+		twoValues[0] = 127;
+		twoValues[1] = localVal - 128;
+	} else {
+		twoValues[0] = localVal;
+		twoValues[1] = 0;
+	}
+	return twoValues;
+}
+
 function cursorTrackNameObserver (){
 	// host.showPopupNotification( this.cursorTrack.name().get() );
 
@@ -42,16 +55,38 @@ function cursorTrackColorObserver (){
 	var currentColor = this.cursorTrack.color().get();
 
 	var currentColorRed = currentColor.getRed255 ();
-	var currentColorGreen = currentColor.getRed255 ();
-	var currentColorBlue = currentColor.getRed255 ();
+	var currentColorGreen = currentColor.getGreen255 ();
+	var currentColorBlue = currentColor.getBlue255 ();
+
+	var redArray = encodeToMIDI(currentColorRed);
+	var red1 = redArray[0];
+	var red2 = redArray[1];
+
+	var greenArray = encodeToMIDI(currentColorGreen);
+	var green1 = greenArray[0];
+	var green2 = greenArray[1];
+
+	var blueArray = encodeToMIDI(currentColorBlue);
+	var blue1 = blueArray[0];
+	var blue2 = blueArray[1];
 
 
-	var red1 = currentColorRed - 127;
 
-	host.showPopupNotification( currentColorRed );
-	hardware.portOut.sendMidi (CC_CH_01, 0, 127);
+	// host.showPopupNotification(red1);
+	hardware.portOut.sendMidi (CC_CH_01, 0, red1);
+	hardware.portOut.sendMidi (CC_CH_01, 1, red2);
+	hardware.portOut.sendMidi (CC_CH_01, 2, green1);
+	hardware.portOut.sendMidi (CC_CH_01, 3, green2);
+	hardware.portOut.sendMidi (CC_CH_01, 4, blue1);
+	hardware.portOut.sendMidi (CC_CH_01, 5, blue2);
 
-	println("\ncHanGed color?.");
+	println("\nred1 is: " + red1);
+	println("red2 is: " + red2);
+	println("green1 is: " + green1);
+	println("green2 is: " + green2);
+	println("blue1 is: " + blue1);
+	println("blue2 is: " + blue2);
+
 }
 
 function init()
