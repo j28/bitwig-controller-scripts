@@ -7,9 +7,53 @@
 
 <script type="module">
 
-import { el, mount } from 'https://redom.js.org/redom.es.min.js';
-const hello = el('h1', '0, 127, 1');
-mount(document.body, hello);
+// import { el, mount } from 'https://redom.js.org/redom.es.min.js';
+// const hello = el('h1', '0, 127, 1');
+// mount(document.body, hello);
+
+var j28 = {};
+
+j28.selTrackRGB = [];
+j28.selTempRed = [];
+j28.selTempGreen = [];
+j28.selTempBlue = [];
+j28.selTrackColor = "";
+
+
+j28.selCollectRGB = function (midiData){
+	var currentData = midiData;
+	var messageNumber = currentData[1];
+	var messageValue = currentData[2];
+	var red, green, blue;
+	if (messageNumber == 0){
+		j28.selTempRed[0] = messageValue;
+	} else if (messageNumber == 1){
+		j28.selTempRed[1] = messageValue;		
+	} else if (messageNumber == 2){
+		j28.selTempGreen[0] = messageValue;
+	} else if (messageNumber == 3){
+		j28.selTempGreen[1] = messageValue;
+	} else if (messageNumber == 4){
+		j28.selTempBlue[0] = messageValue;
+	} else if (messageNumber == 5){
+		j28.selTempBlue[1] = messageValue;
+		j28.selTrackRGB[0] = j28.selTempRed[0] + j28.selTempRed[1];
+		j28.selTrackRGB[1] = j28.selTempGreen[0] + j28.selTempGreen[1];
+		j28.selTrackRGB[2] = j28.selTempBlue[0] + j28.selTempBlue[1];
+		console.log(j28.selTrackRGB);
+
+		// var strBegin = "rgba(255, 0, 0, 1);";
+		var strBegin = "rgb(";
+		var strComma = ", ";
+		var strEnd = ")";
+		var strFull = strBegin.concat(j28.selTrackRGB[0], strComma, j28.selTrackRGB[1], strComma, j28.selTrackRGB[2], strEnd);
+		console.log(strFull);
+
+		document.getElementById("body").style.backgroundColor = strFull;
+		document.getElementById("body").innerHTML = "track color is " + strFull;
+	}
+}
+
 
 WebMidi.enable(function (err) {
 
@@ -17,9 +61,19 @@ WebMidi.enable(function (err) {
 		console.log("WebMidi could not be enabled.", err);
 	} else {
 
+		var input = WebMidi.getInputByName("IAC Driver Bus 1");
 		var output = WebMidi.getOutputByName("IAC Driver Bus 1");
 		// output.playNote("Gb4", 3);
-		output.sendControlChange (0, 127, 1);
+		// output.sendControlChange (0, 127, 1);
+
+
+		input.addListener('controlchange', "all",
+			function (e) {
+				console.log("Received 'controlchange' message.", e.data);
+				j28.selCollectRGB(e.data);
+
+			}
+		);
 
 		// console.log(WebMidi.inputs);
 		// console.log(WebMidi.outputs);
@@ -30,7 +84,7 @@ WebMidi.enable(function (err) {
 </script>
 </head>
 
-<body>
+<body id="body">
 
 </body>
 </html>
