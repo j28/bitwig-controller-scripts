@@ -6,7 +6,7 @@ function DeviceHandler (cursorTrack, cursorDevice)
 
 	this.cursorDevice = cursorDevice;
 
-	this.cursorDevice.position ().markInterested ();
+
 
 	this.cursorDevice.isExpanded ().markInterested ();
 	this.cursorDevice.isEnabled ().markInterested ();
@@ -33,14 +33,21 @@ function DeviceHandler (cursorTrack, cursorDevice)
 	deviceBank.getDevice (14).name ().markInterested ();
 	deviceBank.getDevice (15).name ().markInterested ();
 
+	this.cursorDevice.position ().markInterested ();
+	this.cursorDevice.position ().addValueObserver(cursorDevicePositionObserver);
+
 }
 
 DeviceHandler.prototype.currentDevices = function (){
 
 	this.devicesList = [];
+	cursorDeviceIndex = this.cursorDevice.position ().get ();
+	this.devicesList[0] = cursorDeviceIndex;
 
-	println("\n");
-	for (var d = 0; d < 7; d++) {
+
+	println("\ncurrent device index is: "+ cursorDeviceIndex);
+
+	for (var d = 0; d < 15; d++) {
 		var deviceName = deviceBank.getDevice (d).name (). get();
 		if (deviceName)
 		{
@@ -57,7 +64,14 @@ DeviceHandler.prototype.currentDevices = function (){
 
 }
 
+DeviceHandler.prototype.getCursorDeviceIndex = function (){
+	cursorDeviceIndex = this.cursorDevice.position ().get ();
+	println("\ncurrent device index is: "+ cursorDeviceIndex);
+	deviceHandler.currentDevices();
+}
+
 DeviceHandler.prototype.selectDevice = function (index){
+
 	var deviceIndex = index;
 	this.cursorDevice.selectDevice(deviceBank.getDevice (index));
 
