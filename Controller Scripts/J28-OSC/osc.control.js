@@ -1,5 +1,6 @@
 loadAPI(10);
 load ("TrackHandler.js");
+load ("DeviceHandler.js");
 
 // Remove this if you want to be able to use deprecated methods without causing script to stop.
 // This is useful during development.
@@ -11,28 +12,29 @@ var sender = null;
 
 function testBundle(){
 
-		var track1Name = trackHandler.trackbank.getItemAt (0).name ().get();
-		var track2Name = trackHandler.trackbank.getItemAt (1).name ().get();
+		// var track1Name = trackHandler.trackbank.getItemAt (0).name ().get();
+		// var track2Name = trackHandler.trackbank.getItemAt (1).name ().get();
 
-		sender.startBundle ();
+		// sender.startBundle ();
 
-		println('track 1 name: ' + track1Name);
-		sender.sendMessage('/track/name', track1Name);
+		// println('track 1 name: ' + track1Name);
+		// sender.sendMessage('/track/name', track1Name);
 
-		println('track 2 name: ' + track2Name);	
-		sender.sendMessage('/track/name', track2Name);
+		// println('track 2 name: ' + track2Name);	
+		// sender.sendMessage('/track/name', track2Name);
 
-		sender.endBundle ();
+		// sender.endBundle ();
 
 }
 
 function init() {
 
-
-
 	cursorTrack = host.createCursorTrack ("OSC_CURSOR_TRACK", "Cursor Track", 0, 0, true);
-
 	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack);
+
+	var cursorDevice = cursorTrack.createCursorDevice ("OSC_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
+	deviceHandler = new DeviceHandler (cursorTrack, cursorDevice);
+
 
 
 	var osc = host.getOscModule();
@@ -57,7 +59,7 @@ function init() {
 	position.addValueObserver(function(v){
 		try {
 			// sender.sendMessage('/transport/position', v);
-			testBundle();
+			// testBundle();
 		} catch (err) {
 			println('error sending transport position: ' + err);
 		}
@@ -72,10 +74,6 @@ function init() {
 			println("error sending level: " + err);
 		}
 	});
-
-
-
-
 
 
 
@@ -102,6 +100,19 @@ function init() {
 
 	});
 
+	as.registerMethod('/device',
+		',f',
+		'Select device',
+		function(c, msg){
+			// println("c coming from browser is: " + c);
+			var deviceIndex = msg.getFloat(0);
+			deviceHandler.selectDevice(deviceIndex);
+			// println("track index coming from browser is: " + trackIndex);
+
+	});
+
+
+
 	// as.registerMethod('/test/',
 	//   '#bundle',
 	//   'can i use a bundle?',
@@ -120,6 +131,7 @@ function init() {
 
 function flush() {
 	// TODO: Flush any output to your controller here.
+	// deviceHandler.currentDevices();
 }
 
 function exit() {
