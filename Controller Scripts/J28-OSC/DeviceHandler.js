@@ -6,8 +6,6 @@ function DeviceHandler (cursorTrack, cursorDevice)
 
 	this.cursorDevice = cursorDevice;
 
-
-
 	this.cursorDevice.isExpanded ().markInterested ();
 	this.cursorDevice.isEnabled ().markInterested ();
 	this.cursorDevice.isWindowOpen ().markInterested ();
@@ -43,7 +41,6 @@ DeviceHandler.prototype.currentDevices = function (){
 	this.devicesList = [];
 	cursorDeviceIndex = this.cursorDevice.position ().get ();
 	this.devicesList[0] = cursorDeviceIndex;
-
 
 	println("\ncurrent device index is: "+ cursorDeviceIndex);
 

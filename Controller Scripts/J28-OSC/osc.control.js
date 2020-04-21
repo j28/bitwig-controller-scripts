@@ -40,11 +40,8 @@ function init() {
 	var cursorDevice = cursorTrack.createCursorDevice ("OSC_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 	deviceHandler = new DeviceHandler (cursorTrack, cursorDevice);
 
-
-
 	var osc = host.getOscModule();
 	sender = osc.connectToUdpServer('127.0.0.1', 7400, null);
-	
 
 	// TODO: Perform further initialization here.
 	println("initialized"
@@ -52,8 +49,6 @@ function init() {
 		+ ' - ' + host.getHostProduct()
 		+ ' - ' + host.getHostVersion()
 	);
-
-
 
 	var transport = host.createTransport();
 	var position = transport.getPosition();
@@ -80,8 +75,6 @@ function init() {
 		}
 	});
 
-
-
 	// Configure osc. AddressSpace is a term from the OSC spec. It means
 	var oscModule = host.getOscModule();
 	var as = oscModule.createAddressSpace();
@@ -102,7 +95,6 @@ function init() {
 			// println("c coming from browser is: " + c);
 			var trackIndex = msg.getFloat(0);			
 			println("track index coming from browser is: " + trackIndex);
-
 	});
 
 	as.registerMethod('/device',
@@ -113,26 +105,18 @@ function init() {
 			var deviceIndex = msg.getFloat(0);
 			deviceHandler.selectDevice(deviceIndex);
 			// println("track index coming from browser is: " + trackIndex);
-
 	});
 
-
-
-	// as.registerMethod('/test/',
-	//   '#bundle',
-	//   'can i use a bundle?',
-	//   function(c, msg) {
-	//     println('bundle: ' + msg);
-	//   });
+	//	as.registerMethod('/test/',
+	//		'#bundle',
+	//		'can i use a bundle?',
+	//		function(c, msg) {
+	//		println('bundle: ' + msg);
+	//	});
 
 	oscModule.createUdpServer(7500, as);
 
-
-
-
-
 }
-
 
 function flush() {
 	// TODO: Flush any output to your controller here.

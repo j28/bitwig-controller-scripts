@@ -25,7 +25,6 @@ function TrackHandler (trackbank, cursorTrack)
 
 	this.cursorTrack.position().addValueObserver(this.cursorTrackPositionObserver);
 
-
 }
 
 TrackHandler.prototype.cursorTrackNameObserver = function ()
