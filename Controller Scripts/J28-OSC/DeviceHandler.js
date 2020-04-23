@@ -81,7 +81,7 @@ DeviceHandler.prototype.currentDevices = function (){
 	} catch (err) {
 		println("error sending level: " + err);
 	}
-
+	sender.startBundle ();
 
 	for (var d = 0; d < 15; d++) {
 
@@ -131,7 +131,7 @@ DeviceHandler.prototype.currentDevices = function (){
 		}
 
 	}
-
+sender.endBundle ();
 	println ("outer bundle ended...");
 
 
