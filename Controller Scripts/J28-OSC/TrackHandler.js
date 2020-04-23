@@ -9,9 +9,12 @@ function TrackHandler (trackbank, cursorTrack)
 	for (i = 0; i < this.trackbank.getSizeOfBank (); i++)
 	{
 		var track = this.trackbank.getItemAt (i);
-		p = track.volume ();
-		p.markInterested ();
-		p.setIndication (true);
+		var vol = track.volume ();
+		vol.markInterested ();
+		vol.setIndication (true);
+
+		var name = track.name ();
+		name.markInterested ();
 	}
 
 	this.trackbank.followCursorTrack (this.cursorTrack);
@@ -49,6 +52,38 @@ TrackHandler.prototype.cursorTrackNameObserver = function ()
 	deviceHandler.currentDevices();
 
 	host.showPopupNotification( trackName );
+
+}
+
+
+TrackHandler.prototype.testBundle = function(){
+
+		var track1Name = this.trackbank.getItemAt (0).name ().get();
+		var track2Name = this.trackbank.getItemAt (1).name ().get();
+		var track3Name = this.trackbank.getItemAt (2).name ().get();
+		var track4Name = this.trackbank.getItemAt (3).name ().get();
+
+		sender.startBundle ();
+
+
+
+		println('track 1 name: ' + track1Name);
+		sender.sendMessage('/track/name/test', track1Name);
+
+
+
+		println('track 2 name: ' + track2Name);	
+		sender.sendMessage('/track/name/test', track2Name);
+
+		println('track 3 name: ' + track3Name);	
+		sender.sendMessage('/track/name/test', track3Name);
+
+		sender.endBundle ();
+
+		println('track 4 name: ' + track4Name);	
+		sender.sendMessage('/track/name/test', track4Name);
+
+		sender.endBundle ();
 
 }
 

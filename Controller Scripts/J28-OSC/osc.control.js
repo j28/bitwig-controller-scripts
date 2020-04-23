@@ -11,22 +11,7 @@ host.defineController("J28", "OSC", "0.1", "090e6d3a-d7f0-4371-b0c4-59363cedf35d
 var sender = null;
 var cursorDeviceIndex = null;
 
-function testBundle(){
 
-		// var track1Name = trackHandler.trackbank.getItemAt (0).name ().get();
-		// var track2Name = trackHandler.trackbank.getItemAt (1).name ().get();
-
-		// sender.startBundle ();
-
-		// println('track 1 name: ' + track1Name);
-		// sender.sendMessage('/track/name', track1Name);
-
-		// println('track 2 name: ' + track2Name);	
-		// sender.sendMessage('/track/name', track2Name);
-
-		// sender.endBundle ();
-
-}
 
 function cursorDevicePositionObserver (){
 	deviceHandler.getCursorDeviceIndex();
