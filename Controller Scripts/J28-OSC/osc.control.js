@@ -9,8 +9,6 @@ host.setShouldFailOnDeprecatedUse(true);
 host.defineController("J28", "OSC", "0.1", "090e6d3a-d7f0-4371-b0c4-59363cedf35d");
 
 var sender = null;
-var cursorDeviceIndex = null;
-
 
 
 function cursorDevicePositionObserver (){

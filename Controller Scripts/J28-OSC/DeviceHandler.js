@@ -54,123 +54,100 @@ function DeviceHandler (cursorTrack, cursorDevice)
 
 }
 
-
-
-
 DeviceHandler.prototype.currentDevices = function (){
 
+	var cursorDeviceIndex = this.getCursorDeviceIndex();
 	this.devicesList = [];
-	cursorDeviceIndex = this.cursorDevice.position ().get ();
-	this.devicesList[0] = cursorDeviceIndex;
-
-	println("\ncurrent device index is: "+ cursorDeviceIndex);
 
 
-	function sendDeviceSlotBundle(slotNames) {
-
-
-
-	}
+	// println("\ncurrent device index is: "+ cursorDeviceIndex);
 
 	sender.startBundle ();
 
-	println ("start outer bundle...");
+		println ("start outer bundle...");
+		trackHandler.cursorTrackNameSend();
+		trackHandler.cursorTrackColorSend();
 
-	try {
-		sender.sendMessage('/track/device/list', "replace with track name");
-	} catch (err) {
-		println("error sending level: " + err);
-	}
-	sender.startBundle ();
-
-	for (var d = 0; d < 15; d++) {
-
-		println ("\nlooping through device bank... index: " + d);
+		sender.startBundle ();
 
 
-		var deviceName = deviceBank.getDevice (d).name (). get();
-		var deviceSlotList = deviceBank.getDevice (d).slotNames ().get ();
-		if (deviceName)
-		{
-
-	sender.startBundle ();
-
-			println ("current device name: " + deviceName);
+			println ("current device index: " + cursorDeviceIndex);
 			try {
-				sender.sendMessage('/track/device/detail', deviceName);
+				sender.sendMessage('/track/device/index', cursorDeviceIndex);
 			} catch (err) {
 				println("error sending level: " + err);
 			}
 
-			if (deviceSlotList.length > 0 ) {
 
-				println ("device slot List exists....");
-	sender.startBundle ();
+			for (var d = 0; d < 15; d++) {
 
-				println ("\nstart inner bundle...");
-				for (r = 0; r < deviceSlotList.length; r++)
+				println ("\nlooping through device bank... index: " + d);
+				var deviceName = deviceBank.getDevice (d).name (). get();
+
+				if (deviceName)
 				{
 
-					println ("slotName is: "+ deviceSlotList[r]);
-
-					try {
-						sender.sendMessage('/track/devices/slots', deviceSlotList[r]);
-					} catch (err) {
-						println("error sending level: " + err);
-					}
 
 
-				}	 	
+					var deviceSlotList = deviceBank.getDevice (d).slotNames ().get ();
+
+
+					sender.startBundle ();
+
+
+						println ("current device name: " + deviceName);
+						try {
+							sender.sendMessage('/track/device', deviceName);
+						} catch (err) {
+							println("error sending level: " + err);
+						}
+
+						if (deviceSlotList.length > 0 ) {
+
+							println ("device slot List exists....");
+							sender.startBundle ();
+
+								println ("\nstart inner bundle...");
+								for (r = 0; r < deviceSlotList.length; r++)
+								{
+
+									println ("slotName is: "+ deviceSlotList[r]);
+
+									try {
+										sender.sendMessage('/track/device/slots', deviceSlotList[r]);
+									} catch (err) {
+										println("error sending level: " + err);
+									}
+
+								}	 	
+							sender.endBundle ();
+							println ("inner bundle ended...");
+
+						}
+
+					sender.endBundle ();
+
+				}
+
+			}
 		sender.endBundle ();
-				println ("inner bundle ended...");
-
-			 }
-
-		sender.endBundle ();
-
-		}
-
-	}
-sender.endBundle ();
-	println ("outer bundle ended...");
-
+		println ("outer bundle ended...");
 
 	sender.endBundle ();
 
-
-
-
-
-
-
-
-
-	// try {
-	// 	sender.sendMessage('/track/devices', this.devicesList);
-	// } catch (err) {
-	// 	println("error sending level: " + err);
-	// }
-
-
-			// this.devicesList.push (deviceBank.getDevice (d).name (). get());			
-
-			// println ("device name is: "+ deviceName);
-
-
+	// this.devicesList.push (deviceBank.getDevice (d).name (). get());			
+	// println ("device name is: "+ deviceName);
 	// var slotNames = this.cursorDevice.slotNames ().get ();
-
-
-					// var firstDeviceInSlot = this.cursorDevice.selectFirstInSlot(slotNames[r]);
-
-					// println ("first in slot name is: "+ firstDeviceInSlot.name ().get ());
-
+	// var firstDeviceInSlot = this.cursorDevice.selectFirstInSlot(slotNames[r]);
+	// println ("first in slot name is: "+ firstDeviceInSlot.name ().get ());
 
 }
 
 DeviceHandler.prototype.getCursorDeviceIndex = function (){
-	cursorDeviceIndex = this.cursorDevice.position ().get ();
-	println("\ncurrent device index is: "+ cursorDeviceIndex);
-	deviceHandler.currentDevices();
+
+	var cursorDeviceIndex = this.cursorDevice.position ().get ();
+	return cursorDeviceIndex;
+
 }
 
 DeviceHandler.prototype.selectDevice = function (index){
