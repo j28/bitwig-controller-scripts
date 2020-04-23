@@ -49,7 +49,7 @@ function DeviceHandler (cursorTrack, cursorDevice)
 	deviceBank.getDevice (14).slotNames ().markInterested ();
 	deviceBank.getDevice (15).slotNames ().markInterested ();
 
-	this.cursorDevice.position ().markInterested ();
+	// this.cursorDevice.position ().markInterested ();
 	this.cursorDevice.position ().addValueObserver(cursorDevicePositionObserver);
 
 }
@@ -86,8 +86,6 @@ DeviceHandler.prototype.currentDevices = function (){
 
 				if (deviceName)
 				{
-
-
 
 					var deviceSlotList = deviceBank.getDevice (d).slotNames ().get ();
 
@@ -146,6 +144,13 @@ DeviceHandler.prototype.currentDevices = function (){
 DeviceHandler.prototype.getCursorDeviceIndex = function (){
 
 	var cursorDeviceIndex = this.cursorDevice.position ().get ();
+
+	try {
+		sender.sendMessage('/track/device/current', cursorDeviceIndex);
+	} catch (err) {
+		println("error sending level: " + err);
+	}
+
 	return cursorDeviceIndex;
 
 }
