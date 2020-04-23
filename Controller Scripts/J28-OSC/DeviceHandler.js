@@ -6,6 +6,8 @@ function DeviceHandler (cursorTrack, cursorDevice)
 
 	this.cursorDevice = cursorDevice;
 
+	this.listingInProgress = false;
+
 	this.cursorDevice.isExpanded ().markInterested ();
 	this.cursorDevice.isEnabled ().markInterested ();
 	this.cursorDevice.isWindowOpen ().markInterested ();
@@ -13,45 +15,18 @@ function DeviceHandler (cursorTrack, cursorDevice)
 	this.cursorDevice.getCursorSlot ().name ().markInterested ();
 
 	deviceBank = cursorTrack.createDeviceBank (16);
+	for (var i = 0; i < deviceBank.getSizeOfBank (); i++)
+	{
+		deviceBank.getDevice (i).name ().markInterested ();
+		deviceBank.getDevice (i).slotNames ().markInterested ();
+	}
 
-	deviceBank.getDevice (0).name ().markInterested ();
-	deviceBank.getDevice (1).name ().markInterested ();
-	deviceBank.getDevice (2).name ().markInterested ();
-	deviceBank.getDevice (3).name ().markInterested ();
-	deviceBank.getDevice (4).name ().markInterested ();
-	deviceBank.getDevice (5).name ().markInterested ();
-	deviceBank.getDevice (6).name ().markInterested ();
-	deviceBank.getDevice (7).name ().markInterested ();
-	deviceBank.getDevice (8).name ().markInterested ();
-	deviceBank.getDevice (9).name ().markInterested ();
-	deviceBank.getDevice (10).name ().markInterested ();
-	deviceBank.getDevice (11).name ().markInterested ();
-	deviceBank.getDevice (12).name ().markInterested ();
-	deviceBank.getDevice (13).name ().markInterested ();
-	deviceBank.getDevice (14).name ().markInterested ();
-	deviceBank.getDevice (15).name ().markInterested ();
-
-
-	deviceBank.getDevice (0).slotNames ().markInterested ();
-	deviceBank.getDevice (1).slotNames ().markInterested ();
-	deviceBank.getDevice (2).slotNames ().markInterested ();
-	deviceBank.getDevice (3).slotNames ().markInterested ();
-	deviceBank.getDevice (4).slotNames ().markInterested ();
-	deviceBank.getDevice (5).slotNames ().markInterested ();
-	deviceBank.getDevice (6).slotNames ().markInterested ();
-	deviceBank.getDevice (7).slotNames ().markInterested ();
-	deviceBank.getDevice (8).slotNames ().markInterested ();
-	deviceBank.getDevice (9).slotNames ().markInterested ();
-	deviceBank.getDevice (10).slotNames ().markInterested ();
-	deviceBank.getDevice (11).slotNames ().markInterested ();
-	deviceBank.getDevice (12).slotNames ().markInterested ();
-	deviceBank.getDevice (13).slotNames ().markInterested ();
-	deviceBank.getDevice (14).slotNames ().markInterested ();
-	deviceBank.getDevice (15).slotNames ().markInterested ();
-
-	// this.cursorDevice.position ().markInterested ();
+	// this.cursorDevice.name ().addValueObserver(cursorDeviceNameObserver);
 	this.cursorDevice.position ().addValueObserver(cursorDevicePositionObserver);
-
+	this.cursorDevice.isNested ().addValueObserver(cursorDeviceNestedObserver);
+	this.cursorDevice.isNested ().markInterested ();
+	this.cursorDevice.name ().markInterested ();
+	// this.cursorDevice.position ().markInterested ();
 }
 
 DeviceHandler.prototype.currentDevices = function (){
@@ -70,7 +45,6 @@ DeviceHandler.prototype.currentDevices = function (){
 
 		sender.startBundle ();
 
-
 			println ("current device index: " + cursorDeviceIndex);
 			try {
 				sender.sendMessage('/track/device/index', cursorDeviceIndex);
@@ -81,17 +55,15 @@ DeviceHandler.prototype.currentDevices = function (){
 
 			for (var d = 0; d < 15; d++) {
 
-				println ("\nlooping through device bank... index: " + d);
 				var deviceName = deviceBank.getDevice (d).name (). get();
 
 				if (deviceName)
 				{
 
+					println ("\nlooping through device bank... index: " + d);
 					var deviceSlotList = deviceBank.getDevice (d).slotNames ().get ();
 
-
 					sender.startBundle ();
-
 
 						println ("current device name: " + deviceName);
 						try {
@@ -146,12 +118,96 @@ DeviceHandler.prototype.getCursorDeviceIndex = function (){
 	var cursorDeviceIndex = this.cursorDevice.position ().get ();
 
 	try {
-		sender.sendMessage('/track/device/current', cursorDeviceIndex);
+		sender.sendMessage('/track/device/cursor', cursorDeviceIndex);
 	} catch (err) {
 		println("error sending level: " + err);
 	}
 
 	return cursorDeviceIndex;
+
+}
+
+DeviceHandler.prototype.selectSlotDevice = function (slotName){
+
+	this.listingInProgress = true;
+	this.cursorDevice.selectFirstInSlot(slotName);
+
+	// var cursorSlottt = this.cursorDevice.getCursorSlot();
+	// println ("SLOTTTT");
+	// println (cursorSlottt.name (). get());
+
+}
+
+// DeviceHandler.prototype.cursorDeviceName = function (){
+
+
+// 	for (var d = 0; d < 15; d++) {
+
+// 		var deviceName = deviceBank.getDevice (d).name ().get ();
+// 		if (deviceName) {
+// 			println ("\nlooping through device bank... index: " + d);					
+// 			println (deviceName);					
+// 		}
+
+// 		// if (this.cursorDevice.hasNext()){
+
+// 		// 	this.cursorDevice.selectNext ();
+// 		// }
+
+// 	}
+
+// }
+
+DeviceHandler.prototype.cursorDeviceNested = function (){
+
+	var isNested = this.cursorDevice.isNested().get ();
+
+	if (this.listingInProgress){
+		if(isNested){
+			var deviceNames = [];
+
+			sender.startBundle ();
+
+				try {
+					sender.sendMessage('/device-slot/devices', "deviceSlotDevices");
+				} catch (err) {
+					println("error sending level: " + err);
+				}
+
+				sender.startBundle ();
+					for (var d = 0; d < 15; d++) {
+
+						var deviceName = deviceBank.getDevice (d).name ().get ();
+						if (deviceName) {
+
+								println ("\nlooping through device bank... index: " + d);					
+								println (deviceName);					
+								deviceNames.push (deviceName);	
+
+								println ("current device name: " + deviceName);
+								try {
+									sender.sendMessage('/track/device', deviceName);
+								} catch (err) {
+									println("error sending level: " + err);
+								}
+						}
+
+					}
+				sender.endBundle ();
+
+			sender.endBundle ();
+
+		}
+	}
+
+	this.listingInProgress = false;
+
+	// println ("NAME?!");
+	// println (this.cursorDevice.name().get ());
+
+	// var isNested = this.cursorDevice.isNested().get ();
+	// println ("NESTED?!");
+	// println (isNested);
 
 }
 

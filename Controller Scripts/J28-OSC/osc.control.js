@@ -14,6 +14,15 @@ var sender = null;
 function cursorDevicePositionObserver (){
 	deviceHandler.getCursorDeviceIndex();
 }
+function cursorDeviceNameObserver (){
+	deviceHandler.cursorDeviceName();
+}
+function cursorDeviceNestedObserver (){
+	deviceHandler.cursorDeviceNested();
+}
+
+
+
 
 function init() {
 
@@ -88,6 +97,18 @@ function init() {
 			var deviceIndex = msg.getFloat(0);
 			deviceHandler.selectDevice(deviceIndex);
 			// println("track index coming from browser is: " + trackIndex);
+	});
+
+	as.registerMethod('/device-slot',
+		',s',
+		'Select device slot',
+		function(c, msg){
+			// println("c coming from browser is: " + c);
+			var deviceSlot = msg.getString(0);
+			// deviceHandler.selectDevice(deviceIndex);
+			println("device slot coming from browser is: " + deviceSlot);
+			deviceHandler.selectSlotDevice(deviceSlot);
+
 	});
 
 	//	as.registerMethod('/test/',
