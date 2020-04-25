@@ -88,6 +88,7 @@ DeviceHandler.prototype.browserSelectDevice = function (){
 
 		deviceHandler.cursorDevice.selectDevice(deviceBank.getDevice (browserState[1]));	
 		localState[1] = browserState[1];
+
 		// localState[2] = -1;
 		// localState[3] = -1;
 
@@ -142,7 +143,6 @@ DeviceHandler.prototype.browserSelectDevice = function (){
 
 		} else {
 			deviceHandler.updateBrowserRoot();
-			println('browser update in ELSEEEEEEEE: ');
 
 		}
 
@@ -151,6 +151,12 @@ DeviceHandler.prototype.browserSelectDevice = function (){
 }
 
 DeviceHandler.prototype.updateBrowser = function (){
+
+	host.scheduleTask(function(){
+		deviceHandler.currentDeviceName = deviceHandler.cursorDevice.name ().get();
+		host.showPopupNotification( deviceHandler.currentDeviceName );
+	},50);	
+
 
 	var slotDevices = [];
 
@@ -189,6 +195,11 @@ DeviceHandler.prototype.updateBrowser = function (){
 }
 
 DeviceHandler.prototype.updateBrowserRoot = function (){
+
+	host.scheduleTask(function(){
+		deviceHandler.currentDeviceName = deviceHandler.cursorDevice.name ().get();
+		host.showPopupNotification( deviceHandler.currentDeviceName );
+	},50);	
 
 	sender.startBundle ();
 
