@@ -1,4 +1,5 @@
 loadAPI(10);
+load ("polyfill.js");
 load ("TrackHandler.js");
 load ("DeviceHandler.js");
 
@@ -12,10 +13,12 @@ var sender = null;
 
 
 function cursorDevicePositionObserver (){
-	deviceHandler.getCursorDeviceIndex();
+	// deviceHandler.currentDevices();
 }
 function cursorDeviceNameObserver (){
-	deviceHandler.cursorDeviceName();
+	// the scheduling is needed because otherwise the isNested state is not updated prior to requesting it
+
+	deviceHandler.updateLocalState();
 }
 function cursorDeviceNestedObserver (){
 	deviceHandler.cursorDeviceNested();
@@ -26,6 +29,9 @@ function cursorDeviceNestedObserver (){
 
 function init() {
 
+	localState = [];
+	browserState = [];
+
 	cursorTrack = host.createCursorTrack ("OSC_CURSOR_TRACK", "Cursor Track", 0, 0, true);
 	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack);
 
@@ -34,6 +40,9 @@ function init() {
 
 	var osc = host.getOscModule();
 	sender = osc.connectToUdpServer('127.0.0.1', 7400, null);
+
+
+	// util = new Util ();
 
 	// TODO: Perform further initialization here.
 	println("initialized"
@@ -80,14 +89,39 @@ function init() {
 
 	});
 
+
 	as.registerMethod('/track',
-		',f',
+		',ffff',
 		'Select track',
 		function(c, msg){
 			// println("c coming from browser is: " + c);
-			var trackIndex = msg.getFloat(0);			
-			println("track index coming from browser is: " + trackIndex);
+			browserState = msg.getArguments ();
+		// println('- track method: msg args - ' + msg.getArguments ()[0]);
+		// println('- track method: msg args - ' + msg.getArguments ()[1]);
+		// println('- track method: msg args - ' + msg.getArguments ()[2]);
+		// println('- track method: msg args - ' + msg.getArguments ()[3]);
+
+		println('- track method: msg args - ' + localState[0]);
+		println('- track method: msg args - ' + localState[1]);
+		println('- track method: msg args - ' + localState[2]);
+		println('- track method: msg args - ' + localState[3]);
+
+		deviceHandler.browserSelectDevice();
+
+
+			// var trackIndex = msg.getFloat(0);			
+			// println("track index coming from browser is: " + trackIndex);
 	});
+
+
+	// as.registerMethod('/track',
+	// 	',f',
+	// 	'Select track',
+	// 	function(c, msg){
+	// 		// println("c coming from browser is: " + c);
+	// 		var trackIndex = msg.getFloat(0);			
+	// 		println("track index coming from browser is: " + trackIndex);
+	// });
 
 	as.registerMethod('/device',
 		',f',

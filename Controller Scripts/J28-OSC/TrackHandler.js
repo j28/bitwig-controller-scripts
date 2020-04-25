@@ -19,7 +19,7 @@ function TrackHandler (trackbank, cursorTrack)
 
 	this.trackbank.followCursorTrack (this.cursorTrack);
 
-	this.cursorTrack.position().addValueObserver(this.cursorTrackPositionObserver);
+	this.cursorTrack.position().addValueObserver(this.updateLocalState);
 	this.cursorTrack.name().markInterested();
 	this.cursorTrack.color().markInterested();
 
@@ -30,10 +30,15 @@ function TrackHandler (trackbank, cursorTrack)
 
 }
 
-TrackHandler.prototype.cursorTrackPositionObserver = function (){
-	deviceHandler.currentDevices();
-	// this.cursorTrack.getDevice (0).name ().get();
+TrackHandler.prototype.updateLocalState = function (){
+	localState[0] = this.cursorTrack.position ().get();
 }
+
+
+TrackHandler.prototype.selectTrack = function (){
+	// this.trackbank.getItemAt (localState[0]).select ();
+}
+
 
 TrackHandler.prototype.cursorTrackNameSend = function ()
 {
@@ -81,29 +86,3 @@ TrackHandler.prototype.cursorTrackColorSend = function ()
 
 }
 
-// TrackHandler.prototype.testBundle = function(){
-
-// 		var track1Name = this.trackbank.getItemAt (0).name ().get();
-// 		var track2Name = this.trackbank.getItemAt (1).name ().get();
-// 		var track3Name = this.trackbank.getItemAt (2).name ().get();
-// 		var track4Name = this.trackbank.getItemAt (3).name ().get();
-
-// 		sender.startBundle ();
-
-// 		println('track 1 name: ' + track1Name);
-// 		sender.sendMessage('/track/name/test', track1Name);
-
-// 		println('track 2 name: ' + track2Name);	
-// 		sender.sendMessage('/track/name/test', track2Name);
-
-// 		println('track 3 name: ' + track3Name);	
-// 		sender.sendMessage('/track/name/test', track3Name);
-
-// 		sender.endBundle ();
-
-// 		println('track 4 name: ' + track4Name);	
-// 		sender.sendMessage('/track/name/test', track4Name);
-
-// 		sender.endBundle ();
-
-// }
