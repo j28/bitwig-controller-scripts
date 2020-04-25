@@ -34,7 +34,7 @@ TrackHandler.prototype.updateLocalState = function (){
 	localState[0] = this.cursorTrack.position ().get();
 
 	host.scheduleTask(function(){
-		deviceHandler.updateBrowser();
+		deviceHandler.updateBrowserRoot();
 	},50);	
 }
 
@@ -60,7 +60,6 @@ TrackHandler.prototype.cursorTrackPositionSend = function ()
 	}
 
 }
-
 
 TrackHandler.prototype.cursorTrackNameSend = function ()
 {
@@ -107,4 +106,3 @@ TrackHandler.prototype.cursorTrackColorSend = function ()
 	}
 
 }
-

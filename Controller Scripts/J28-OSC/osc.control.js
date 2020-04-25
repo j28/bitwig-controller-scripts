@@ -106,9 +106,6 @@ function init() {
 
 		deviceHandler.browserSelectDevice();
 
-
-			// var trackIndex = msg.getFloat(0);			
-			// println("track index coming from browser is: " + trackIndex);
 	});
 
 
@@ -121,27 +118,27 @@ function init() {
 	// 		println("track index coming from browser is: " + trackIndex);
 	// });
 
-	as.registerMethod('/device',
-		',f',
-		'Select device',
-		function(c, msg){
-			// println("c coming from browser is: " + c);
-			var deviceIndex = msg.getFloat(0);
-			deviceHandler.selectDevice(deviceIndex);
-			// println("track index coming from browser is: " + trackIndex);
-	});
+	// as.registerMethod('/device',
+	// 	',f',
+	// 	'Select device',
+	// 	function(c, msg){
+	// 		// println("c coming from browser is: " + c);
+	// 		var deviceIndex = msg.getFloat(0);
+	// 		deviceHandler.selectDevice(deviceIndex);
+	// 		// println("track index coming from browser is: " + trackIndex);
+	// });
 
-	as.registerMethod('/device-slot',
-		',s',
-		'Select device slot',
-		function(c, msg){
-			// println("c coming from browser is: " + c);
-			var deviceSlot = msg.getString(0);
-			// deviceHandler.selectDevice(deviceIndex);
-			println("device slot coming from browser is: " + deviceSlot);
-			deviceHandler.selectSlotDevice(deviceSlot);
+	// as.registerMethod('/device-slot',
+	// 	',s',
+	// 	'Select device slot',
+	// 	function(c, msg){
+	// 		// println("c coming from browser is: " + c);
+	// 		var deviceSlot = msg.getString(0);
+	// 		// deviceHandler.selectDevice(deviceIndex);
+	// 		println("device slot coming from browser is: " + deviceSlot);
+	// 		deviceHandler.selectSlotDevice(deviceSlot);
 
-	});
+	// });
 
 	//	as.registerMethod('/test/',
 	//		'#bundle',
