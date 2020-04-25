@@ -42,8 +42,6 @@ function init() {
 	sender = osc.connectToUdpServer('127.0.0.1', 7400, null);
 
 
-	// util = new Util ();
-
 	// TODO: Perform further initialization here.
 	println("initialized"
 		+ ' - ' + host.getHostVendor()

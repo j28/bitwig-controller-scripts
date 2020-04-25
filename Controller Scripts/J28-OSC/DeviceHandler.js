@@ -85,7 +85,6 @@ DeviceHandler.prototype.browserSelectDevice = function (){
 		// println ("browser state: " + browserState[1]);
 
 		deviceHandler.cursorDevice.selectDevice(deviceBank.getDevice (browserState[1]));	
-		var cursorDevicePosition = deviceHandler.cursorDevice.position ().get ();
 		localState[1] = browserState[1];
 		localState[2] = -1;
 		localState[3] = -1;
@@ -120,6 +119,8 @@ DeviceHandler.prototype.browserSelectDevice = function (){
 				}	 	
 			}
 
+		} else {
+			deviceHandler.updateBrowser();
 		}
 
 	},50);	
@@ -128,8 +129,97 @@ DeviceHandler.prototype.browserSelectDevice = function (){
 }
 
 
-DeviceHandler.prototype.currentDevices = function (){
+DeviceHandler.prototype.updateBrowser = function (){
 
-	var cursorDevicePosition = this.cursorDevice.position ().get ();
+	var rootDevices = [];
+	var slotDevices = [];
+
+	sender.startBundle ();
+
+		println ("start outer bundle...");
+		trackHandler.cursorTrackPositionSend();
+		trackHandler.cursorTrackNameSend();
+		trackHandler.cursorTrackColorSend();
+
+		// has slots
+		if(localState[2] > -1){
+
+			var slotDeviceIndex = this.cursorDevice.position ().get ();
+			for (var d = 0; d < 15; d++) {
+				var deviceName = deviceBank.getDevice (d).name (). get();
+				if (deviceName){
+					slotDevices.push (deviceName);	
+				}
+			}
+
+		} else {
+
+			// send top devices only
+			sender.startBundle ();
+				var rootDeviceIndex = this.cursorDevice.position ().get ();
+				for (var d = 0; d < 15; d++) {
+					var deviceName = deviceBank.getDevice (d).name (). get();
+					if (deviceName){
+						rootDevices.push (deviceName);	
+
+
+						println ("\nlooping through device bank... index: " + d);
+						var deviceSlotListReversed = deviceBank.getDevice (d).slotNames ().get ();
+						var deviceSlotList = [];
+						deviceSlotList[0] = deviceSlotListReversed[1];
+						deviceSlotList[1] = deviceSlotListReversed[0];
+
+
+						sender.startBundle ();
+
+							var deviceNameArgs = [];
+							deviceNameArgs[0] = deviceName;
+
+
+							if(localState[1] == d){
+								deviceNameArgs[1] = true;
+							} else {
+								deviceNameArgs[1] = false;
+							}
+							println ("localState[1] is: " + localState[1]);
+
+
+							try {
+								sender.sendMessage('/track/device', deviceNameArgs);
+							} catch (err) {
+								println("error sending level: " + err);
+							}
+
+							if (deviceSlotList.length > 0 ) {
+
+								println ("device slot List exists....");
+								sender.startBundle ();
+
+									println ("\nstart inner bundle...");
+									for (r = 0; r < deviceSlotList.length; r++)
+									{
+
+										if(deviceSlotList[r]){
+											try {
+												sender.sendMessage('/track/device/slots', deviceSlotList[r]);
+											} catch (err) {
+												println("error sending level: " + err);
+											}
+										}
+
+									}	 	
+								sender.endBundle ();
+								println ("inner bundle ended...");
+
+							}
+						sender.endBundle ();
+
+					}
+				}
+			sender.endBundle();
+		}
+	sender.endBundle();
+
+
 
 }

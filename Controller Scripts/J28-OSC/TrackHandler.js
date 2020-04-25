@@ -32,11 +32,33 @@ function TrackHandler (trackbank, cursorTrack)
 
 TrackHandler.prototype.updateLocalState = function (){
 	localState[0] = this.cursorTrack.position ().get();
+
+	host.scheduleTask(function(){
+		deviceHandler.updateBrowser();
+	},50);	
 }
 
 
 TrackHandler.prototype.selectTrack = function (){
 	// this.trackbank.getItemAt (localState[0]).select ();
+}
+
+
+TrackHandler.prototype.cursorTrackPositionSend = function ()
+{
+
+	var trackPosition = this.cursorTrack.position().get();
+	// println("track name is: " + trackName);
+
+	var oscArgs = [];
+	oscArgs[0] = trackPosition;
+
+	try {
+		sender.sendMessage('/track/position', oscArgs);
+	} catch (err) {
+		println("error sending level: " + err);
+	}
+
 }
 
 
@@ -50,7 +72,7 @@ TrackHandler.prototype.cursorTrackNameSend = function ()
 	oscArgs[0] = trackName;
 
 	try {
-		sender.sendMessage('/track', oscArgs);
+		sender.sendMessage('/track/name', oscArgs);
 	} catch (err) {
 		println("error sending level: " + err);
 	}
