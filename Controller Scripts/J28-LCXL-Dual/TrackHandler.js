@@ -34,12 +34,19 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 	{
 		// if one of the buttons below is released we return true
 		var ourButtons = [
-
+			LCXL_BUTTON_FOCUS1,
+			LCXL_BUTTON_FOCUS2,
+			LCXL_BUTTON_FOCUS3,
+			LCXL_BUTTON_FOCUS4,
+			LCXL_BUTTON_FOCUS5,
+			LCXL_BUTTON_FOCUS6,
+			LCXL_BUTTON_FOCUS7,
+			LCXL_BUTTON_FOCUS8
 		];
-		if(ourButtons.indexOf(data1) > -1) {
-			if (data2 == 0)
-				return true;
-		}
+		// if(ourButtons.indexOf(data1) > -1) {
+		// 	if (data2 == 0)
+		// 		return true;
+		// }
 
 		switch (data1)
 		{
@@ -115,7 +122,6 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 				this.trackPosition = 7;
 				return true;
 
-
 			default:
 				return false;
 
@@ -138,11 +144,19 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 	{
 		// if one of the buttons below is released we return true
 		var ourButtons = [
+			LCXL_BUTTON_FOCUS1,
+			LCXL_BUTTON_FOCUS2,
+			LCXL_BUTTON_FOCUS3,
+			LCXL_BUTTON_FOCUS4,
+			LCXL_BUTTON_FOCUS5,
+			LCXL_BUTTON_FOCUS6,
+			LCXL_BUTTON_FOCUS7,
+			LCXL_BUTTON_FOCUS8
 		];
-		if(ourButtons.indexOf(data1) > -1) {
-			if (data2 == 0)
-				return true;
-		}
+		// if(ourButtons.indexOf(data1) > -1) {
+		// 	if (data2 == 0)
+		// 		return true;
+		// }
 
 		switch (data1)
 		{
@@ -250,17 +264,4 @@ TrackHandler.prototype.updateLEDtracks = function ()
 	// }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
