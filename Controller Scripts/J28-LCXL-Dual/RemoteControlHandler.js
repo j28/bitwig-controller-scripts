@@ -31,6 +31,9 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 	var midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ midiChan);
 	println ("this.handlerIndex: "+ this.handlerIndex);
+	println ("status: "+ status);
+	println ("data1: "+ data1);
+	println ("data2: "+ data2);
 
 	if (isChannelController(status))
 	{
@@ -222,7 +225,7 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 	// var midiChan = MIDIChannel(status);
 	// println ("midichannel is: "+ midiChan);
-	println ("this.handlerIndex: "+ this.handlerIndex);
+	// println ("this.handlerIndex: "+ this.handlerIndex);
 
 	// println ("data2 is: "+ );
 
@@ -411,7 +414,8 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 	return false;    
 }
 
-RemoteControlHandler.prototype.updateLEDcontrols = function ()
+
+RemoteControlHandler.prototype.updateLEDtracks = function ()
 {
 
 	// println ("remote controls page count: " + this.remoteControlsBank.pageCount ().get ());

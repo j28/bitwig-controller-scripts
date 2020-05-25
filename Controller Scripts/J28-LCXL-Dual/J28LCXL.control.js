@@ -18,7 +18,7 @@ else if (host.platformIsMac())
 else if (host.platformIsLinux())
 	host.addDeviceNameBasedDiscoveryPair(["Launch Control XL"], ["Launch Control XL"]);
 
-host.defineSysexIdentityReply('F0 7E 00 06 02 00 20 29 61 00 00 00 00 00 03 06 F7');
+// host.defineSysexIdentityReply('F0 7E 00 06 02 00 20 29 61 00 00 00 00 00 03 06 F7');
 
 var deviceBank = null;
 
@@ -98,10 +98,12 @@ function init()
 function flush()
 {
 	println ("\nFlush called.");
+
 	// transportHandler.updateLEDs ();
 	// trackHandler.updateLEDtracks ();
 	// trackHandler.updateLEDdevices ();
-	// remoteControlHandler.updateLEDs ();
+	// host.getMidiOutPort (0).sendMidi (150, 13, 28);
+	// trackHandler.updateLEDtracks ();
 }
 
 function exit()

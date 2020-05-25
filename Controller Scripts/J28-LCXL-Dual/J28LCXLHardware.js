@@ -43,10 +43,119 @@ const LCXL_BUTTON_FOCUS6 = 94;
 const LCXL_BUTTON_FOCUS7 = 95;
 const LCXL_BUTTON_FOCUS8 = 96;
 
+const LCXL_KNOBS = [
+	[13, 29, 45, 61, 77, 93, 109, 125],
+	[14, 30, 46, 62, 78, 94, 110, 126],
+	[15, 31, 47, 63, 79, 95, 111, 127]
+];
+
 function LCXLHardware (outputPort, inputPort, inputCallback)
 {
 	this.portOut = outputPort;
 	this.portIn  = inputPort;
 	this.ledCache = initArray (-1, 128);
 	this.portIn.setMidiCallback (inputCallback);
+}
+
+LCXLHardware.prototype.updateLEDtracks = function (ledOn)
+{
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][0], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][0], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][0], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][1], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][1], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][1], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][2], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][2], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][2], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][3], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][3], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][3], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][4], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][4], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][4], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][5], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][5], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][5], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][6], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][6], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][6], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][7], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][7], 0);
+	host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][7], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][0], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][0], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][0], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][1], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][1], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][1], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][2], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][2], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][2], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][3], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][3], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][3], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][4], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][4], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][4], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][5], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][5], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][5], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][6], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][6], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][6], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][7], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][7], 0);
+	host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][7], 0);
+
+	for (i = 0; i < trackHandler.trackbank.getSizeOfBank (); i++)
+	{
+		var track = trackHandler.trackbank.getItemAt (i);
+		g = track.isGroup ().get ();
+		if (i < 8){
+			if (g == true){
+				host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][i], 15);
+				host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][i], 15);
+				host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][i], 15);
+			} else {
+				host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[0][i], 0);
+				host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[1][i], 0);
+				host.getMidiOutPort (0).sendMidi (150, LCXL_KNOBS[2][i], 0);
+			}			
+		} else {
+			var trackIndex = i - 8;
+			if (g == true){
+				host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][trackIndex], 15);
+				host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][trackIndex], 15);
+				host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][trackIndex], 15);
+			} else {
+				host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[0][trackIndex], 0);
+				host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[1][trackIndex], 0);
+				host.getMidiOutPort (1).sendMidi (150, LCXL_KNOBS[2][trackIndex], 0);
+			}						
+		}
+	}
+
+	// turn off the track lights for both controllers first
+	host.getMidiOutPort (0).sendMidi (182, 89, 0);
+	host.getMidiOutPort (0).sendMidi (182, 90, 0);
+	host.getMidiOutPort (0).sendMidi (182, 91, 0);
+	host.getMidiOutPort (0).sendMidi (182, 92, 0);
+	host.getMidiOutPort (0).sendMidi (182, 93, 0);
+	host.getMidiOutPort (0).sendMidi (182, 94, 0);
+	host.getMidiOutPort (0).sendMidi (182, 95, 0);
+	host.getMidiOutPort (0).sendMidi (182, 96, 0);
+	host.getMidiOutPort (1).sendMidi (182, 89, 0);
+	host.getMidiOutPort (1).sendMidi (182, 90, 0);
+	host.getMidiOutPort (1).sendMidi (182, 91, 0);
+	host.getMidiOutPort (1).sendMidi (182, 92, 0);
+	host.getMidiOutPort (1).sendMidi (182, 93, 0);
+	host.getMidiOutPort (1).sendMidi (182, 94, 0);
+	host.getMidiOutPort (1).sendMidi (182, 95, 0);
+	host.getMidiOutPort (1).sendMidi (182, 96, 0);
+
+	// turn on the led for the track that is pressed
+	// println ("led on is: "+ ledOn);
+	this.portOut.sendMidi (182, ledOn, 60);
+
 }
