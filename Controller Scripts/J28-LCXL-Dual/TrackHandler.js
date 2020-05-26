@@ -35,8 +35,6 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 	println ("midichannel is: "+ this.midiChan);
 
 
-	if (isChannelController(status))
-	{
 		// if one of the buttons below is released we return true
 		var ourButtons = [
 			LCXL_BUTTON_FOCUS1,
@@ -140,7 +138,7 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2)
 
 		}
 
-	}
+
 	return false;
 }
 
@@ -153,8 +151,6 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 	println ("midichannel is: "+ this.midiChan);
 
 
-	if (isChannelController(status))
-	{
 		// if one of the buttons below is released we return true
 		var ourButtons = [
 			LCXL_BUTTON_FOCUS1,
@@ -258,7 +254,6 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 				return false;
 
 		}
-	}
 	return false;
 }
 
@@ -273,8 +268,26 @@ TrackHandler.prototype.updateLEDtracks = function ()
 
 	this.trackNumber = this.cursorTrack1.position().get();
 	this.trackType = this.cursorTrack1.trackType().get();
-	this.ledOn1 = this.trackPosition + 89;		
-	this.ledOn2 = this.trackPosition + 81;		
+
+	if (this.trackPosition < 8) {	
+		if (this.trackPosition < 4) {	
+			this.ledOn1 = this.trackPosition + 41;
+
+		} else {
+			this.ledOn1 = this.trackPosition + 53;
+
+		}
+	} else {
+	println ("CONTROLLER 2: "+ this.trackPosition);
+
+		if (this.trackPosition < 12) {	
+			this.ledOn2 = this.trackPosition + 33;
+
+		} else {
+			this.ledOn2 = this.trackPosition + 45;
+		}
+
+	}
 
 	println ("update trackNumber is: "+ this.trackNumber);
 	println ("update trackType is: "+ this.trackType);
