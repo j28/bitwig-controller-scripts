@@ -1,5 +1,4 @@
-function RemoteControlHandler (remoteControlsBank, handlerIndex)
-{
+function RemoteControlHandler (remoteControlsBank, handlerIndex){
 
 	this.remoteControlsBank = remoteControlsBank;
 
@@ -13,11 +12,9 @@ function RemoteControlHandler (remoteControlsBank, handlerIndex)
 
 	this.handlerIndex = handlerIndex;
 
-
 }
 
-RemoteControlHandler.prototype.selectParameter = function (parameterNum)
-{
+RemoteControlHandler.prototype.selectParameter = function (parameterNum){
 	this.remoteControlsBank.selectFirst ();
 	var i;
 	for (i = 0; i < parameterNum; i++)
@@ -25,8 +22,7 @@ RemoteControlHandler.prototype.selectParameter = function (parameterNum)
 }
 
 
-RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
-{
+RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 	var midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ midiChan);
@@ -35,8 +31,8 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 	println ("data1: "+ data1);
 	println ("data2: "+ data2);
 
-	if (isChannelController(status))
-	{
+	if (isChannelController(status)){
+
 		// if one of the buttons below is released we return true
 		var ourButtons = [
 		];
@@ -45,9 +41,50 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 				return true;
 		}
 
+		if (this.handlerIndex == 0){
+			switch (data1){
+
+				case LCXL_ROW3_KNOB1:
+					this.remoteControlsBank.getParameter (0).set (data2, 128);
+					return true;
+
+				case LCXL_ROW3_KNOB2:
+					this.remoteControlsBank.getParameter (1).set (data2, 128);
+					return true;
+
+				case LCXL_ROW3_KNOB3:
+					this.remoteControlsBank.getParameter (2).set (data2, 128);
+					return true;
+
+				case LCXL_ROW3_KNOB4:
+					this.remoteControlsBank.getParameter (3).set (data2, 128);
+					return true;
+
+				case LCXL_ROW3_KNOB5:
+					this.remoteControlsBank.getParameter (4).set (data2, 128);
+					return true;
+
+				case LCXL_ROW3_KNOB6:
+					this.remoteControlsBank.getParameter (5).set (data2, 128);
+					return true;
+
+				case LCXL_ROW3_KNOB7:
+					this.remoteControlsBank.getParameter (6).set (data2, 128);
+					return true;
+
+				case LCXL_ROW3_KNOB8:
+					this.remoteControlsBank.getParameter (7).set (data2, 128);
+					return true;
+
+				default:
+					return false;
+
+			}
+		}
+
 		if (this.handlerIndex == 1){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB1:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -67,8 +104,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 2){
-			switch (data1)
-			{
+			switch (data1){
 
 				case LCXL_ROW1_KNOB2:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
@@ -89,8 +125,8 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 3){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB3:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -109,10 +145,9 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 			}
 		}
 
-
 		if (this.handlerIndex == 4){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB4:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -132,8 +167,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 5){
-			switch (data1)
-			{
+			switch (data1){
 
 				case LCXL_ROW1_KNOB5:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
@@ -154,8 +188,8 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 6){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB6:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -175,8 +209,8 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 7){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB7:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -194,9 +228,10 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 
 			}
 		}
+
 		if (this.handlerIndex == 8){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB8:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -215,9 +250,9 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2)
 			}
 		}
 
-
 	}
 	return false;    
+
 }
 
 RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
@@ -229,8 +264,8 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 	// println ("data2 is: "+ );
 
-	if (isChannelController(status))
-	{
+	if (isChannelController(status)){
+
 		// if one of the buttons below is released we return true
 		var ourButtons = [
 
@@ -241,8 +276,8 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 9){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB1:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -262,8 +297,7 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 10){
-			switch (data1)
-			{
+			switch (data1){
 
 				case LCXL_ROW1_KNOB2:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
@@ -284,8 +318,8 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 11){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB3:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -306,8 +340,8 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 
 		if (this.handlerIndex == 12){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB4:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -327,8 +361,7 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 13){
-			switch (data1)
-			{
+			switch (data1){
 
 				case LCXL_ROW1_KNOB5:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
@@ -349,8 +382,8 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 14){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB6:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -370,8 +403,8 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 		}
 
 		if (this.handlerIndex == 15){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB7:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -389,9 +422,10 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 			}
 		}
+
 		if (this.handlerIndex == 16){
-			switch (data1)
-			{
+			switch (data1){
+
 				case LCXL_ROW1_KNOB8:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
 					return true;
@@ -412,11 +446,11 @@ RemoteControlHandler.prototype.handleMidi2 = function (status, data1, data2)
 
 	}
 	return false;    
+
 }
 
 
-RemoteControlHandler.prototype.updateLEDtracks = function ()
-{
+RemoteControlHandler.prototype.updateLEDtracks = function (){
 
 	// println ("remote controls page count: " + this.remoteControlsBank.pageCount ().get ());
 

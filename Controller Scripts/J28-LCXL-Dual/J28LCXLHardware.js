@@ -49,8 +49,7 @@ const LCXL_KNOBS = [
 	[15, 31, 47, 63, 79, 95, 111, 127]
 ];
 
-function LCXLHardware (outputPort, inputPort, midiCallback, sysexCallback)
-{
+function LCXLHardware (outputPort, inputPort, midiCallback, sysexCallback){
 	this.portOut = outputPort;
 	this.portIn  = inputPort;
 	this.ledCache = initArray (-1, 128);
@@ -58,8 +57,8 @@ function LCXLHardware (outputPort, inputPort, midiCallback, sysexCallback)
 	this.portIn.setSysexCallback (sysexCallback);
 }
 
-LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController)
-{
+LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
+
 	var currentController = currentController;
 
 	var led1Midi = null;
@@ -141,7 +140,6 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController)
 	host.getMidiOutPort (1).sendMidi (led2Midi, 126, 0);
 	host.getMidiOutPort (1).sendMidi (led2Midi, 127, 0);
 
-
 	// host.getMidiOutPort (0).sendMidi (145, LCXL_KNOBS[0][0], 0);
 	// host.getMidiOutPort (0).sendMidi (145, LCXL_KNOBS[1][0], 0);
 	// host.getMidiOutPort (0).sendMidi (145, LCXL_KNOBS[2][0], 0);
@@ -191,7 +189,6 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController)
 	// host.getMidiOutPort (1).sendMidi (144, LCXL_KNOBS[1][7], 0);
 	// host.getMidiOutPort (1).sendMidi (144, LCXL_KNOBS[2][7], 0);
 
-
 	// turn off the track lights for both controllers first
 	host.getMidiOutPort (0).sendMidi (led1Midi, 41, 0);
 	host.getMidiOutPort (0).sendMidi (led1Midi, 42, 0);
@@ -210,7 +207,6 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController)
 	host.getMidiOutPort (1).sendMidi (led2Midi, 59, 0);
 	host.getMidiOutPort (1).sendMidi (led2Midi, 60, 0);
 
-
 	// turn on the led for the track that is pressed
 	println ("led on is: "+ ledOn);
 
@@ -223,20 +219,29 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController)
 	// this.portOut.sendMidi (145, ledOn, 60);
 
 
-	for (i = 0; i < trackHandler.trackbank.getSizeOfBank (); i++)
-	{
+	for (i = 0; i < trackHandler.trackbank.getSizeOfBank (); i++){
+
 		var track = trackHandler.trackbank.getItemAt (i);
 		g = track.isGroup ().get ();
 		if (i < 8){
 			if (g == true){
 				host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[0][i], 15);
 				host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[1][i], 15);
-				host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[2][i], 15);
+				if (LCXL1UserModeIndex == 1){
+					host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[2][i], 15);
+				} else {
+					host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[2][i], 60);					
+				}
 			} else {
 				host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[0][i], 0);
 				host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[1][i], 0);
 				host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[2][i], 0);
-			}			
+				if (LCXL1UserModeIndex == 1){
+					host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[2][i], 0);
+				} else {
+					host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[2][i], 60);					
+				}
+			}
 		} else {
 			var trackIndex = i - 8;
 			if (g == true){
@@ -250,6 +255,5 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController)
 			}						
 		}
 	}
-
 
 }

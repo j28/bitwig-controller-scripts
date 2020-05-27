@@ -50,6 +50,7 @@ function init()
 	var cursorTrack14 = host.createCursorTrack ("LCXL_CURSOR_TRACK_14", "Cursor Track 14", 0, 0, true);
 	var cursorTrack15 = host.createCursorTrack ("LCXL_CURSOR_TRACK_15", "Cursor Track 15", 0, 0, true);
 	var cursorTrack16 = host.createCursorTrack ("LCXL_CURSOR_TRACK_16", "Cursor Track 16", 0, 0, true);
+	var cursorTrack17 = host.createCursorTrack ("LCXL_CURSOR_TRACK_17", "Cursor Track 17", 0, 0, true);
 
 	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2);
 	// trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2);
@@ -72,6 +73,7 @@ function init()
 	var cursorDevice14 = cursorTrack14.createCursorDevice ("LCXL_CURSOR_DEVICE_14", "Cursor Device 14", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 	var cursorDevice15 = cursorTrack15.createCursorDevice ("LCXL_CURSOR_DEVICE_15", "Cursor Device 15", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 	var cursorDevice16 = cursorTrack16.createCursorDevice ("LCXL_CURSOR_DEVICE_16", "Cursor Device 16", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
+	var cursorDevice17 = cursorTrack17.createCursorDevice ("LCXL_CURSOR_DEVICE_17", "Cursor Device 17", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 
 	deviceHandler = new DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice1, cursorDevice2, cursorDevice3);
 
@@ -93,10 +95,9 @@ function init()
 	remoteControlHandler14 = new RemoteControlHandler (cursorDevice14.createCursorRemoteControlsPage (8), 14);
 	remoteControlHandler15 = new RemoteControlHandler (cursorDevice15.createCursorRemoteControlsPage (8), 15);
 	remoteControlHandler16 = new RemoteControlHandler (cursorDevice16.createCursorRemoteControlsPage (8), 16);
+	remoteControlHandler17 = new RemoteControlHandler (cursorDevice17.createCursorRemoteControlsPage (8), 0);
 
 	println("LCXL initialized!");
-
-
 
 }
 
@@ -126,6 +127,11 @@ function handleMidi1 (status, data1, data2)
 	if (deviceHandler.handleMidi1 (status, data1, data2))
 		return;
 
+ 	if(LCXL1UserModeIndex == 2){
+		if (remoteControlHandler17.handleMidi1 (status, data1, data2))
+			return;
+ 	} 
+
 	if (remoteControlHandler1.handleMidi1 (status, data1, data2))
 		return;
 
@@ -149,10 +155,6 @@ function handleMidi1 (status, data1, data2)
 
 	if (remoteControlHandler8.handleMidi1 (status, data1, data2))
 		return;
-
-
-	// if (remoteControlHandler.handleMidi (status, data1, data2))
-	// 	return;
 
 	host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);
 }
@@ -192,10 +194,6 @@ function handleMidi2 (status, data1, data2)
 	if (remoteControlHandler16.handleMidi2 (status, data1, data2))
 		return;
 
-
-	// if (remoteControlHandler.handleMidi (status, data1, data2))
-	// 	return;
-
 	host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);
 }
 
@@ -205,7 +203,6 @@ function handleSysex1 (data) {
 	// println ("\ndata is: " + data);
 	println ("\nLCXL1UserModeIndex is: " + LCXL1UserModeIndex);
 	trackHandler.updateLEDtracks ();
-
 
 	// if (data.matchesHexPattern('F0 00 20 29 02 11 77 ?? F7'))
 	// {

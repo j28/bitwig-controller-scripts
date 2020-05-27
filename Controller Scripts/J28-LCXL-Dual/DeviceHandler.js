@@ -1,5 +1,5 @@
-function DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice, cursorDevice2, cursorDevice3)
-{
+function DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice, cursorDevice2, cursorDevice3){
+
 	// println ("cursor device is yooo ");
 	if(cursorTrack1)
 		this.cursorTrack1 = cursorTrack1;
@@ -40,27 +40,13 @@ function DeviceHandler (cursorTrack1, cursorTrack2, cursorTrack3, cursorDevice, 
 
 }
 
-DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
-{
-
-	// var slotNames = this.cursorDevice.slotNames ().get ();
-
-	//  if (slotNames.length > 0 ) {
-	// 	for (r = 0; r < slotNames.length; r++)
-	// 	{
-	// 		println ("slotName is: "+ slotNames[r]);
-	// 		this.cursorDevice.selectFirstInSlot(slotNames[r]);
-
-	// 		println ("dev chain name is: "+ this.cursorDevice.getCursorSlot ().name ().get ());
-
-	// 	}	 	
-	//  }
+DeviceHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 	var midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ midiChan);
 
-	if (isChannelController(status))
-	{
+	if (isChannelController(status)){
+
 		// if one of the buttons below is released we return true
 		var ourButtons = [
 		];
@@ -69,9 +55,7 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 				return true;
 		}
 
-		switch (data1)
-		{
-
+		switch (data1){
 
 			// case NK2_BUTTON_REW:
 			// 	this.cursorDevice.isEnabled ().toggle ();
@@ -98,16 +82,16 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2)
 		}
 	}
 	return false;    
+
 }
 
-DeviceHandler.prototype.handleMidi2 = function (status, data1, data2)
-{
+DeviceHandler.prototype.handleMidi2 = function (status, data1, data2){
 
 	var midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ midiChan);
 
-	if (isChannelController(status))
-	{
+	if (isChannelController(status)){
+
 		// if one of the buttons below is released we return true
 		var ourButtons = [
 
@@ -117,8 +101,7 @@ DeviceHandler.prototype.handleMidi2 = function (status, data1, data2)
 				return true;
 		}
 
-		switch (data1)
-		{
+		switch (data1){
 
 			// case NK2_BUTTON_FF:
 			// 	this.cursorDevice.isExpanded ().toggle ();
@@ -144,9 +127,6 @@ DeviceHandler.prototype.handleMidi2 = function (status, data1, data2)
 	return false;    
 }
 
-DeviceHandler.prototype.updateLEDdevices = function ()
-{
-
-
+DeviceHandler.prototype.updateLEDdevices = function (){
 
 }
