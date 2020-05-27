@@ -257,7 +257,6 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2)
 	return false;
 }
 
-
 TrackHandler.prototype.updateLEDtracks = function ()
 {
 
@@ -294,9 +293,9 @@ TrackHandler.prototype.updateLEDtracks = function ()
 	println ("update trackPosition is: "+ this.trackPosition);
 
 	if (this.trackPosition < 8) {
-		hardware1.updateLEDtracks (this.ledOn1);
+		hardware1.updateLEDtracks (this.ledOn1, 1);
 	} else {
-		hardware2.updateLEDtracks (this.ledOn2);		
+		hardware2.updateLEDtracks (this.ledOn2, 2);		
 	}
 
 }

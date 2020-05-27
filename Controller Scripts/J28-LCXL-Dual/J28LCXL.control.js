@@ -20,16 +20,19 @@ else if (host.platformIsLinux())
 
 host.defineSysexIdentityReply('F0 7E 00 06 02 00 20 29 61 00 00 00 00 00 03 06 F7');
 
-var deviceBank = null;
 
-var hardware = null;
+var hardware1 = null;
+var hardware2 = null;
+var LCXL1UserModeIndex = null;
+var LCXL2UserModeIndex = null;
+
 
 function init()
 {
 	application = host.createApplication();
 
-	hardware1 = new LCXLHardware (host.getMidiOutPort (0), host.getMidiInPort (0), handleMidi1);
-	hardware2 = new LCXLHardware (host.getMidiOutPort (1), host.getMidiInPort (1), handleMidi2);
+	hardware1 = new LCXLHardware (host.getMidiOutPort (0), host.getMidiInPort (0), handleMidi1, handleSysex1);
+	hardware2 = new LCXLHardware (host.getMidiOutPort (1), host.getMidiInPort (1), handleMidi2, handleSysex2);
 
 	var cursorTrack1 = host.createCursorTrack ("LCXL_CURSOR_TRACK_01", "Cursor Track 01", 0, 0, true);
 	var cursorTrack2 = host.createCursorTrack ("LCXL_CURSOR_TRACK_02", "Cursor Track 02", 0, 0, true);
@@ -92,6 +95,9 @@ function init()
 	remoteControlHandler16 = new RemoteControlHandler (cursorDevice16.createCursorRemoteControlsPage (8), 16);
 
 	println("LCXL initialized!");
+
+
+
 }
 
 // is called on hardware changes and on ui changes
@@ -191,4 +197,25 @@ function handleMidi2 (status, data1, data2)
 	// 	return;
 
 	host.errorln ("Midi command not processed: " + status + " : " + data1 + " : " + data2);
+}
+
+function handleSysex1 (data) {
+
+	LCXL1UserModeIndex = data.hexByteAt(7);
+	// println ("\ndata is: " + data);
+	println ("\nLCXL1UserModeIndex is: " + LCXL1UserModeIndex);
+	trackHandler.updateLEDtracks ();
+
+
+	// if (data.matchesHexPattern('F0 00 20 29 02 11 77 ?? F7'))
+	// {
+	// }
+
+}
+
+function handleSysex2 (data) {
+	LCXL2UserModeIndex = data.hexByteAt(7);
+	// println ("\ndata is: " + data);
+	println ("\nLCXL2UserModeIndex is: " + LCXL2UserModeIndex);
+	trackHandler.updateLEDtracks ();
 }
