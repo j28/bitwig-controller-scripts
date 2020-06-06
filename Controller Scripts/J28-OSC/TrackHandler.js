@@ -19,11 +19,11 @@ function TrackHandler (trackbank, cursorTrack)
 
 	this.trackbank.followCursorTrack (this.cursorTrack);
 
-	this.cursorTrack.position().addValueObserver(this.updateLocalState);
-	this.cursorTrack.name().markInterested();
+	// this.cursorTrack.position().addValueObserver(this.updateLocalState);
+	this.cursorTrack.name().addValueObserver(this.updateLocalState);
 	this.cursorTrack.color().markInterested();
 
-	// this.cursorTrack.position().markInterested();
+	this.cursorTrack.position().markInterested();
 	// this.cursorTrack.name().addValueObserver(this.cursorTrackNameObserver);
 	// this.cursorTrack.color().addValueObserver(this.cursorTrackColorObserver);
 	// this.cursorTrack.getDevice (0).name ().get().markInterested();
@@ -31,6 +31,7 @@ function TrackHandler (trackbank, cursorTrack)
 }
 
 TrackHandler.prototype.updateLocalState = function (){
+
 	localState[0] = this.cursorTrack.position ().get();
 
 	host.scheduleTask(function(){

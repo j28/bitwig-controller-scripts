@@ -9,9 +9,15 @@ function DeviceHandler (cursorTrack, cursorDevice)
 	this.listingInProgress = false;
 	this.isNested = null;
 
-	this.cursorDevice.isExpanded ().markInterested ();
-	this.cursorDevice.isEnabled ().markInterested ();
-	this.cursorDevice.isWindowOpen ().markInterested ();
+
+	// this.cursorDevice.isEnabled ().markInterested ();
+	// this.cursorDevice.isExpanded ().markInterested ();
+	// this.cursorDevice.isWindowOpen ().markInterested ();
+
+	this.cursorDevice.isEnabled ().addValueObserver(cursorDeviceEnabledObserver);
+	this.cursorDevice.isExpanded ().addValueObserver(cursorDeviceDetailObserver);
+	this.cursorDevice.isWindowOpen ().addValueObserver(cursorDeviceExpandedObserver);
+
 	this.cursorDevice.slotNames ().markInterested ();
 	this.cursorDevice.getCursorSlot ().name ().markInterested ();
 
@@ -276,3 +282,70 @@ DeviceHandler.prototype.updateBrowserRoot = function (){
 	sender.endBundle();
 
 }
+
+DeviceHandler.prototype.deviceToggle = function (){
+
+	this.cursorDevice.isEnabled ().toggle ();
+	this.deviceToggleUpdate ();
+
+};
+
+DeviceHandler.prototype.deviceToggleUpdate = function (){
+	var onOff = this.cursorDevice.isEnabled ().get();
+
+	println("this.cursorDevice.isEnabled ().get(): " + onOff);
+	var oscArgs = [];
+	oscArgs[0] = onOff;
+
+	try {
+		sender.sendMessage('/device/toggle', oscArgs);
+	} catch (err) {
+		println("error sending level: " + err);
+	};
+};
+
+DeviceHandler.prototype.deviceDetail = function (){
+
+	this.cursorDevice.isExpanded ().toggle ();
+	this.deviceDetailUpdate ();
+
+};
+
+DeviceHandler.prototype.deviceDetailUpdate = function (){
+
+	var onOff = this.cursorDevice.isExpanded ().get();
+
+	println("this.cursorDevice.isEnabled ().get(): " + onOff);
+	var oscArgs = [];
+	oscArgs[0] = onOff;
+
+	try {
+		sender.sendMessage('/device/detail', oscArgs);
+	} catch (err) {
+		println("error sending level: " + err);
+	};
+
+};
+
+DeviceHandler.prototype.deviceExpanded = function (){
+
+	this.cursorDevice.isWindowOpen ().toggle ();
+	this.deviceExpandedUpdate ();
+
+};
+
+DeviceHandler.prototype.deviceExpandedUpdate = function (){
+
+	var onOff = this.cursorDevice.isWindowOpen ().get();
+
+	println("this.cursorDevice.isWindowOpen ().get(): " + onOff);
+	var oscArgs = [];
+	oscArgs[0] = onOff;
+
+	try {
+		sender.sendMessage('/device/expanded', oscArgs);
+	} catch (err) {
+		println("error sending level: " + err);
+	};
+
+};

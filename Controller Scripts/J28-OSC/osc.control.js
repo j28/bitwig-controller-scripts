@@ -1,5 +1,6 @@
 loadAPI(10);
 load ("polyfill.js");
+load ("PanelHandler.js");
 load ("TrackHandler.js");
 load ("DeviceHandler.js");
 
@@ -11,26 +12,35 @@ host.defineController("J28", "OSC", "0.1", "090e6d3a-d7f0-4371-b0c4-59363cedf35d
 
 var sender = null;
 
-
 function cursorDevicePositionObserver (){
 	// deviceHandler.currentDevices();
 }
 function cursorDeviceNameObserver (){
 	// the scheduling is needed because otherwise the isNested state is not updated prior to requesting it
-
 	deviceHandler.updateLocalState();
 }
 function cursorDeviceNestedObserver (){
 	deviceHandler.cursorDeviceNested();
 }
-
-
-
+function cursorDeviceEnabledObserver (){
+	deviceHandler.deviceToggleUpdate();
+}
+function cursorDeviceDetailObserver (){
+	deviceHandler.deviceDetailUpdate();
+}
+function cursorDeviceExpandedObserver (){
+	deviceHandler.deviceExpandedUpdate();
+}
 
 function init() {
 
 	localState = [];
 	browserState = [];
+
+	application = host.createApplication();
+	mixer = host.createMixer();
+
+	panelHandler = new PanelHandler ();
 
 	cursorTrack = host.createCursorTrack ("OSC_CURSOR_TRACK", "Cursor Track", 0, 0, true);
 	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack);
@@ -87,7 +97,6 @@ function init() {
 
 	});
 
-
 	as.registerMethod('/track',
 		',ffff',
 		'Select track',
@@ -108,6 +117,64 @@ function init() {
 
 	});
 
+	as.registerMethod('/panel/devices',
+		',s',
+		'Select device slot',
+		function(c, msg){
+			panelHandler.togglePanelDevices();
+			// println("c coming from browser is: " + c);
+			// var someMsg = msg.getString(0);
+			// println("msg is: " + someMsg);
+	});
+
+	as.registerMethod('/panel/notes',
+		',s',
+		'Toggle Panel Notes',
+		function(c, msg){
+			panelHandler.togglePanelNotes();
+	});
+
+	as.registerMethod('/panel/meter',
+		',s',
+		'Toggle Panel Meter',
+		function(c, msg){
+			panelHandler.togglePanelMeter();
+	});
+
+	as.registerMethod('/panel/io',
+		',s',
+		'Toggle Panel IO',
+		function(c, msg){
+			panelHandler.togglePanelIo();
+	});
+
+	as.registerMethod('/panel/inspector',
+		',s',
+		'Toggle Panel Inspector',
+		function(c, msg){
+			panelHandler.togglePanelInspector();
+	});
+
+	as.registerMethod('/device/toggle',
+		',s',
+		'Device Toggle',
+		function(c, msg){
+			deviceHandler.deviceToggle();
+	});
+
+	as.registerMethod('/device/detail',
+		',s',
+		'Device Detail',
+		function(c, msg){
+			deviceHandler.deviceDetail();
+	});
+
+	as.registerMethod('/device/expanded',
+		',s',
+		'Device Expanded',
+		function(c, msg){
+			deviceHandler.deviceExpanded();
+	});
 
 	// as.registerMethod('/track',
 	// 	',f',
@@ -116,28 +183,6 @@ function init() {
 	// 		// println("c coming from browser is: " + c);
 	// 		var trackIndex = msg.getFloat(0);			
 	// 		println("track index coming from browser is: " + trackIndex);
-	// });
-
-	// as.registerMethod('/device',
-	// 	',f',
-	// 	'Select device',
-	// 	function(c, msg){
-	// 		// println("c coming from browser is: " + c);
-	// 		var deviceIndex = msg.getFloat(0);
-	// 		deviceHandler.selectDevice(deviceIndex);
-	// 		// println("track index coming from browser is: " + trackIndex);
-	// });
-
-	// as.registerMethod('/device-slot',
-	// 	',s',
-	// 	'Select device slot',
-	// 	function(c, msg){
-	// 		// println("c coming from browser is: " + c);
-	// 		var deviceSlot = msg.getString(0);
-	// 		// deviceHandler.selectDevice(deviceIndex);
-	// 		println("device slot coming from browser is: " + deviceSlot);
-	// 		deviceHandler.selectSlotDevice(deviceSlot);
-
 	// });
 
 	//	as.registerMethod('/test/',
