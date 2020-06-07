@@ -17,6 +17,7 @@ function DeviceHandler (cursorTrack, cursorDevice)
 	this.cursorDevice.isEnabled ().addValueObserver(cursorDeviceEnabledObserver);
 	this.cursorDevice.isExpanded ().addValueObserver(cursorDeviceDetailObserver);
 	this.cursorDevice.isWindowOpen ().addValueObserver(cursorDeviceExpandedObserver);
+	this.cursorDevice.isRemoteControlsSectionVisible ().addValueObserver(cursorDeviceRemoteControlsObserver);
 
 	this.cursorDevice.slotNames ().markInterested ();
 	this.cursorDevice.getCursorSlot ().name ().markInterested ();
@@ -286,7 +287,7 @@ DeviceHandler.prototype.updateBrowserRoot = function (){
 DeviceHandler.prototype.deviceToggle = function (){
 
 	this.cursorDevice.isEnabled ().toggle ();
-	this.deviceToggleUpdate ();
+	// this.deviceToggleUpdate ();
 
 };
 
@@ -307,7 +308,7 @@ DeviceHandler.prototype.deviceToggleUpdate = function (){
 DeviceHandler.prototype.deviceDetail = function (){
 
 	this.cursorDevice.isExpanded ().toggle ();
-	this.deviceDetailUpdate ();
+	// this.deviceDetailUpdate ();
 
 };
 
@@ -330,7 +331,7 @@ DeviceHandler.prototype.deviceDetailUpdate = function (){
 DeviceHandler.prototype.deviceExpanded = function (){
 
 	this.cursorDevice.isWindowOpen ().toggle ();
-	this.deviceExpandedUpdate ();
+	// this.deviceExpandedUpdate ();
 
 };
 
@@ -344,6 +345,28 @@ DeviceHandler.prototype.deviceExpandedUpdate = function (){
 
 	try {
 		sender.sendMessage('/device/expanded', oscArgs);
+	} catch (err) {
+		println("error sending level: " + err);
+	};
+
+};
+
+DeviceHandler.prototype.deviceRemoteControls = function (){
+
+	this.cursorDevice.isRemoteControlsSectionVisible ().toggle ();
+
+};
+
+DeviceHandler.prototype.deviceRemoteControlsUpdate = function (){
+
+	var onOff = this.cursorDevice.isRemoteControlsSectionVisible ().get();
+
+	println("this.cursorDevice.isRemoteControlsSectionVisible ().get(): " + onOff);
+	var oscArgs = [];
+	oscArgs[0] = onOff;
+
+	try {
+		sender.sendMessage('/device/remote-controls', oscArgs);
 	} catch (err) {
 		println("error sending level: " + err);
 	};

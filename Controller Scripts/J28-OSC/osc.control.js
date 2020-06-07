@@ -31,6 +31,10 @@ function cursorDeviceDetailObserver (){
 function cursorDeviceExpandedObserver (){
 	deviceHandler.deviceExpandedUpdate();
 }
+function cursorDeviceRemoteControlsObserver (){
+	deviceHandler.deviceRemoteControlsUpdate();
+}
+
 
 function init() {
 
@@ -174,6 +178,13 @@ function init() {
 		'Device Expanded',
 		function(c, msg){
 			deviceHandler.deviceExpanded();
+	});
+
+	as.registerMethod('/device/remote-controls',
+		',s',
+		'Device Remote Controls',
+		function(c, msg){
+			deviceHandler.deviceRemoteControls();
 	});
 
 	// as.registerMethod('/track',
