@@ -1,5 +1,6 @@
 loadAPI(10);
 load ("polyfill.js");
+load ("TransportHandler.js");
 load ("PanelHandler.js");
 load ("TrackHandler.js");
 load ("DeviceHandler.js");
@@ -11,6 +12,7 @@ host.setShouldFailOnDeprecatedUse(true);
 host.defineController("J28", "OSC", "0.1", "090e6d3a-d7f0-4371-b0c4-59363cedf35d");
 
 var sender = null;
+var isEngineOn = false;
 
 function cursorDevicePositionObserver (){
 	// deviceHandler.currentDevices();
@@ -34,6 +36,9 @@ function cursorDeviceExpandedObserver (){
 function cursorDeviceRemoteControlsObserver (){
 	deviceHandler.deviceRemoteControlsUpdate();
 }
+function applicationPlayObserver (){
+	transportHandler.applicationPlayUpdate();
+}
 
 
 function init() {
@@ -43,6 +48,8 @@ function init() {
 
 	application = host.createApplication();
 	mixer = host.createMixer();
+
+	transportHandler = new TransportHandler (host.createTransport ());
 
 	panelHandler = new PanelHandler ();
 
@@ -185,6 +192,13 @@ function init() {
 		'Device Remote Controls',
 		function(c, msg){
 			deviceHandler.deviceRemoteControls();
+	});
+
+	as.registerMethod('/application/play',
+		',s',
+		'Application Play',
+		function(c, msg){
+			transportHandler.applicationPlay();
 	});
 
 	// as.registerMethod('/track',
