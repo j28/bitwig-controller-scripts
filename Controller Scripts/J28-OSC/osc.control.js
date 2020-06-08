@@ -4,6 +4,7 @@ load ("TransportHandler.js");
 load ("PanelHandler.js");
 load ("TrackHandler.js");
 load ("DeviceHandler.js");
+load ("RemoteControlHandler.js");
 
 // Remove this if you want to be able to use deprecated methods without causing script to stop.
 // This is useful during development.
@@ -39,6 +40,10 @@ function cursorDeviceRemoteControlsObserver (){
 function applicationPlayObserver (){
 	transportHandler.applicationPlayUpdate();
 }
+function remoteControlsPageNamesObserver (){
+	remoteControlHandler.sendPagesNames();
+}
+
 
 
 function init() {
@@ -58,6 +63,8 @@ function init() {
 
 	var cursorDevice = cursorTrack.createCursorDevice ("OSC_CURSOR_DEVICE", "Cursor Device", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
 	deviceHandler = new DeviceHandler (cursorTrack, cursorDevice);
+
+	remoteControlHandler = new RemoteControlHandler (cursorDevice.createCursorRemoteControlsPage (8));
 
 	var osc = host.getOscModule();
 	sender = osc.connectToUdpServer('127.0.0.1', 7400, null);
@@ -199,6 +206,14 @@ function init() {
 		'Application Play',
 		function(c, msg){
 			transportHandler.applicationPlay();
+	});
+
+	as.registerMethod('/remote-controls/select',
+		',f',
+		'Remote Controls Select',
+		function(c, msg){
+			var pageIndex = msg.getFloat(0);			
+			remoteControlHandler.selectPage(pageIndex);
 	});
 
 	// as.registerMethod('/track',
