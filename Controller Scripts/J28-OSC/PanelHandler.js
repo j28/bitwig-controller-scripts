@@ -29,6 +29,13 @@ PanelHandler.prototype.togglePanelMeter = function (){
 	mixer.isMeterSectionVisible().toggle();
 
 	var onOff = mixer.isMeterSectionVisible().get();
+	// values are reversed for some reason
+	if (onOff == true){
+		onOff = false;
+	} else if (onOff == false){
+		onOff = true;
+	};
+
 	println("mixer.isMeterSectionVisible().get(): " + onOff);
 	var oscArgs = [];
 	oscArgs[0] = onOff;
@@ -46,6 +53,13 @@ PanelHandler.prototype.togglePanelIo = function (){
 	mixer.isIoSectionVisible().toggle();
 
 	var onOff = mixer.isIoSectionVisible().get();
+	// values are reversed for some reason
+	if (onOff == true){
+		onOff = false;
+	} else if (onOff == false){
+		onOff = true;
+	};
+
 	println("mixer.isIoSectionVisible().get(): " + onOff);
 	var oscArgs = [];
 	oscArgs[0] = onOff;
