@@ -9,7 +9,6 @@ function DeviceHandler (cursorTrack, cursorDevice)
 	this.listingInProgress = false;
 	this.isNested = null;
 
-
 	// this.cursorDevice.isEnabled ().markInterested ();
 	// this.cursorDevice.isExpanded ().markInterested ();
 	// this.cursorDevice.isWindowOpen ().markInterested ();
@@ -53,36 +52,78 @@ DeviceHandler.prototype.cursorDeviceNested = function (){
 	println ("isNestedObserver cursor device is root: " + this.cursorDeviceIsRoot);
 }
 
+// triggered from inside device slot device
 DeviceHandler.prototype.updateLocalState = function (){
 
 	host.scheduleTask(function(){
 
-		var cursorDevicePosition = deviceHandler.cursorDevice.position ().get ();
+		if (deviceHandler.onHold == true){
 
-		deviceHandler.cursorDeviceNested();
+			deviceHandler.cursorDeviceNested();
 
-		// select root device
-		if(deviceHandler.cursorDeviceIsRoot == true){
-			localState[1] = cursorDevicePosition;
-			localState[2] = -1;
-			localState[3] = -1;
-			// println('after update, when root device selected: ' + localState[0]);
-			// println('after update, when root device selected: ' + localState[1]);
-			// println('after update, when root device selected: ' + localState[2]);
-			// println('after update, when root device selected: ' + localState[3]);
-		} else if (deviceHandler.cursorDeviceIsRoot == false ){
-			localState[1] = -2;
-			localState[2] = -2;
-			localState[3] = cursorDevicePosition;
-			// println('after update, when nested device selected: ' + localState[0]);
-			// println('after update, when nested device selected: ' + localState[1]);
-			// println('after update, when nested device selected: ' + localState[2]);
-			// println('after update, when nested device selected: ' + localState[3]);		
+			var cursorDevicePosition = deviceHandler.cursorDevice.position ().get ();		
+
+			deviceHandler.newName = deviceHandler.cursorDevice.name ().get ();							
+			if (deviceHandler.originalName == deviceHandler.newName && deviceHandler.cursorDeviceIsRoot == true){
+
+				localState[1] = cursorDevicePosition;
+				localState[2] = -2;
+				localState[3] = -2;
+
+			} else {
+
+				localState[1] = cursorDevicePosition;
+
+				println ("\deviceHandler.newName is: " + deviceHandler.newName);
+
+				localState[2] = browserState[2];
+
+				println ("slotName is: "+ deviceHandler.deviceSlotList[r]);
+				println('after select browserState[2]: ' + browserState[2]);
+				println('after select browserState[3]: ' + browserState[3]);
+
+				localState[3] = browserState[3];
+				if(browserState[3] > -1){
+					deviceHandler.cursorDevice.selectDevice(deviceBank.getDevice (browserState[3]));	
+					localState[3] = browserState[3];
+				}
+
+			}
+				host.scheduleTask(function(){
+					deviceHandler.updateBrowser();
+				},50);	
+
+			deviceHandler.onHold = false;			
 		}
+
+		// var cursorDevicePosition = deviceHandler.cursorDevice.position ().get ();
+
+		// deviceHandler.cursorDeviceNested();
+
+		// // select root device
+		// if(deviceHandler.cursorDeviceIsRoot == true){
+		// 	localState[1] = cursorDevicePosition;
+		// 	localState[2] = -1;
+		// 	localState[3] = -1;
+		// 	// println('after update, when root device selected: ' + localState[0]);
+		// 	// println('after update, when root device selected: ' + localState[1]);
+		// 	// println('after update, when root device selected: ' + localState[2]);
+		// 	// println('after update, when root device selected: ' + localState[3]);
+		// } else if (deviceHandler.cursorDeviceIsRoot == false ){
+		// 	localState[1] = -2;
+		// 	localState[2] = -2;
+		// 	localState[3] = cursorDevicePosition;
+		// 	// println('after update, when nested device selected: ' + localState[0]);
+		// 	// println('after update, when nested device selected: ' + localState[1]);
+		// 	// println('after update, when nested device selected: ' + localState[2]);
+		// 	// println('after update, when nested device selected: ' + localState[3]);		
+		// }
+
 	},50);	
 
 }
 
+// parsing the browser message
 DeviceHandler.prototype.browserSelectDevice = function (){
 
 	println('\n\n');
@@ -125,26 +166,17 @@ DeviceHandler.prototype.browserSelectDevice = function (){
 					for (r = 0; r < deviceHandler.deviceSlotList.length; r++)
 					{
 						if (r == browserState[2]){
+
+							deviceHandler.originalName = deviceHandler.cursorDevice.name ().get ();							
+							println ("\ndeviceHandler.originalName is: " + deviceHandler.originalName);
+
 							deviceHandler.cursorDevice.selectFirstInSlot(deviceHandler.deviceSlotList[r]);
-							localState[2] = browserState[2];
-							println ("slotName is: "+ deviceHandler.deviceSlotList[r]);
 
-							println('after select browserState[2]: ' + browserState[2]);
-							println('after select browserState[3]: ' + browserState[3]);
-
-							localState[3] = browserState[3];
-							if(browserState[3] > -1){
-								deviceHandler.cursorDevice.selectDevice(deviceBank.getDevice (browserState[3]));	
-								localState[3] = browserState[3];
-							}
+							deviceHandler.onHold = true;
 						}
 
 					}	 	
 				}
-
-				host.scheduleTask(function(){
-					deviceHandler.updateBrowser();
-				},50);	
 
 			},50);	
 
@@ -157,6 +189,7 @@ DeviceHandler.prototype.browserSelectDevice = function (){
 
 }
 
+// update device slot devices
 DeviceHandler.prototype.updateBrowser = function (){
 
 	host.scheduleTask(function(){
@@ -164,43 +197,55 @@ DeviceHandler.prototype.updateBrowser = function (){
 		host.showPopupNotification( deviceHandler.currentDeviceName );
 	},50);	
 
-
 	var slotDevices = [];
 
 	sender.startBundle ();
 
-		var slotDeviceIndex = this.cursorDevice.position ().get ();
-		for (var d = 0; d < 15; d++) {
+		deviceHandler.newName = deviceHandler.cursorDevice.name ().get ();							
+		if (deviceHandler.originalName != deviceHandler.newName){
 
-			var currentSlotDevice = [];
+			for (var d = 0; d < 15; d++) {
 
-			var deviceName = deviceBank.getDevice (d).name (). get();
-			var isActive = null;
-			if (deviceName){
-				if (d == localState[3]){
-					isActive = true;
-				} else {
-					isActive = false;					
+				var currentSlotDevice = [];
+
+				var deviceName = deviceBank.getDevice (d).name (). get();
+				var isActive = null;
+				if (deviceName){
+					if (d == localState[3]){
+						isActive = true;
+					} else {
+						isActive = false;					
+					}
+
+					slotDevices.push (deviceName);
+
+					currentSlotDevice[0] = deviceName;
+					currentSlotDevice[1] = isActive;
+
+					try {
+						sender.sendMessage('/device-slot/devices', currentSlotDevice);
+					} catch (err) {
+						println("error sending level: " + err);
+					}
+
 				}
-
-				slotDevices.push (deviceName);
-
-				currentSlotDevice[0] = deviceName;
-				currentSlotDevice[1] = isActive;
-
-				try {
-					sender.sendMessage('/device-slot/devices', currentSlotDevice);
-				} catch (err) {
-					println("error sending level: " + err);
-				}
-
 			}
+
+		} else {
+
+			try {
+				sender.sendMessage('/device-slot/devices', null);
+			} catch (err) {
+				println("error sending level: " + err);
+			}
+
 		}
 
 	sender.endBundle ();	
 
 }
 
+// update devices and slots
 DeviceHandler.prototype.updateBrowserRoot = function (){
 
 	host.scheduleTask(function(){
@@ -361,7 +406,7 @@ DeviceHandler.prototype.deviceRemoteControlsUpdate = function (){
 
 	var onOff = this.cursorDevice.isRemoteControlsSectionVisible ().get();
 
-	println("this.cursorDevice.isRemoteControlsSectionVisible ().get(): " + onOff);
+	// println("this.cursorDevice.isRemoteControlsSectionVisible ().get(): " + onOff);
 	var oscArgs = [];
 	oscArgs[0] = onOff;
 
