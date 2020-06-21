@@ -218,7 +218,6 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
 
 	// this.portOut.sendMidi (145, ledOn, 60);
 
-
 	for (i = 0; i < trackHandler.trackbank.getSizeOfBank (); i++){
 
 		var track = trackHandler.trackbank.getItemAt (i);

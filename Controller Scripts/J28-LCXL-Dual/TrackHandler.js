@@ -1,8 +1,9 @@
-function TrackHandler (trackbank, cursorTrack1, cursorTrack2){
+function TrackHandler (trackbank, cursorTrack1, cursorTrack2, cursorTrack17){
 
 	this.trackbank = trackbank;
 	this.cursorTrack1 = cursorTrack1;
 	this.cursorTrack2 = cursorTrack2;
+	this.cursorTrack17 = cursorTrack17;
 
 	this.devicesAmount = [];
 
@@ -16,11 +17,20 @@ function TrackHandler (trackbank, cursorTrack1, cursorTrack2){
 		v = track.volume ();
 		v.markInterested ();
 		v.setIndication (true);
+
+		n = track.name ();
+		n.markInterested ();
+
 	}
 
 	this.trackbank.followCursorTrack (this.cursorTrack1);
-	this.cursorTrack1.position().markInterested();
 	this.cursorTrack1.trackType().markInterested();
+
+	this.cursorTrack17.name().markInterested();
+	this.cursorTrack17.name().addValueObserver(observerName);
+
+	// this.cursorTrack1.position().markInterested();
+	// this.cursorTrack1.position().addValueObserver(test);
 
 }
 
@@ -148,7 +158,6 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2){
 	this.midiChan = MIDIChannel(status);
 	println ("midichannel is: "+ this.midiChan);
 
-
 	// if one of the buttons below is released we return true
 	var ourButtons = [
 		LCXL_BUTTON_FOCUS1,
@@ -255,6 +264,26 @@ TrackHandler.prototype.handleMidi2 = function (status, data1, data2){
 	return false;
 }
 
+TrackHandler.prototype.updateTrackPosition = function (){
+
+	var cursorTrackName = trackHandler.cursorTrack17.name().get();
+	// println ("\ncursorTrackName: " + cursorTrackName);
+
+	for (i = 0; i < this.trackbank.getSizeOfBank(); i++) {
+
+		var track = this.trackbank.getItemAt(i);
+		var trackName = track.name().get();
+		// println ("\ntrackName: " + trackName);
+
+		if(cursorTrackName == trackName){
+			this.trackPosition = i;
+		} 
+
+	}
+	this.updateLEDtracks ();
+
+}
+
 TrackHandler.prototype.updateLEDtracks = function (){
 
 	// update tracks leds
@@ -262,7 +291,7 @@ TrackHandler.prototype.updateLEDtracks = function (){
 	// println ("update currentData1 is: "+ this.currentData1);
 	// println ("update currentData2 is: "+ this.currentData2);
 
-	this.trackNumber = this.cursorTrack1.position().get();
+	// this.trackNumber = this.cursorTrack1.position().get();
 	this.trackType = this.cursorTrack1.trackType().get();
 
 	if (this.trackPosition < 8) {	
@@ -274,7 +303,8 @@ TrackHandler.prototype.updateLEDtracks = function (){
 
 		}
 	} else {
-	println ("CONTROLLER 2: "+ this.trackPosition);
+
+		println ("CONTROLLER 2: "+ this.trackPosition);
 
 		if (this.trackPosition < 12) {	
 			this.ledOn2 = this.trackPosition + 33;
@@ -296,5 +326,3 @@ TrackHandler.prototype.updateLEDtracks = function (){
 	}
 
 }
-
-

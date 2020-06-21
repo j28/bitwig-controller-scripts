@@ -21,7 +21,6 @@ RemoteControlHandler.prototype.selectParameter = function (parameterNum){
 		this.remoteControlsBank.selectNext ();
 }
 
-
 RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 	var midiChan = MIDIChannel(status);

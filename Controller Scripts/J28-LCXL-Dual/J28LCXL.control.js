@@ -26,6 +26,13 @@ var hardware2 = null;
 var LCXL1UserModeIndex = null;
 var LCXL2UserModeIndex = null;
 
+function test(){
+	println("position changed!");
+}
+
+function observerName(){
+	trackHandler.updateTrackPosition();
+}
 
 function init()
 {
@@ -52,7 +59,7 @@ function init()
 	var cursorTrack16 = host.createCursorTrack ("LCXL_CURSOR_TRACK_16", "Cursor Track 16", 0, 0, true);
 	var cursorTrack17 = host.createCursorTrack ("LCXL_CURSOR_TRACK_17", "Cursor Track 17", 0, 0, true);
 
-	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2);
+	trackHandler = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2, cursorTrack17);
 	// trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2);
 
 	var cursorDevice1 = cursorTrack1.createCursorDevice ("LCXL_CURSOR_DEVICE_01", "Cursor Device 01", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
