@@ -68,13 +68,6 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
 		led1Midi = 146;
 	}
 
-	var led2Midi = null;
-	if (LCXL2UserModeIndex == 1){
-		led2Midi = 145;
-	} else {
-		led2Midi = 146;
-	}
-
 	host.getMidiOutPort (0).sendMidi (led1Midi, 13, 0);
 	host.getMidiOutPort (0).sendMidi (led1Midi, 14, 0);
 	host.getMidiOutPort (0).sendMidi (led1Midi, 15, 0);
@@ -108,37 +101,7 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
 	host.getMidiOutPort (0).sendMidi (led1Midi, 127, 0);
 
 
-	host.getMidiOutPort (1).sendMidi (led2Midi, 13, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 14, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 15, 0);
 
-	host.getMidiOutPort (1).sendMidi (led2Midi, 29, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 30, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 31, 0);
-
-	host.getMidiOutPort (1).sendMidi (led2Midi, 45, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 46, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 47, 0);
-
-	host.getMidiOutPort (1).sendMidi (led2Midi, 61, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 62, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 63, 0);
-
-	host.getMidiOutPort (1).sendMidi (led2Midi, 77, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 78, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 79, 0);
-
-	host.getMidiOutPort (1).sendMidi (led2Midi, 93, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 94, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 95, 0);
-
-	host.getMidiOutPort (1).sendMidi (led2Midi, 109, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 110, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 111, 0);
-
-	host.getMidiOutPort (1).sendMidi (led2Midi, 125, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 126, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 127, 0);
 
 	// host.getMidiOutPort (0).sendMidi (145, LCXL_KNOBS[0][0], 0);
 	// host.getMidiOutPort (0).sendMidi (145, LCXL_KNOBS[1][0], 0);
@@ -198,23 +161,12 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
 	host.getMidiOutPort (0).sendMidi (led1Midi, 58, 0);
 	host.getMidiOutPort (0).sendMidi (led1Midi, 59, 0);
 	host.getMidiOutPort (0).sendMidi (led1Midi, 60, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 41, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 42, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 43, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 44, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 57, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 58, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 59, 0);
-	host.getMidiOutPort (1).sendMidi (led2Midi, 60, 0);
 
 	// turn on the led for the track that is pressed
 	println ("led on is: "+ ledOn);
 
-	if (currentController == 1) {
 		this.portOut.sendMidi (led1Midi, ledOn, 60);		
-	} else {
-		this.portOut.sendMidi (led2Midi, ledOn, 60);				
-	}
+
 
 	// this.portOut.sendMidi (145, ledOn, 60);
 
@@ -222,7 +174,6 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
 
 		var track = trackHandler.trackbank.getItemAt (i);
 		g = track.isGroup ().get ();
-		if (i < 8){
 			if (g == true){
 				host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[0][i], 15);
 				host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[1][i], 15);
@@ -241,18 +192,7 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
 					host.getMidiOutPort (0).sendMidi (led1Midi, LCXL_KNOBS[2][i], 60);					
 				}
 			}
-		} else {
-			var trackIndex = i - 8;
-			if (g == true){
-				host.getMidiOutPort (1).sendMidi (led2Midi, LCXL_KNOBS[0][trackIndex], 15);
-				host.getMidiOutPort (1).sendMidi (led2Midi, LCXL_KNOBS[1][trackIndex], 15);
-				host.getMidiOutPort (1).sendMidi (led2Midi, LCXL_KNOBS[2][trackIndex], 15);
-			} else {
-				host.getMidiOutPort (1).sendMidi (led2Midi, LCXL_KNOBS[0][trackIndex], 0);
-				host.getMidiOutPort (1).sendMidi (led2Midi, LCXL_KNOBS[1][trackIndex], 0);
-				host.getMidiOutPort (1).sendMidi (led2Midi, LCXL_KNOBS[2][trackIndex], 0);
-			}						
-		}
+
 	}
 
 }

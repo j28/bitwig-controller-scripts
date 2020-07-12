@@ -85,48 +85,6 @@ DeviceHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 }
 
-DeviceHandler.prototype.handleMidi2 = function (status, data1, data2){
-
-	var midiChan = MIDIChannel(status);
-	println ("midichannel is: "+ midiChan);
-
-	if (isChannelController(status)){
-
-		// if one of the buttons below is released we return true
-		var ourButtons = [
-
-		];
-		if(ourButtons.indexOf(data1) > -1) {
-			if (data2 == 0)
-				return true;
-		}
-
-		switch (data1){
-
-			// case NK2_BUTTON_FF:
-			// 	this.cursorDevice.isExpanded ().toggle ();
-			// 	return true;
-
-			// case NK2_BUTTON_PREV_TRACK:
-			// 	isSet2Pressed ? this.cursorDevice2.selectPrevious () : this.cursorTrack2.selectPrevious ();
-			// 	return true;
-
-			// case NK2_BUTTON_NEXT_TRACK:
-			// 	isSet2Pressed ? this.cursorDevice2.selectNext () : this.cursorTrack2.selectNext ();
-			// 	return true;
-
-			// case NK2_BUTTON_CYCLE:
-			// 	isSet2Pressed ? this.cursorDevice2.isPinned ().toggle () : this.cursorTrack2.isPinned ().toggle ();
-			// 	return true;
-
-			default:
-				return false;
-		}
-
-	}
-	return false;    
-}
-
 DeviceHandler.prototype.updateLEDdevices = function (){
 
 }
