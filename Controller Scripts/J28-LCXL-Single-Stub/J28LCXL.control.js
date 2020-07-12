@@ -4,7 +4,7 @@ load ("j28LCXLHardware.js");
 load ("TrackHandler.js");
 // load ("RemoteControlHandler.js");
 
-host.defineController("Novation", "Launch Control XL", "1.0", "c93995fc-a820-4ca0-a229-682482431fb6", "J28");
+host.defineController("Novation", "Launch Control XL J28 Single Stubs", "1.0", "48ed1e7a-7bbf-4814-aa57-a63ec12eff48", "J28");
 host.defineMidiPorts(1, 1);
 
 
@@ -35,7 +35,7 @@ function init()
 	// var cursorTrack1 = host.createCursorTrack ("NK2_CURSOR_TRACK_01", "Cursor Track 01", 0, 0, true);
 	// var cursorTrack2 = host.createCursorTrack ("NK2_CURSOR_TRACK_02", "Cursor Track 02", 0, 0, true);
 
-	var cursorTrack = host.createCursorTrack ("NK2_CURSOR_TRACK", "Cursor Track", 0, 0, true);
+	var cursorTrack = host.createCursorTrack ("LCXL_CURSOR_TRACK", "Cursor Track", 0, 0, true);
 	trackHandler = new TrackHandler (host.createMainTrackBank (8, 0, 0), cursorTrack);
 	// trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2);
 
