@@ -4,7 +4,7 @@ load ("TrackHandler.js");
 load ("DeviceHandler.js");
 load ("RemoteControlHandler.js");
 
-host.defineController("Novation", "J28 Launch Control XL Dual", "1.0", "8b449ec7-f96e-4cb1-9384-58a93b286bea", "J28");
+host.defineController("J28", "Launch Control XL Dual", "1.0", "8b449ec7-f96e-4cb1-9384-58a93b286bea", "J28");
 host.defineMidiPorts(2, 2);
 
 

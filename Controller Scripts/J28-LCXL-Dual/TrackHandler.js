@@ -29,8 +29,8 @@ function TrackHandler (trackbank, cursorTrack1, cursorTrack2, cursorTrack17){
 	this.cursorTrack17.name().markInterested();
 	this.cursorTrack17.name().addValueObserver(observerName);
 
-	// this.cursorTrack1.position().markInterested();
-	// this.cursorTrack1.position().addValueObserver(test);
+	this.cursorTrack1.position().markInterested();
+	this.cursorTrack1.position().addValueObserver(test);
 
 }
 
@@ -291,7 +291,7 @@ TrackHandler.prototype.updateLEDtracks = function (){
 	// println ("update currentData1 is: "+ this.currentData1);
 	// println ("update currentData2 is: "+ this.currentData2);
 
-	// this.trackNumber = this.cursorTrack1.position().get();
+	this.trackNumber = this.cursorTrack1.position().get();
 	this.trackType = this.cursorTrack1.trackType().get();
 
 	if (this.trackPosition < 8) {	
@@ -315,9 +315,9 @@ TrackHandler.prototype.updateLEDtracks = function (){
 
 	}
 
-	println ("update trackNumber is: "+ this.trackNumber);
-	println ("update trackType is: "+ this.trackType);
-	println ("update trackPosition is: "+ this.trackPosition);
+	println ("trackType is: "+ this.trackType);
+	println ("trackPosition coming from api: "+ this.trackNumber);
+	println ("trackPosition calculated manually based on index: "+ this.trackPosition);
 
 	if (this.trackPosition < 8) {
 		hardware1.updateLEDtracks (this.ledOn1, 1);

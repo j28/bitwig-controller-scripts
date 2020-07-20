@@ -208,7 +208,7 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
 	host.getMidiOutPort (1).sendMidi (led2Midi, 60, 0);
 
 	// turn on the led for the track that is pressed
-	println ("led on is: "+ ledOn);
+	// println ("led on is: "+ ledOn);
 
 	if (currentController == 1) {
 		this.portOut.sendMidi (led1Midi, ledOn, 60);		
