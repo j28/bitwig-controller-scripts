@@ -142,6 +142,16 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2){
 				this.updateLEDtracks ();
 				return true;
 
+			case LCXL_TRACK_PAGE_LEFT:
+				this.trackbank.scrollChannelsPageUp()
+				this.updateLEDtracks ();
+				return true;
+
+			case LCXL_TRACK_PAGE_RIGHT:
+				this.trackbank.scrollChannelsPageDown()
+				this.updateLEDtracks ();
+				return true;
+
 			default:
 				return false;
 
