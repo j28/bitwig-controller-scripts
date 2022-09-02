@@ -199,3 +199,41 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
 	}
 
 }
+
+
+LCXLHardware.prototype.updateLEDcontrols = function (knob, knobValue, invert){
+	var brightness;
+	println ("br is: "+ brightness);
+
+	// inverted means 0 brightness is all the way to the right
+	if (invert == true){
+		if(knobValue > 126){
+			brightness = 0;
+		} else if (knobValue > 84){
+			brightness = 1;
+		} else if (knobValue > 42){
+			brightness = 2;
+		} else {
+			brightness = 3;
+		}	
+
+	} else {
+
+		if(knobValue > 85){
+			brightness = 3;
+		} else if (knobValue > 43){
+			brightness = 2;
+		} else if (knobValue > 0){
+			brightness = 1;
+		} else {
+			brightness = 0;
+		}
+
+
+	}
+
+
+
+	host.getMidiOutPort (0).sendMidi (145, knob, brightness);
+
+}

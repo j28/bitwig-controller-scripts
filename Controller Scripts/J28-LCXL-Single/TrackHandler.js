@@ -152,6 +152,7 @@ TrackHandler.prototype.handleMidi1 = function (status, data1, data2){
 				this.updateLEDtracks ();
 				return true;
 
+
 			default:
 				return false;
 

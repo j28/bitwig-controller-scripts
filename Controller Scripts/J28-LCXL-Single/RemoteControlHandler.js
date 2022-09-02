@@ -86,10 +86,12 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW1_KNOB1:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
+					this.updateLEDcontrols (13, data2, true);
 					return true;
 
 				case LCXL_ROW2_KNOB1:
 					this.remoteControlsBank.getParameter (1).set (data2, 128);
+					this.updateLEDcontrols (14, data2, false);
 					return true;
 
 				case LCXL_ROW3_KNOB1:
@@ -107,10 +109,12 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW1_KNOB2:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
+					this.updateLEDcontrols (29, data2, true);
 					return true;
 
 				case LCXL_ROW2_KNOB2:
 					this.remoteControlsBank.getParameter (1).set (data2, 128);
+					this.updateLEDcontrols (30, data2, false);
 					return true;
 
 				case LCXL_ROW3_KNOB2:
@@ -128,10 +132,12 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW1_KNOB3:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
+					this.updateLEDcontrols (45, data2, true);
 					return true;
 
 				case LCXL_ROW2_KNOB3:
 					this.remoteControlsBank.getParameter (1).set (data2, 128);
+					this.updateLEDcontrols (46, data2, false);
 					return true;
 
 				case LCXL_ROW3_KNOB3:
@@ -149,10 +155,12 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW1_KNOB4:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
+					this.updateLEDcontrols (61, data2, true);
 					return true;
 
 				case LCXL_ROW2_KNOB4:
 					this.remoteControlsBank.getParameter (1).set (data2, 128);
+					this.updateLEDcontrols (62, data2, false);
 					return true;
 
 				case LCXL_ROW3_KNOB4:
@@ -170,10 +178,12 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW1_KNOB5:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
+					this.updateLEDcontrols (77, data2, true);
 					return true;
 
 				case LCXL_ROW2_KNOB5:
 					this.remoteControlsBank.getParameter (1).set (data2, 128);
+					this.updateLEDcontrols (78, data2, false);
 					return true;
 
 				case LCXL_ROW3_KNOB5:
@@ -191,10 +201,12 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW1_KNOB6:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
+					this.updateLEDcontrols (93, data2, true);
 					return true;
 
 				case LCXL_ROW2_KNOB6:
 					this.remoteControlsBank.getParameter (1).set (data2, 128);
+					this.updateLEDcontrols (94, data2, false);
 					return true;
 
 				case LCXL_ROW3_KNOB6:
@@ -212,10 +224,12 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW1_KNOB7:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
+					this.updateLEDcontrols (109, data2, true);
 					return true;
 
 				case LCXL_ROW2_KNOB7:
 					this.remoteControlsBank.getParameter (1).set (data2, 128);
+					this.updateLEDcontrols (110, data2, false);
 					return true;
 
 				case LCXL_ROW3_KNOB7:
@@ -233,10 +247,12 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW1_KNOB8:
 					this.remoteControlsBank.getParameter (0).set (data2, 128);
+					this.updateLEDcontrols (125, data2, true);
 					return true;
 
 				case LCXL_ROW2_KNOB8:
 					this.remoteControlsBank.getParameter (1).set (data2, 128);
+					this.updateLEDcontrols (126, data2, false);
 					return true;
 
 				case LCXL_ROW3_KNOB8:
@@ -255,7 +271,10 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 }
 
 
-RemoteControlHandler.prototype.updateLEDtracks = function (){
+RemoteControlHandler.prototype.updateLEDcontrols = function (knob, knobValue, invert){
+
+
+	hardware1.updateLEDcontrols (knob, knobValue, invert);
 
 	// println ("remote controls page count: " + this.remoteControlsBank.pageCount ().get ());
 

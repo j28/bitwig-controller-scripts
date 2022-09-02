@@ -4,7 +4,7 @@ load ("TrackHandler.js");
 load ("DeviceHandler.js");
 load ("RemoteControlHandler.js");
 
-host.defineController("Novation", "Launch Control XL J28 Single", "1.0", "c93995fc-a820-4ca0-a229-682482431fb6", "J28");
+host.defineController("J28", "Launch Control XL Single", "1.0", "c93995fc-a820-4ca0-a229-682482431fb6", "J28");
 host.defineMidiPorts(1, 1);
 
 if (host.platformIsWindows())
@@ -46,7 +46,7 @@ function init()
 	var cursorTrack8 = host.createCursorTrack ("LCXL_CURSOR_TRACK_08", "Cursor Track 08", 0, 0, true);
 	var cursorTrack9 = host.createCursorTrack ("LCXL_CURSOR_TRACK_09", "Cursor Track 09", 0, 0, true);
 
-	trackHandler = new TrackHandler (host.createMainTrackBank (8, 0, 0), cursorTrack1, cursorTrack2, cursorTrack9);
+	trackHandler = new TrackHandler (host.createTrackBank (8, 0, 0,true), cursorTrack1, cursorTrack2, cursorTrack9);
 	// trackHandler2 = new TrackHandler (host.createMainTrackBank (16, 0, 0), cursorTrack1, cursorTrack2);
 
 	var cursorDevice1 = cursorTrack1.createCursorDevice ("LCXL_CURSOR_DEVICE_01", "Cursor Device 01", 0, CursorDeviceFollowMode.FOLLOW_SELECTION);
