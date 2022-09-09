@@ -96,6 +96,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW3_KNOB1:
 					this.remoteControlsBank.getParameter (2).set (data2, 128);
+					this.updateLEDcontrols (15, data2, false);
 					return true;
 
 				default:
@@ -119,6 +120,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW3_KNOB2:
 					this.remoteControlsBank.getParameter (2).set (data2, 128);
+					this.updateLEDcontrols (31, data2, false);
 					return true;
 
 				default:
@@ -142,6 +144,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW3_KNOB3:
 					this.remoteControlsBank.getParameter (2).set (data2, 128);
+					this.updateLEDcontrols (47, data2, false);
 					return true;
 
 				default:
@@ -165,6 +168,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW3_KNOB4:
 					this.remoteControlsBank.getParameter (2).set (data2, 128);
+					this.updateLEDcontrols (63, data2, false);
 					return true;
 
 				default:
@@ -188,6 +192,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW3_KNOB5:
 					this.remoteControlsBank.getParameter (2).set (data2, 128);
+					this.updateLEDcontrols (79, data2, false);
 					return true;
 
 				default:
@@ -211,6 +216,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW3_KNOB6:
 					this.remoteControlsBank.getParameter (2).set (data2, 128);
+					this.updateLEDcontrols (95, data2, false);
 					return true;
 
 				default:
@@ -234,6 +240,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW3_KNOB7:
 					this.remoteControlsBank.getParameter (2).set (data2, 128);
+					this.updateLEDcontrols (111, data2, false);
 					return true;
 
 				default:
@@ -257,6 +264,7 @@ RemoteControlHandler.prototype.handleMidi1 = function (status, data1, data2){
 
 				case LCXL_ROW3_KNOB8:
 					this.remoteControlsBank.getParameter (2).set (data2, 128);
+					this.updateLEDcontrols (127, data2, false);
 					return true;
 
 				default:

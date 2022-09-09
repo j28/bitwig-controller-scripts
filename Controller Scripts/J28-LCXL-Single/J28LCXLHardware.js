@@ -73,35 +73,35 @@ LCXLHardware.prototype.updateLEDtracks = function (ledOn, currentController){
 
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 13, 0);
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 14, 0);
-	host.getMidiOutPort (0).sendMidi (led1Midi, 15, 0);
+	// host.getMidiOutPort (0).sendMidi (led1Midi, 15, 0);
 
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 29, 0);
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 30, 0);
-	host.getMidiOutPort (0).sendMidi (led1Midi, 31, 0);
+	// host.getMidiOutPort (0).sendMidi (led1Midi, 31, 0);
 
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 45, 0);
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 46, 0);
-	host.getMidiOutPort (0).sendMidi (led1Midi, 47, 0);
+	// host.getMidiOutPort (0).sendMidi (led1Midi, 47, 0);
 
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 61, 0);
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 62, 0);
-	host.getMidiOutPort (0).sendMidi (led1Midi, 63, 0);
+	// host.getMidiOutPort (0).sendMidi (led1Midi, 63, 0);
 
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 77, 0);
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 78, 0);
-	host.getMidiOutPort (0).sendMidi (led1Midi, 79, 0);
+	// host.getMidiOutPort (0).sendMidi (led1Midi, 79, 0);
 
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 93, 0);
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 94, 0);
-	host.getMidiOutPort (0).sendMidi (led1Midi, 95, 0);
+	// host.getMidiOutPort (0).sendMidi (led1Midi, 95, 0);
 
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 109, 0);
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 110, 0);
-	host.getMidiOutPort (0).sendMidi (led1Midi, 111, 0);
+	// host.getMidiOutPort (0).sendMidi (led1Midi, 111, 0);
 
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 125, 0);
 	// host.getMidiOutPort (0).sendMidi (led1Midi, 126, 0);
-	host.getMidiOutPort (0).sendMidi (led1Midi, 127, 0);
+	// host.getMidiOutPort (0).sendMidi (led1Midi, 127, 0);
 
 
 
